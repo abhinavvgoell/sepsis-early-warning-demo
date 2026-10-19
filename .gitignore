@@ -1,0 +1,28 @@
+# Local Python environments and caches
+.venv*/
+.pip-temp-lightgbm/
+__pycache__/
+*.py[cod]
+.ipynb_checkpoints/
+
+# Source patient records are downloadable with src.download_data; do not publish them
+data/
+
+# Temporary logs and local analysis state
+debug.log
+outputs/.Rhistory
+outputs/**/feature_cache.joblib
+
+# Keep only the two model bundles required by the local demo.
+outputs/*.joblib
+outputs/**/*.joblib
+!outputs/trained_models.joblib
+!outputs/improved/improved_model.joblib
+
+# Patient-level predictions and generated tables are derived outputs.
+outputs/*.csv
+outputs/**/*.csv
+outputs/*.json
+outputs/**/*.json
+outputs/*.png
+outputs/**/*.png
