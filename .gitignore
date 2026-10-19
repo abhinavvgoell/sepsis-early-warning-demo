@@ -26,3 +26,6 @@ outputs/*.json
 outputs/**/*.json
 outputs/*.png
 outputs/**/*.png
+
+# Aggregate alert-policy grid table referenced by the report (contains no patient rows)
+!outputs/policy_grid/alert_policy_grid.csv

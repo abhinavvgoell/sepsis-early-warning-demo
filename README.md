@@ -56,12 +56,7 @@ To retrain and reproduce the LightGBM experiment, first download the PhysioNet d
 python -m src.improved_pipeline --data-dir data/raw --output-dir outputs/improved --cache-dir outputs/improved/cache
 ```
 
-The previous scikit-learn trend and last-observation candidates can still be launched separately as rollback options:
-
-```bash
-python -m src.app --bundle outputs/trend_experiment/selected_trend_model.joblib
-python -m src.app --bundle outputs/last_observation_experiment/best_last_observation_candidate.joblib
-```
+Only the two model bundles used by the current demo are included. Other experimental model bundles and generated prediction tables are excluded; they can be reproduced from the scripts and downloaded dataset.
 
 Open [http://127.0.0.1:8766](http://127.0.0.1:8766) in a browser. The server binds to localhost, processes records in memory, and does not save them. Use synthetic or de-identified records only. The displayed scores and alert policy are research outputs, not for clinical care.
 
