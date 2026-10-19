@@ -2,7 +2,7 @@
 
 A reproducible research project using the PhysioNet/Computing in Cardiology Challenge 2019 training data. The goal is to estimate whether a patient's current hourly record falls in the dataset's sepsis-positive window, using only that hour and earlier measurements.
 
-> **Research prototype only.** This model is not validated for clinical use, diagnosis, or treatment decisions.
+> **Research prototype only — not for clinical use.** This project has not been clinically validated. Its scores are model outputs, not medical probabilities. Do not use it to diagnose, treat, triage, or make care decisions. Use synthetic data for the demo; never enter identifiable patient information.
 
 ## Dataset and label
 
@@ -42,13 +42,35 @@ This produces `outputs/patient_risk_predictions.csv`. The included example is fo
 
 The project includes a small Python HTTP backend and browser interface for entering hourly records manually or importing a PhysioNet-style `.csv`/`.psv` file. The page lets you choose among three trained models: the current LightGBM pipeline, class-weighted Logistic Regression, and class-weighted Histogram Gradient Boosting. LightGBM is selected by default. Each model uses its own saved features and cutoff; scores from different models are not directly comparable and are not clinical probabilities. The app loads `outputs/improved/improved_model.joblib` and `outputs/trained_models.joblib` at startup.
 
-The demo includes synthetic example profiles, per-hour model explanations where supported (LightGBM TreeSHAP contributions and Logistic Regression additive contributions), a reset button, input checks, and a downloadable CSV report. The Histogram Gradient Boosting model does not currently provide a per-record explanation in this interface. Explanation directions describe model contributions, not clinical causes. Blank measurements are allowed; out-of-range values are checked against broad software sanity bounds, not medical limits. The CSV report is generated in the browser only when the user downloads it.
+![Screenshot of the local sepsis research demo showing synthetic hourly observations and the model output panel](docs/images/sepsis-demo.png)
 
-Install dependencies and run from the project directory. The trained bundle is included in the project outputs:
+### Run the demo
+
+The included model bundles are enough to launch the demo; downloading the PhysioNet dataset is only needed to retrain or reproduce the experiments.
+
+**Windows PowerShell** (run these commands from the folder where you want the repository):
+
+```powershell
+git clone https://github.com/abhinavvgoell/sepsis-early-warning-demo.git
+Set-Location sepsis-early-warning-demo
+py -m venv .venv
+.\.venv\Scripts\python.exe -m pip install -r requirements.txt
+.\.venv\Scripts\python.exe -m src.app
+```
+
+**macOS/Linux:**
 
 ```bash
-python -m src.app
+git clone https://github.com/abhinavvgoell/sepsis-early-warning-demo.git
+cd sepsis-early-warning-demo
+python3 -m venv .venv
+.venv/bin/python -m pip install -r requirements.txt
+.venv/bin/python -m src.app
 ```
+
+Keep that terminal open, then visit [http://127.0.0.1:8766](http://127.0.0.1:8766). Stop the local server with `Ctrl+C` in the terminal.
+
+The demo includes synthetic example profiles, per-hour model explanations where supported (LightGBM TreeSHAP contributions and Logistic Regression additive contributions), a reset button, input checks, and a downloadable CSV report. The Histogram Gradient Boosting model does not currently provide a per-record explanation in this interface. Explanation directions describe model contributions, not clinical causes. Blank measurements are allowed; out-of-range values are checked against broad software sanity bounds, not medical limits. The CSV report is generated in the browser only when the user downloads it.
 
 To retrain and reproduce the LightGBM experiment, first download the PhysioNet data, then run (this includes grouped CV and can take a while):
 
@@ -58,7 +80,7 @@ python -m src.improved_pipeline --data-dir data/raw --output-dir outputs/improve
 
 Only the two model bundles used by the current demo are included. Other experimental model bundles and generated prediction tables are excluded; they can be reproduced from the scripts and downloaded dataset.
 
-Open [http://127.0.0.1:8766](http://127.0.0.1:8766) in a browser. The server binds to localhost, processes records in memory, and does not save them. Use synthetic or de-identified records only. The displayed scores and alert policy are research outputs, not for clinical care.
+The server binds to localhost, processes records in memory, and does not save them. The displayed scores and alert policy are research outputs, not for clinical care.
 
 This is a single-user local classroom demo, not a deployed clinical service. It has no login or account system because it does not retain records or serve multiple users. Do not expose the server to a network or enter real patient information. The in-browser CSV export contains the entered values and model outputs; save and share it only as synthetic or appropriately de-identified demo material.
 
