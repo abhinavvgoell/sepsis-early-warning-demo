@@ -42,7 +42,7 @@ This produces `outputs/patient_risk_predictions.csv`. The included example is fo
 
 The project includes a small Python HTTP backend and browser interface for entering hourly records manually or importing a PhysioNet-style `.csv`/`.psv` file. The page lets you choose among three trained models: the current LightGBM pipeline, class-weighted Logistic Regression, and class-weighted Histogram Gradient Boosting. LightGBM is selected by default. Each model uses its own saved features and cutoff; scores from different models are not directly comparable and are not clinical probabilities. The app loads `outputs/improved/improved_model.joblib` and `outputs/trained_models.joblib` at startup.
 
-![Screenshot of the local sepsis research demo showing synthetic hourly observations and the model output panel](docs/images/sepsis-demo.png)
+![Screenshot of the local sepsis research demo showing six synthetic hourly observations, the model score trend, and alert-rule output](docs/images/sepsis-demo-scored.png)
 
 ### Run the demo
 
