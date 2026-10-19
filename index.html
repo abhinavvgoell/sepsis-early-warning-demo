@@ -1,0 +1,880 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#f1f3f5">
+  <title>Sepsis Early Warning · Research Demo</title>
+  <style>
+    :root {
+      color-scheme: light;
+      --ink: #202b35;
+      --muted: #5d6a76;
+      --line: #d6dde3;
+      --paper: #fff;
+      --canvas: #f1f3f5;
+      --blue: #315f82;
+      --blue-dark: #274d69;
+      --teal: #286e66;
+      --warning: #70551e;
+      --warning-bg: #f7f2e7;
+      --red: #963e3e;
+      --red-bg: #f8eeee;
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    }
+    :root[data-theme="dark"] {
+      color-scheme: dark;
+      --ink: #f1f3f4;
+      --muted: #bbc3c9;
+      --line: #414a51;
+      --paper: #252c32;
+      --canvas: #181d21;
+      --blue: #83c5b8;
+      --blue-dark: #a1d7cb;
+      --teal: #83c5b8;
+      --warning: #ead49a;
+      --warning-bg: #302c23;
+      --red: #efb2b2;
+      --red-bg: #38282a;
+    }
+    * { box-sizing: border-box; }
+    body { margin: 0; background: var(--canvas); color: var(--ink); }
+    button, input, select { font: inherit; }
+    .shell { width: min(1480px, calc(100% - 40px)); margin: 0 auto; padding: 18px 0 38px; }
+    header { display: flex; justify-content: space-between; align-items: center; gap: 16px; margin-bottom: 16px; padding: 12px 16px; border: 1px solid #253b4c; border-radius: 8px; background: #263d4e; color: #f7fafc; }
+    .brand { display: flex; align-items: center; gap: 11px; }
+    .mark { width: 36px; height: 36px; border: 1px solid #718594; border-radius: 6px; display: grid; place-items: center; background: #314c60; color: #f3f7fa; font-size: 11px; font-weight: 800; letter-spacing: .04em; }
+    h1 { font-size: clamp(19px, 2.4vw, 24px); line-height: 1.2; margin: 0; letter-spacing: -.02em; font-weight: 720; }
+    .subtitle { color: #c2cdd5; font-size: 12px; margin-top: 3px; }
+    .header-actions { display: flex; align-items: center; gap: 10px; }
+    .theme-button { white-space: nowrap; border: 1px solid #738694; border-radius: 5px; padding: 7px 10px; color: #f4f7f9; background: #314b5d; font-size: 12px; font-weight: 650; cursor: pointer; }
+    .theme-button:hover { background: #3a5669; }
+    .theme-button:focus-visible { outline: 3px solid color-mix(in srgb, var(--blue) 35%, transparent); outline-offset: 2px; }
+    .local-pill { white-space: nowrap; color: #dbe5eb; background: #314b5d; border: 1px solid #526a79; border-radius: 5px; padding: 7px 9px; font-size: 11px; font-weight: 650; }
+    .notice { display: grid; grid-template-columns: 18px 1fr; gap: 9px; padding: 11px 13px; border-radius: 7px; color: var(--warning); background: var(--warning-bg); border: 1px solid #e8dec8; line-height: 1.45; font-size: 12px; margin-bottom: 16px; }
+    .notice strong { display: inline; margin-right: 5px; }
+    .layout { display: grid; grid-template-columns: minmax(0, 1.6fr) minmax(350px, .85fr); gap: 16px; align-items: start; }
+    .panel { background: var(--paper); border: 1px solid var(--line); border-radius: 8px; box-shadow: 0 1px 3px rgba(20, 32, 43, .055); }
+    .panel-inner { padding: 19px; }
+    .section-head { display: flex; justify-content: space-between; align-items: start; gap: 12px; margin-bottom: 13px; }
+    h2 { margin: 0; font-size: 16px; letter-spacing: -.01em; font-weight: 700; }
+    .section-copy { margin: 4px 0 0; color: var(--muted); font-size: 12px; line-height: 1.45; }
+    .model-picker { margin: 0 0 16px; padding: 11px; border: 1px solid var(--line); border-radius: 7px; background: #f7f8f9; }
+    .model-picker label { display: block; color: #52616e; font-size: 12px; font-weight: 700; margin-bottom: 6px; }
+    .model-picker select { width: 100%; min-height: 36px; padding: 7px 9px; border: 1px solid #cfd7dd; border-radius: 5px; background: white; color: var(--ink); }
+    .model-picker p { margin: 7px 0 0; color: #738198; font-size: 11px; line-height: 1.45; }
+    .session-tag { color: #65737e; background: #eef1f3; border: 1px solid #d9e0e4; border-radius: 4px; padding: 5px 8px; white-space: nowrap; font-size: 10px; font-weight: 700; }
+    .example-toolbar { display: flex; align-items: end; gap: 8px; margin: 0 0 10px; padding: 9px 10px; border: 1px solid var(--line); border-radius: 6px; background: #f7f8f9; }
+    .example-field { flex: 1; min-width: 180px; }
+    .example-field label { display: block; margin-bottom: 5px; color: #52616e; font-size: 10px; font-weight: 700; }
+    .example-field select { width: 100%; min-height: 34px; padding: 6px 8px; border: 1px solid #cfd7dd; border-radius: 5px; background: #fff; color: var(--ink); font-size: 11px; }
+    .example-note { color: var(--muted); font-size: 10px; line-height: 1.35; margin: 0 0 10px; }
+    .data-quality { margin: 10px 0 12px; padding: 10px 12px; border: 1px solid var(--line); border-radius: 6px; background: #f7f8f9; color: var(--ink); font-size: 11px; line-height: 1.45; }
+    .data-quality p { margin: 0 0 5px; }
+    .data-quality p:last-child { margin-bottom: 0; }
+    .data-quality.warning { border-color: #d8bd80; background: #fbf7ec; }
+    .data-quality .quality-title { font-size: 12px; font-weight: 750; }
+    .data-quality details { margin-top: 7px; padding-top: 6px; }
+    .data-quality ul { margin: 5px 0 0; padding-left: 20px; }
+    input[aria-invalid="true"] { border-color: #b13c3c !important; box-shadow: 0 0 0 2px rgba(177,60,60,.12); }
+    .explanation-card { margin-top: 12px; padding: 12px; border: 1px solid var(--line); border-radius: 6px; background: #f7f8f9; }
+    .explanation-card > strong { font-size: 12px; }
+    .explanation-card p { margin: 5px 0 9px; color: var(--muted); font-size: 11px; line-height: 1.45; }
+    .explanation-list { display: grid; gap: 7px; }
+    .explanation-hour { padding-top: 7px; border-top: 1px solid var(--line); font-size: 11px; }
+    .explanation-hour:first-child { border-top: 0; padding-top: 0; }
+    .explanation-hour strong { display: block; margin-bottom: 3px; }
+    .explanation-points { display: flex; flex-wrap: wrap; gap: 5px; }
+    .explanation-point { border-radius: 4px; padding: 3px 6px; background: #e9edef; color: #3f4b53; }
+    .explanation-point.up { background: #f5e8e2; color: #823c2c; }
+    .explanation-point.down { background: #e3efeb; color: #2e6153; }
+    .subheading { text-transform: none; letter-spacing: .01em; font-size: 12px; color: #52616e; font-weight: 700; margin: 17px 0 9px; }
+    .grid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 9px; }
+    .context-grid { grid-template-columns: repeat(5, minmax(0, 1fr)); }
+    label.field { min-width: 0; display: block; color: #52616e; font-size: 11px; font-weight: 650; }
+    label.field span { display: flex; justify-content: space-between; gap: 4px; margin-bottom: 6px; }
+    label.field em { color: #92a0b2; font-style: normal; font-weight: 500; }
+    input[type=number] { width: 100%; min-width: 0; height: 36px; padding: 7px 8px; border: 1px solid #cfd7dd; border-radius: 5px; background: #fff; color: var(--ink); outline: none; }
+    input[type=number]:focus, input[type=file]:focus-visible { border-color: #82a6ed; box-shadow: 0 0 0 3px rgba(36, 95, 212, .12); }
+    input::placeholder { color: #b1bbc8; }
+    .row-list { display: grid; gap: 12px; }
+    .record { border: 1px solid var(--line); border-radius: 7px; padding: 11px; background: #fbfcfd; }
+    .record-head { display: flex; justify-content: space-between; align-items: center; gap: 12px; margin-bottom: 10px; }
+    .hour-label { display: flex; align-items: center; gap: 8px; font-weight: 800; font-size: 13px; }
+    .hour-dot { width: 23px; height: 23px; display: grid; place-items: center; color: #355d79; background: #e9eef2; border-radius: 5px; font-size: 11px; }
+    .text-button { border: 1px solid #e2c9c9; border-radius: 5px; background: #fff6f6; color: #9a4545; font-size: 11px; font-weight: 700; cursor: pointer; padding: 6px 9px; }
+    .text-button:hover { color: #7f2929; border-color: #c77c7c; background: #ffeded; }
+    .text-button:focus-visible { outline: 3px solid #d9a2a2; outline-offset: 2px; }
+    details { margin-top: 12px; border-top: 1px solid #ebeff5; padding-top: 10px; }
+    summary { cursor: pointer; color: #53647a; font-size: 12px; font-weight: 700; }
+    .lab-grid { margin-top: 12px; grid-template-columns: repeat(4, minmax(0, 1fr)); }
+    .actions { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 14px; }
+    .button { border: 1px solid var(--line); border-radius: 6px; padding: 9px 12px; cursor: pointer; font-size: 12px; font-weight: 650; transition: background-color .12s ease, border-color .12s ease; }
+    .button:hover { border-color: #aebbc4; }
+    .button-primary { color: white; background: var(--blue); border-color: var(--blue); }
+    .button-primary:hover { background: var(--blue-dark); }
+    .button-secondary { color: #34465f; background: white; }
+    .upload { flex: 1; min-width: 210px; display: flex; align-items: center; gap: 8px; padding: 9px 11px; border: 1px dashed #b9c7d9; border-radius: 10px; color: var(--muted); font-size: 12px; }
+    .upload input { min-width: 0; width: 100%; font-size: 11px; }
+    .help { font-size: 11px; color: #738198; line-height: 1.45; margin: 12px 0 0; }
+    .side { position: sticky; top: 18px; }
+    .result-state { min-height: 104px; border-radius: 7px; background: #f4f6f7; border: 1px solid var(--line); padding: 13px; display: flex; flex-direction: column; justify-content: center; }
+    .result-state.ready { background: #edf4f2; border-color: #d4e2de; }
+    .result-state.active { background: var(--warning-bg); border-color: #e8dec8; }
+    .eyebrow { color: #78879b; text-transform: uppercase; letter-spacing: .08em; font-size: 10px; font-weight: 800; }
+    .state-title { font-size: 18px; font-weight: 850; margin: 7px 0 4px; }
+    .state-desc { color: #68788d; font-size: 12px; line-height: 1.5; }
+    .score-card { display: flex; justify-content: space-between; align-items: end; padding: 15px 2px 13px; border-bottom: 1px solid #e4e8eb; }
+    .score-value { color: var(--blue); font-size: 30px; line-height: 1; font-weight: 750; letter-spacing: -.035em; }
+    .score-label { color: #64748a; font-size: 11px; margin-top: 7px; }
+    .threshold-tag { color: #53647a; font-size: 11px; text-align: right; line-height: 1.5; }
+    .result-table-wrap { max-height: 310px; overflow: auto; margin-top: 12px; border: 1px solid var(--line); border-radius: 6px; }
+    .chart-panel { margin-top: 13px; padding: 11px 11px 8px; border: 1px solid var(--line); border-radius: 6px; background: #fbfcfd; }
+    .chart-heading { display: flex; justify-content: space-between; align-items: baseline; gap: 8px; margin-bottom: 7px; }
+    .chart-heading strong { font-size: 11px; font-weight: 700; }
+    .chart-heading span, .chart-legend { color: var(--muted); font-size: 10px; }
+    .score-chart { width: 100%; height: auto; display: block; overflow: visible; }
+    .chart-legend { display: flex; flex-wrap: wrap; gap: 14px; margin-top: 5px; }
+    .legend-key { display: inline-flex; align-items: center; gap: 5px; }
+    .legend-line { width: 15px; border-top: 2px solid var(--blue); }
+    .legend-dash { width: 15px; border-top: 1px dashed #aa7d32; }
+    table { border-collapse: collapse; width: 100%; font-size: 12px; }
+    th { position: sticky; top: 0; z-index: 1; color: #65727e; background: #f2f4f5; text-align: left; font-size: 10px; text-transform: uppercase; letter-spacing: .035em; }
+    th, td { padding: 9px 10px; border-bottom: 1px solid #edf1f5; white-space: nowrap; }
+    tbody tr:last-child td { border-bottom: 0; }
+    .badge { display: inline-block; border-radius: 4px; padding: 3px 7px; font-size: 10px; font-weight: 700; background: #e9edef; color: #4f5d68; }
+    .badge-active { color: #70551e; background: #eee5d2; }
+    .error { display: none; padding: 10px 12px; margin-top: 12px; color: #843b3b; background: #f8eeee; border: 1px solid #e8d3d3; border-radius: 6px; font-size: 12px; line-height: 1.45; }
+    .error.show { display: block; }
+    .loading { opacity: .65; pointer-events: none; }
+    .result-foot { color: #697681; font-size: 11px; line-height: 1.5; margin-top: 12px; }
+    footer { color: #6f7c87; text-align: center; font-size: 11px; padding-top: 20px; }
+    :root[data-theme="dark"] header { background: #1c2b35; border-color: #344550; }
+    :root[data-theme="dark"] .mark { color: #d8e5ed; background: #2c4352; border-color: #506777; }
+    :root[data-theme="dark"] .local-pill { color: #d2dce2; background: #263a47; border-color: #425764; }
+    :root[data-theme="dark"] .theme-button { color: #e6edf2; background: #263a47; border-color: #526875; }
+    :root[data-theme="dark"] .notice { border-color: #514632; }
+    :root[data-theme="dark"] .subheading,
+    :root[data-theme="dark"] label.field { color: #b4c2d5; }
+    :root[data-theme="dark"] label.field em,
+    :root[data-theme="dark"] .result-foot,
+    :root[data-theme="dark"] footer { color: #9aaac0; }
+    :root[data-theme="dark"] .model-picker label,
+    :root[data-theme="dark"] .subheading,
+    :root[data-theme="dark"] label.field { color: #c0cbd5; }
+    :root[data-theme="dark"] input[type=number],
+    :root[data-theme="dark"] .model-picker select { border-color: #3b4b61; background: #141e2c; color: var(--ink); }
+    :root[data-theme="dark"] input[type=number]:focus { border-color: #789de5; box-shadow: 0 0 0 3px rgba(120, 157, 229, .18); }
+    :root[data-theme="dark"] input::placeholder { color: #73839a; }
+    :root[data-theme="dark"] .record { background: #1d2730; }
+    :root[data-theme="dark"] .hour-dot { color: #bed0dc; background: #33414b; }
+    :root[data-theme="dark"] details { border-top-color: #35414c; }
+    :root[data-theme="dark"] summary,
+    :root[data-theme="dark"] .threshold-tag { color: #b6c4d7; }
+    :root[data-theme="dark"] .text-button { color: #f1b8b8; background: #382a2c; border-color: #674449; }
+    :root[data-theme="dark"] .text-button:hover { color: #ffd8d8; background: #493034; border-color: #9a6268; }
+    :root[data-theme="dark"] .button-secondary { color: var(--ink); background: #27333d; }
+    :root[data-theme="dark"] .button-primary { color: white; background: #426a83; border-color: #426a83; }
+    :root[data-theme="dark"] .button-primary:hover { background: #527b94; }
+    :root[data-theme="dark"] .upload { border-color: #50627b; }
+    :root[data-theme="dark"] .model-picker { border-color: #35414c; background: #1b252d; }
+    :root[data-theme="dark"] .session-tag { color: #c1cbd2; background: #2a353d; border-color: #3c4a54; }
+    :root[data-theme="dark"] .example-toolbar { border-color: #35414c; background: #1b252d; }
+    :root[data-theme="dark"] .example-field label { color: #c0cbd5; }
+    :root[data-theme="dark"] .example-field select { border-color: #3b4b61; background: #141e2c; color: var(--ink); }
+    :root[data-theme="dark"] .chart-panel { background: #1b252d; }
+    :root[data-theme="dark"] .result-state { background: #27333d; border-color: #3a4752; }
+    :root[data-theme="dark"] .result-state.ready { background: #243431; border-color: #3a514b; }
+    :root[data-theme="dark"] .result-state.active { background: #342f24; border-color: #514632; }
+    :root[data-theme="dark"] .state-desc,
+    :root[data-theme="dark"] .score-label { color: #adbbce; }
+    :root[data-theme="dark"] .eyebrow { color: #aab9cd; }
+    :root[data-theme="dark"] .score-card { border-bottom-color: #2f3e52; }
+    :root[data-theme="dark"] .result-table-wrap { border-color: #354459; }
+    :root[data-theme="dark"] th { color: #b5c2d4; background: #202d40; }
+    :root[data-theme="dark"] th,
+    :root[data-theme="dark"] td { border-bottom-color: #2c3b4f; }
+    :root[data-theme="dark"] .badge { color: #c0cada; background: #354357; }
+    :root[data-theme="dark"] .badge-active { color: #ecd9a7; background: #4c432f; }
+    :root[data-theme="dark"] .error { color: #ffc1c1; background: #3b252b; border-color: #63363c; }
+    /* Dark theme contrast and surface refinements */
+    :root[data-theme="dark"] header { background: #202d32; border-color: #3a4a4e; }
+    :root[data-theme="dark"] .panel { box-shadow: 0 3px 12px rgba(0, 0, 0, .2); }
+    :root[data-theme="dark"] .model-picker,
+    :root[data-theme="dark"] .example-toolbar { background: #2b3339; border-color: #454f56; }
+    :root[data-theme="dark"] .model-picker label,
+    :root[data-theme="dark"] .example-field label,
+    :root[data-theme="dark"] .subheading,
+    :root[data-theme="dark"] label.field,
+    :root[data-theme="dark"] summary { color: #d5e0e6; }
+    :root[data-theme="dark"] .section-copy,
+    :root[data-theme="dark"] .model-picker p,
+    :root[data-theme="dark"] .example-note,
+    :root[data-theme="dark"] .help,
+    :root[data-theme="dark"] .result-foot,
+    :root[data-theme="dark"] footer,
+    :root[data-theme="dark"] .chart-heading span,
+    :root[data-theme="dark"] .chart-legend { color: #b5c4cd; }
+    :root[data-theme="dark"] label.field em { color: #a9bbc6; }
+    :root[data-theme="dark"] input[type=number],
+    :root[data-theme="dark"] .model-picker select,
+    :root[data-theme="dark"] .example-field select { color: #f1f3f4; background: #1c2328; border-color: #566168; }
+    :root[data-theme="dark"] input[type=number]:focus,
+    :root[data-theme="dark"] .model-picker select:focus,
+    :root[data-theme="dark"] .example-field select:focus { border-color: #86bdc7; box-shadow: 0 0 0 3px rgba(134, 189, 199, .2); }
+    :root[data-theme="dark"] input::placeholder { color: #94a8b4; }
+    :root[data-theme="dark"] .record { background: #2b3339; border-color: #465158; }
+    :root[data-theme="dark"] .hour-dot { color: #d7e8e4; background: #35443f; }
+    :root[data-theme="dark"] details { border-top-color: #414a51; }
+    :root[data-theme="dark"] .button-secondary { color: #f1f3f4; background: #343d43; border-color: #536067; }
+    :root[data-theme="dark"] .button-secondary:hover,
+    :root[data-theme="dark"] .theme-button:hover { background: #414c52; border-color: #68767d; }
+    :root[data-theme="dark"] .upload { color: #c4cbd0; background: #242b30; border-color: #566168; }
+    :root[data-theme="dark"] .result-state { background: #2c353b; border-color: #49545b; }
+    :root[data-theme="dark"] .result-state.ready { background: #253a35; border-color: #4a685e; }
+    :root[data-theme="dark"] .result-state.active { background: #3a3528; border-color: #716344; }
+    :root[data-theme="dark"] .eyebrow,
+    :root[data-theme="dark"] .state-desc,
+    :root[data-theme="dark"] .score-label,
+    :root[data-theme="dark"] .threshold-tag { color: #c2d0d7; }
+    :root[data-theme="dark"] .score-card { border-bottom-color: #3b4d58; }
+    :root[data-theme="dark"] .chart-panel { background: #2b3339; border-color: #465158; }
+    :root[data-theme="dark"] th { color: #e0e4e7; background: #343d43; }
+    :root[data-theme="dark"] th,
+    :root[data-theme="dark"] td { border-bottom-color: #414a51; }
+    :root[data-theme="dark"] .button-primary { color: #10201c; background: #83c5b8; border-color: #83c5b8; }
+    :root[data-theme="dark"] .button-primary:hover { color: #10201c; background: #a1d7cb; border-color: #a1d7cb; }
+    :root[data-theme="dark"] .score-value { color: #83c5b8; }
+    /* True black theme */
+    :root[data-theme="dark"] {
+      --ink: #f5f5f5;
+      --muted: #c2c2c2;
+      --line: #303030;
+      --paper: #111111;
+      --canvas: #000000;
+      --blue: #f0f0f0;
+      --blue-dark: #ffffff;
+    }
+    :root[data-theme="dark"] header { background: #0b0b0b; border-color: #292929; }
+    :root[data-theme="dark"] .mark { color: #f2f2f2; background: #1b1b1b; border-color: #393939; }
+    :root[data-theme="dark"] .theme-button,
+    :root[data-theme="dark"] .local-pill { color: #e5e5e5; background: #171717; border-color: #363636; }
+    :root[data-theme="dark"] .theme-button:hover { background: #252525; border-color: #555; }
+    :root[data-theme="dark"] .panel { background: #111; border-color: #303030; box-shadow: 0 3px 14px rgba(0,0,0,.42); }
+    :root[data-theme="dark"] .model-picker,
+    :root[data-theme="dark"] .example-toolbar { background: #181818; border-color: #333; }
+    :root[data-theme="dark"] .record,
+    :root[data-theme="dark"] .chart-panel { background: #181818; border-color: #353535; }
+    :root[data-theme="dark"] input[type=number],
+    :root[data-theme="dark"] .model-picker select,
+    :root[data-theme="dark"] .example-field select { color: #f5f5f5; background: #080808; border-color: #484848; }
+    :root[data-theme="dark"] input[type=number]:focus,
+    :root[data-theme="dark"] .model-picker select:focus,
+    :root[data-theme="dark"] .example-field select:focus { border-color: #aaa; box-shadow: 0 0 0 3px rgba(255,255,255,.12); }
+    :root[data-theme="dark"] .button-secondary { color: #ededed; background: #1c1c1c; border-color: #404040; }
+    :root[data-theme="dark"] .button-secondary:hover { background: #292929; border-color: #606060; }
+    :root[data-theme="dark"] .button-primary { color: #090909; background: #ededed; border-color: #ededed; }
+    :root[data-theme="dark"] .button-primary:hover { color: #000; background: #fff; border-color: #fff; }
+    :root[data-theme="dark"] .score-value { color: #fff; }
+    :root[data-theme="dark"] .result-state { background: #1b1b1b; border-color: #3a3a3a; }
+    :root[data-theme="dark"] .result-state.ready { background: #17201c; border-color: #354a3e; }
+    :root[data-theme="dark"] .result-state.active { background: #211d14; border-color: #55482c; }
+    :root[data-theme="dark"] th { color: #ededed; background: #1d1d1d; }
+    :root[data-theme="dark"] th,
+    :root[data-theme="dark"] td { border-bottom-color: #303030; }
+    :root[data-theme="dark"] .upload { color: #d0d0d0; background: #141414; border-color: #494949; }
+    :root[data-theme="dark"] .data-quality,
+    :root[data-theme="dark"] .explanation-card { color: #f2f2f2; background: #171717; border-color: #383838; }
+    :root[data-theme="dark"] .data-quality.warning { color: #f2e4b9; background: #211d14; border-color: #665630; }
+    :root[data-theme="dark"] .data-quality details,
+    :root[data-theme="dark"] .explanation-hour { border-color: #383838; }
+    :root[data-theme="dark"] .data-quality summary { color: #ededed; }
+    :root[data-theme="dark"] .explanation-card p { color: #c2c2c2; }
+    :root[data-theme="dark"] .explanation-point { color: #e8e8e8; background: #303030; }
+    :root[data-theme="dark"] .explanation-point.up { color: #ffd2c5; background: #40251f; }
+    :root[data-theme="dark"] .explanation-point.down { color: #c4eadc; background: #1d352b; }
+    :root[data-theme="dark"] input[aria-invalid="true"] { border-color: #e77c75 !important; box-shadow: 0 0 0 2px rgba(231,124,117,.16); }
+    @media (max-width: 1000px) { .layout { grid-template-columns: 1fr; } .side { position: static; } .context-grid { grid-template-columns: repeat(3, minmax(0,1fr)); } }
+    @media (max-width: 620px) { .shell { width: min(100% - 22px, 1320px); padding-top: 16px; } header { align-items: start; } .header-actions { align-items: flex-end; flex-direction: column; gap: 7px; } .theme-button, .local-pill { font-size: 10px; padding: 7px 9px; } .panel-inner { padding: 16px; } .grid, .lab-grid { grid-template-columns: repeat(2, minmax(0,1fr)); } .context-grid { grid-template-columns: repeat(2, minmax(0,1fr)); } .actions { flex-direction: column; } .button { width: 100%; } }
+  </style>
+</head>
+<body>
+  <main class="shell">
+    <header>
+      <div class="brand">
+        <div class="mark" aria-hidden="true">SE</div>
+        <div>
+          <h1>Sepsis Early Warning</h1>
+          <div class="subtitle">ICU time-series analysis · research environment</div>
+        </div>
+      </div>
+      <div class="header-actions">
+        <button class="theme-button" id="themeToggle" type="button" aria-pressed="false">Dark theme</button>
+        <div class="local-pill">● Local-only · no records saved</div>
+      </div>
+    </header>
+
+    <section class="notice" role="note">
+      <div aria-hidden="true">!</div>
+      <div><strong>Research prototype — not for clinical use.</strong>This model is not clinically validated, and its scores are not medical probabilities. Do not use this page to diagnose, treat, or make care decisions. Use synthetic or de-identified data only.</div>
+    </section>
+
+    <div class="layout">
+      <section class="panel" aria-labelledby="entry-title">
+        <div class="panel-inner">
+          <div class="section-head">
+            <div>
+              <h2 id="entry-title">Patient observation record</h2>
+              <p class="section-copy">Enter consecutive hourly measurements for one synthetic or de-identified record.</p>
+            </div>
+            <span class="session-tag" id="recordCount">1 HOUR · LOCAL SESSION</span>
+          </div>
+
+          <div class="model-picker">
+            <label for="modelSelect">Choose a model for the next score</label>
+            <select id="modelSelect">
+              <option value="lightgbm">LightGBM (current demo model)</option>
+              <option value="logistic_regression">Logistic Regression</option>
+              <option value="hist_gradient_boosting">Histogram Gradient Boosting</option>
+            </select>
+            <p>Each model has its own saved cutoff. Scores from different models are not directly comparable.</p>
+          </div>
+
+          <div class="subheading">Patient context <span class="section-copy">(optional)</span></div>
+          <div class="grid context-grid" id="contextFields"></div>
+
+          <div class="subheading">Core vital signs</div>
+          <div class="example-toolbar">
+            <div class="example-field">
+              <label for="syntheticCase">Load a synthetic example</label>
+              <select id="syntheticCase">
+                <option value="gradual">Gradual measurement changes</option>
+                  <option value="stable">Stable measurements</option>
+                  <option value="blood_pressure">Changing blood pressure pattern</option>
+                  <option value="oxygen">Changing oxygen and breathing pattern</option>
+                  <option value="labs">Complete synthetic lab panel</option>
+              </select>
+            </div>
+            <button class="button button-secondary" type="button" id="sampleButton">Load example</button>
+          </div>
+            <p class="example-note">Synthetic values for demonstration only; they do not represent real patients or diagnoses. The complete lab panel is filled to demonstrate the form, though real tests are not necessarily collected every hour.</p>
+          <div class="row-list" id="recordList"></div>
+          <div class="actions">
+            <button class="button button-secondary" type="button" id="addHour">+ Add another hour</button>
+            <button class="button button-secondary" type="button" id="clearPatient">Clear patient</button>
+            <label class="upload"><span>Import CSV/PSV</span><input type="file" id="fileInput" accept=".csv,.psv,text/csv,text/plain"></label>
+            <button class="button button-primary" type="button" id="predictButton">Score records</button>
+            <button class="button button-secondary" type="button" id="exportReport" disabled>Download demo CSV</button>
+          </div>
+          <p class="help">Supported files use PhysioNet-style column names (for example HR, O2Sat, Temp, SBP, MAP, DBP, Resp, EtCO2, Lactate). Rows are treated as consecutive hours. Data is sent only to this local app and is not saved.</p>
+          <div class="data-quality" id="dataQuality" aria-live="polite"></div>
+          <div class="error" id="formError" role="alert"></div>
+        </div>
+      </section>
+
+      <aside class="panel side" aria-labelledby="result-title">
+        <div class="panel-inner">
+          <div class="section-head">
+            <div><h2 id="result-title">Model output</h2><p class="section-copy">A score and alert-rule demonstration, not a diagnosis.</p></div>
+          </div>
+          <div class="result-state" id="resultState" aria-live="polite">
+            <div class="eyebrow">Waiting for records</div>
+            <div class="state-title">No scores yet</div>
+            <div class="state-desc">Add one or more hourly records, then select “Score records”.</div>
+          </div>
+          <div id="results" hidden>
+            <p class="section-copy" style="margin-top:14px">Model used: <strong id="resultModelName">—</strong></p>
+            <div class="score-card">
+              <div><div class="score-value" id="latestScore">—</div><div class="score-label">Latest hourly model score · 0–1</div></div>
+              <div class="threshold-tag">Selected cutoff<br><strong id="thresholdValue">—</strong></div>
+            </div>
+            <div class="chart-panel">
+              <div class="chart-heading"><strong>Hourly score trend</strong><span>Model output over entered hours</span></div>
+              <div id="scoreChart"></div>
+              <div class="chart-legend"><span class="legend-key"><i class="legend-line"></i>Model score</span><span class="legend-key"><i class="legend-dash"></i>Selected cutoff</span></div>
+            </div>
+            <div class="result-table-wrap">
+              <table>
+                <thead><tr><th>Hour</th><th>Model score</th><th>Rule status</th></tr></thead>
+                <tbody id="resultRows"></tbody>
+              </table>
+            </div>
+            <div class="explanation-card">
+              <strong>What influenced each hourly score?</strong>
+              <p id="explanationNote"></p>
+              <div class="explanation-list" id="explanationRows"></div>
+            </div>
+            <p class="result-foot" id="policyText"></p>
+          </div>
+          <p class="help">What the score means: the selected model estimates how much this hourly record resembles the positive label in the PhysioNet/CinC 2019 training data. That label begins six hours before the recorded sepsis onset and remains positive afterward. Scores from the three models are not calibrated to be directly comparable, and none is a patient's medical probability.</p>
+          <p class="help">An active rule means the demonstration cutoff was crossed under the displayed 1-of-5 policy. It is a model output only, not a clinical alert or recommendation.</p>
+          <p class="help"><strong>Exploratory retrospective evaluation:</strong> the rule covered 81.4% of sepsis warning windows; 24.9% of patients without a sepsis label received at least one alert. The project team had already examined this test split, so these are not independent final performance estimates.</p>
+        </div>
+      </aside>
+    </div>
+    <footer>Educational prototype · runs on this computer · no patient records are retained</footer>
+  </main>
+
+  <script>
+    const VITALS = [
+      ["HR", "Heart rate", "bpm"], ["O2Sat", "Oxygen saturation", "%"], ["Temp", "Temperature", "°C"], ["SBP", "Systolic BP", "mmHg"],
+      ["MAP", "Mean arterial pressure", "mmHg"], ["DBP", "Diastolic BP", "mmHg"], ["Resp", "Respiratory rate", "/min"], ["EtCO2", "End-tidal CO₂", "mmHg"]
+    ];
+    const LABS = [
+      ["BaseExcess", "Base excess"], ["HCO3", "Bicarbonate"], ["FiO2", "FiO₂"], ["pH", "pH"], ["PaCO2", "PaCO₂"], ["SaO2", "SaO₂"],
+      ["AST", "AST"], ["BUN", "BUN"], ["Alkalinephos", "Alkaline phosphatase"], ["Calcium", "Calcium"], ["Chloride", "Chloride"],
+      ["Creatinine", "Creatinine"], ["Bilirubin_direct", "Direct bilirubin"], ["Glucose", "Glucose"], ["Lactate", "Lactate"], ["Magnesium", "Magnesium"],
+      ["Phosphate", "Phosphate"], ["Potassium", "Potassium"], ["Bilirubin_total", "Total bilirubin"], ["TroponinI", "Troponin I"],
+      ["Hct", "Hematocrit"], ["Hgb", "Hemoglobin"], ["PTT", "PTT"], ["WBC", "White blood cells"], ["Fibrinogen", "Fibrinogen"], ["Platelets", "Platelets"]
+    ];
+    const CONTEXT = [
+      ["Age", "Age", "years"], ["Gender", "Gender code", "0/1"], ["Unit1", "Unit 1", "0/1"],
+      ["Unit2", "Unit 2", "0/1"], ["HospAdmTime", "Admission offset", "hours"]
+    ];
+    const FIELD_LABELS = new Map([...CONTEXT, ...VITALS, ...LABS, ["ICULOS", "ICU hour"]].map(([key, label]) => [key, label]));
+    // Broad data-entry sanity bounds for this educational demo; these are not clinical limits.
+    const DEMO_RANGES = {
+      Age:[0,120], Gender:[0,1], Unit1:[0,1], Unit2:[0,1], HospAdmTime:[-10000,10000], ICULOS:[1,10000],
+      HR:[20,250], O2Sat:[50,100], Temp:[25,45], SBP:[30,300], MAP:[20,250], DBP:[10,200], Resp:[2,80], EtCO2:[5,100],
+      BaseExcess:[-40,40], HCO3:[1,60], FiO2:[0.2,1], pH:[6.5,8], PaCO2:[5,150], SaO2:[50,100], AST:[0,10000], BUN:[0,300],
+      Alkalinephos:[0,5000], Calcium:[1,20], Chloride:[50,150], Creatinine:[0,30], Bilirubin_direct:[0,100], Glucose:[0,1000],
+      Lactate:[0,30], Magnesium:[0,10], Phosphate:[0,30], Potassium:[1,12], Bilirubin_total:[0,100], TroponinI:[0,1000],
+      Hct:[5,80], Hgb:[1,30], PTT:[0,300], WBC:[0,500], Fibrinogen:[0,2000], Platelets:[0,2000]
+    };
+    const DEMO_BINARY_FIELDS = new Set(["Gender", "Unit1", "Unit2"]);
+    const recordList = document.getElementById("recordList");
+    const themeToggle = document.getElementById("themeToggle");
+    const THEME_STORAGE_KEY = "sepsis-research-demo-theme";
+    let lastScored = null;
+    let inputRevision = 0;
+
+    function applyTheme(theme) {
+      const selected = theme === "dark" ? "dark" : "light";
+      document.documentElement.dataset.theme = selected;
+      themeToggle.textContent = selected === "dark" ? "Light theme" : "Dark theme";
+      themeToggle.setAttribute("aria-pressed", String(selected === "dark"));
+      try { localStorage.setItem(THEME_STORAGE_KEY, selected); } catch (_) { /* Theme still works if storage is unavailable. */ }
+    }
+
+    let savedTheme = "light";
+    try { savedTheme = localStorage.getItem(THEME_STORAGE_KEY) || "light"; } catch (_) { /* Use the light theme by default. */ }
+    applyTheme(savedTheme);
+    themeToggle.addEventListener("click", () => {
+      applyTheme(document.documentElement.dataset.theme === "dark" ? "light" : "dark");
+    });
+
+    function field(key, label, unit = "", initial = "") {
+      const wrap = document.createElement("label");
+      wrap.className = "field";
+      const title = document.createElement("span");
+      title.textContent = label;
+      const unitText = document.createElement("em");
+      unitText.textContent = unit;
+      title.appendChild(unitText);
+      const input = document.createElement("input");
+      input.type = "number";
+      input.step = "any";
+      input.inputMode = "decimal";
+      input.placeholder = "—";
+      input.dataset.field = key;
+      input.value = initial;
+      input.setAttribute("aria-label", `${label}${unit ? ` (${unit})` : ""}`);
+      wrap.append(title, input);
+      return wrap;
+    }
+
+    function invalidateResults() {
+      inputRevision += 1;
+      const hadScore = Boolean(lastScored) || !document.getElementById("results").hidden;
+      lastScored = null;
+      document.getElementById("exportReport").disabled = true;
+      document.getElementById("results").hidden = true;
+      document.getElementById("resultRows").replaceChildren();
+      document.getElementById("scoreChart").replaceChildren();
+      if (hadScore) {
+        const state = document.getElementById("resultState");
+        state.className = "result-state";
+        state.innerHTML = '<div class="eyebrow">Waiting for records</div><div class="state-title">Inputs changed</div><div class="state-desc">Score the current entries to refresh the model output and report.</div>';
+      }
+    }
+
+    function updateDataChecks() {
+      const quality = document.getElementById("dataQuality");
+      const missingGroups = [];
+      const outOfRange = [];
+      const contextMissing = [];
+      CONTEXT.forEach(([key]) => {
+        const input = document.querySelector(`#contextFields [data-field="${key}"]`);
+        inspectInput(input, `Patient context · ${FIELD_LABELS.get(key)}`, contextMissing, outOfRange);
+      });
+      if (contextMissing.length) missingGroups.push({name:"Patient context", fields:contextMissing});
+      [...recordList.children].forEach((card, index) => {
+        const vitalMissing = [], labMissing = [];
+        card.querySelectorAll("[data-field]").forEach(input => {
+          const key = input.dataset.field;
+          const target = key === "ICULOS" || LABS.some(([lab]) => lab === key) ? labMissing : vitalMissing;
+          inspectInput(input, `Hour ${index + 1} · ${FIELD_LABELS.get(key) || key}`, target, outOfRange);
+        });
+        if (vitalMissing.length) missingGroups.push({name:`Hour ${index + 1} · vital signs`, fields:vitalMissing});
+        if (labMissing.length) missingGroups.push({name:`Hour ${index + 1} · optional labs / ICU hour`, fields:labMissing});
+      });
+      const missingCount = missingGroups.reduce((total, group) => total + group.fields.length, 0);
+      quality.replaceChildren();
+      quality.classList.toggle("warning", outOfRange.length > 0);
+      const title = document.createElement("p");
+      title.className = "quality-title";
+      title.textContent = outOfRange.length ? `${outOfRange.length} value${outOfRange.length === 1 ? " is" : "s are"} outside broad demo sanity bounds` : `${missingCount} blank field${missingCount === 1 ? "" : "s"} · ${outOfRange.length} out-of-range`;
+      quality.appendChild(title);
+      const explanation = document.createElement("p");
+      explanation.textContent = outOfRange.length
+        ? "Correct out-of-range values before scoring. These broad software checks are not clinical limits."
+        : missingCount
+          ? "Blank fields are listed below. Missing measurements are common in the source data and are allowed; the model pipeline handles them."
+          : "No blank or out-of-range entries detected.";
+      quality.appendChild(explanation);
+      if (missingCount) appendQualityDetails(quality, `Show ${missingCount} blank fields`, missingGroups.map(group => `${group.name}: ${group.fields.join(", ")}`));
+      if (outOfRange.length) appendQualityDetails(quality, "Show out-of-range values", outOfRange.map(item => `${item.label}: ${item.value} (${item.binary ? "must be 0 or 1" : `demo bounds ${item.range[0]} to ${item.range[1]}`})`));
+      return {outOfRange, missingCount};
+    }
+
+    function inspectInput(input, label, missingList, outOfRange) {
+      const value = input.value.trim();
+      if (!value) { missingList.push(FIELD_LABELS.get(input.dataset.field) || label.split(" · ").pop()); input.removeAttribute("aria-invalid"); return; }
+      const number = Number(value);
+      const range = DEMO_RANGES[input.dataset.field];
+      if (range && (!Number.isFinite(number) || number < range[0] || number > range[1] || (DEMO_BINARY_FIELDS.has(input.dataset.field) && number !== 0 && number !== 1))) {
+        input.setAttribute("aria-invalid", "true");
+        outOfRange.push({label, value, range, binary:DEMO_BINARY_FIELDS.has(input.dataset.field)});
+      } else input.removeAttribute("aria-invalid");
+    }
+
+    function appendQualityDetails(host, summaryText, items) {
+      const details = document.createElement("details");
+      const summary = document.createElement("summary");
+      summary.textContent = summaryText;
+      const list = document.createElement("ul");
+      items.forEach(item => { const li = document.createElement("li"); li.textContent = item; list.appendChild(li); });
+      details.append(summary, list);
+      host.appendChild(details);
+    }
+
+    CONTEXT.forEach(([key, label, unit]) => document.getElementById("contextFields").appendChild(field(key, label, unit)));
+
+    function addRecord(values = {}) {
+      const card = document.createElement("article");
+      card.className = "record";
+      const header = document.createElement("div");
+      header.className = "record-head";
+      const title = document.createElement("div");
+      title.className = "hour-label";
+      const dot = document.createElement("span");
+      dot.className = "hour-dot";
+      const label = document.createElement("span");
+      title.append(dot, label);
+      const remove = document.createElement("button");
+      remove.type = "button";
+      remove.className = "text-button";
+      remove.textContent = "Remove hour";
+      remove.addEventListener("click", () => { if (recordList.children.length > 1) { card.remove(); refreshHours(); invalidateResults(); updateDataChecks(); } });
+      header.append(title, remove);
+      const vitalGrid = document.createElement("div");
+      vitalGrid.className = "grid";
+      VITALS.forEach(([key, name, unit]) => vitalGrid.appendChild(field(key, name, unit, values[key] ?? "")));
+      const details = document.createElement("details");
+      if (["Lactate", "WBC", "Creatinine", "Platelets", "Bilirubin_total"].some(key => values[key] !== undefined && values[key] !== null && values[key] !== "")) details.open = true;
+      const summary = document.createElement("summary");
+      summary.textContent = "Additional labs and ICU hour (optional)";
+      const labGrid = document.createElement("div");
+      labGrid.className = "grid lab-grid";
+      LABS.forEach(([key, name]) => labGrid.appendChild(field(key, name, "", values[key] ?? "")));
+      labGrid.appendChild(field("ICULOS", "ICU hour", "hour", values.ICULOS ?? String(recordList.children.length + 1)));
+      details.append(summary, labGrid);
+      card.append(header, vitalGrid, details);
+      recordList.appendChild(card);
+      refreshHours();
+      invalidateResults();
+      updateDataChecks();
+    }
+
+    function refreshHours() {
+      const hourCount = recordList.children.length;
+      const countLabel = document.getElementById("recordCount");
+      if (countLabel) countLabel.textContent = `${hourCount} ${hourCount === 1 ? "HOUR" : "HOURS"} · LOCAL SESSION`;
+      [...recordList.children].forEach((card, index) => {
+        card.querySelector(".hour-dot").textContent = String(index + 1);
+        card.querySelector(".hour-label span:last-child").textContent = `Hour ${index + 1}`;
+        const icu = card.querySelector('[data-field="ICULOS"]');
+        if (icu && !icu.dataset.edited) icu.value = String(index + 1);
+      });
+    }
+    recordList.addEventListener("input", event => {
+      if (event.target.dataset.field === "ICULOS") event.target.dataset.edited = "true";
+      invalidateResults();
+      updateDataChecks();
+    });
+    document.getElementById("contextFields").addEventListener("input", () => { invalidateResults(); updateDataChecks(); });
+    document.getElementById("modelSelect").addEventListener("change", invalidateResults);
+    addRecord();
+    document.getElementById("addHour").addEventListener("click", () => addRecord());
+    document.getElementById("clearPatient").addEventListener("click", () => {
+      document.querySelectorAll("#contextFields [data-field]").forEach(input => { input.value = ""; });
+      recordList.replaceChildren();
+      document.getElementById("fileInput").value = "";
+      document.getElementById("modelSelect").value = "lightgbm";
+      document.getElementById("syntheticCase").value = "gradual";
+      document.getElementById("results").hidden = true;
+      document.getElementById("resultState").className = "result-state";
+      document.getElementById("resultState").innerHTML = '<div class="eyebrow">Waiting for records</div><div class="state-title">No scores yet</div><div class="state-desc">Add one or more hourly records, then select “Score records”.</div>';
+      document.getElementById("resultRows").replaceChildren();
+      document.getElementById("scoreChart").replaceChildren();
+      document.getElementById("explanationRows").replaceChildren();
+      document.getElementById("explanationNote").textContent = "";
+      document.getElementById("exportReport").disabled = true;
+      lastScored = null;
+      showError("");
+      addRecord();
+      recordList.querySelectorAll(".record details").forEach(details => { details.open = false; });
+    });
+    const buildExample = rows => rows.map((row, index) => ({...row, ICULOS: index + 1}));
+    const SYNTHETIC_EXAMPLES = {
+      gradual: buildExample([
+        {HR:84,O2Sat:97,Temp:36.8,SBP:122,MAP:82,DBP:66,Resp:18,EtCO2:34,Lactate:1.0,WBC:8.2},
+        {HR:88,O2Sat:96,Temp:37.0,SBP:118,MAP:80,DBP:64,Resp:20,EtCO2:34,Lactate:1.1,WBC:8.8},
+        {HR:96,O2Sat:95,Temp:37.4,SBP:112,MAP:76,DBP:61,Resp:22,EtCO2:33,Lactate:1.4,WBC:9.5},
+        {HR:104,O2Sat:93,Temp:37.9,SBP:104,MAP:70,DBP:58,Resp:25,EtCO2:31,Lactate:1.8,WBC:10.4},
+        {HR:110,O2Sat:92,Temp:38.2,SBP:98,MAP:66,DBP:55,Resp:27,EtCO2:30,Lactate:2.3,WBC:11.6},
+        {HR:108,O2Sat:93,Temp:38.0,SBP:100,MAP:68,DBP:57,Resp:26,EtCO2:31,Lactate:2.1,WBC:11.2}
+      ]),
+      stable: buildExample([
+        {HR:76,O2Sat:98,Temp:36.7,SBP:124,MAP:84,DBP:68,Resp:16,EtCO2:36},
+        {HR:78,O2Sat:98,Temp:36.8,SBP:122,MAP:83,DBP:67,Resp:17,EtCO2:36},
+        {HR:77,O2Sat:97,Temp:36.8,SBP:123,MAP:84,DBP:68,Resp:16,EtCO2:35},
+        {HR:79,O2Sat:98,Temp:36.9,SBP:121,MAP:82,DBP:66,Resp:17,EtCO2:36},
+        {HR:78,O2Sat:98,Temp:36.8,SBP:124,MAP:84,DBP:68,Resp:16,EtCO2:36},
+        {HR:76,O2Sat:98,Temp:36.7,SBP:125,MAP:85,DBP:69,Resp:16,EtCO2:37}
+      ]),
+      blood_pressure: buildExample([
+        {HR:82,O2Sat:97,Temp:36.9,SBP:126,MAP:85,DBP:68,Resp:18,EtCO2:35},
+        {HR:86,O2Sat:97,Temp:37.0,SBP:118,MAP:80,DBP:64,Resp:19,EtCO2:34},
+        {HR:92,O2Sat:96,Temp:37.1,SBP:110,MAP:74,DBP:59,Resp:20,EtCO2:33},
+        {HR:98,O2Sat:96,Temp:37.2,SBP:102,MAP:69,DBP:55,Resp:21,EtCO2:32},
+        {HR:104,O2Sat:95,Temp:37.3,SBP:96,MAP:65,DBP:51,Resp:22,EtCO2:31},
+        {HR:108,O2Sat:95,Temp:37.4,SBP:92,MAP:62,DBP:49,Resp:23,EtCO2:30}
+      ]),
+      oxygen: buildExample([
+        {HR:80,O2Sat:98,Temp:36.8,SBP:120,MAP:82,DBP:66,Resp:16,EtCO2:37},
+        {HR:84,O2Sat:96,Temp:36.9,SBP:118,MAP:80,DBP:64,Resp:18,EtCO2:36},
+        {HR:88,O2Sat:94,Temp:37.0,SBP:116,MAP:78,DBP:62,Resp:20,EtCO2:34},
+        {HR:94,O2Sat:92,Temp:37.1,SBP:114,MAP:77,DBP:61,Resp:23,EtCO2:32},
+        {HR:100,O2Sat:90,Temp:37.2,SBP:112,MAP:75,DBP:60,Resp:26,EtCO2:30},
+        {HR:104,O2Sat:89,Temp:37.3,SBP:110,MAP:74,DBP:59,Resp:28,EtCO2:29}
+      ]),
+      labs: buildExample([
+        {HR:90,O2Sat:96,Temp:37.6,SBP:112,MAP:76,DBP:60,Resp:21,EtCO2:33,BaseExcess:-2.0,HCO3:23,FiO2:0.21,pH:7.39,PaCO2:39,SaO2:96,AST:28,BUN:16,Alkalinephos:82,Calcium:8.8,Chloride:102,Creatinine:1.0,Bilirubin_direct:0.2,Glucose:112,Lactate:1.4,Magnesium:1.9,Phosphate:3.2,Potassium:4.0,Bilirubin_total:0.7,TroponinI:0.01,Hct:38,Hgb:12.7,PTT:30,WBC:12.8,Fibrinogen:350,Platelets:210},
+        {HR:94,O2Sat:95,Temp:37.8,SBP:108,MAP:73,DBP:58,Resp:22,EtCO2:32,BaseExcess:-2.4,HCO3:22.8,FiO2:0.21,pH:7.38,PaCO2:40,SaO2:95,AST:30,BUN:17,Alkalinephos:84,Calcium:8.7,Chloride:102,Creatinine:1.1,Bilirubin_direct:0.2,Glucose:116,Lactate:1.7,Magnesium:1.9,Phosphate:3.1,Potassium:4.1,Bilirubin_total:0.8,TroponinI:0.01,Hct:37.8,Hgb:12.6,PTT:31,WBC:13.6,Fibrinogen:360,Platelets:198},
+        {HR:98,O2Sat:94,Temp:38.0,SBP:104,MAP:70,DBP:56,Resp:24,EtCO2:31,BaseExcess:-2.8,HCO3:22.5,FiO2:0.24,pH:7.37,PaCO2:41,SaO2:94,AST:33,BUN:18,Alkalinephos:86,Calcium:8.6,Chloride:103,Creatinine:1.2,Bilirubin_direct:0.2,Glucose:121,Lactate:2.0,Magnesium:1.8,Phosphate:3.1,Potassium:4.2,Bilirubin_total:0.9,TroponinI:0.02,Hct:37.4,Hgb:12.4,PTT:32,WBC:14.2,Fibrinogen:370,Platelets:184},
+        {HR:102,O2Sat:93,Temp:38.1,SBP:100,MAP:68,DBP:54,Resp:25,EtCO2:30,BaseExcess:-3.1,HCO3:22.2,FiO2:0.24,pH:7.36,PaCO2:42,SaO2:93,AST:36,BUN:19,Alkalinephos:88,Calcium:8.5,Chloride:103,Creatinine:1.3,Bilirubin_direct:0.3,Glucose:126,Lactate:2.2,Magnesium:1.8,Phosphate:3.0,Potassium:4.3,Bilirubin_total:1.0,TroponinI:0.02,Hct:37.0,Hgb:12.2,PTT:33,WBC:15.1,Fibrinogen:380,Platelets:170},
+        {HR:106,O2Sat:93,Temp:38.0,SBP:98,MAP:66,DBP:53,Resp:26,EtCO2:30,BaseExcess:-3.4,HCO3:21.9,FiO2:0.28,pH:7.35,PaCO2:43,SaO2:93,AST:39,BUN:20,Alkalinephos:90,Calcium:8.4,Chloride:104,Creatinine:1.4,Bilirubin_direct:0.3,Glucose:130,Lactate:2.4,Magnesium:1.8,Phosphate:2.9,Potassium:4.4,Bilirubin_total:1.1,TroponinI:0.03,Hct:36.6,Hgb:12.0,PTT:34,WBC:15.8,Fibrinogen:390,Platelets:158},
+        {HR:104,O2Sat:94,Temp:37.9,SBP:100,MAP:68,DBP:54,Resp:25,EtCO2:31,BaseExcess:-3.0,HCO3:22.1,FiO2:0.28,pH:7.36,PaCO2:42,SaO2:94,AST:37,BUN:19,Alkalinephos:89,Calcium:8.5,Chloride:103,Creatinine:1.3,Bilirubin_direct:0.3,Glucose:124,Lactate:2.1,Magnesium:1.9,Phosphate:3.0,Potassium:4.2,Bilirubin_total:1.0,TroponinI:0.02,Hct:36.9,Hgb:12.1,PTT:33,WBC:15.0,Fibrinogen:380,Platelets:165}
+      ])
+    };
+    document.getElementById("sampleButton").addEventListener("click", () => {
+      const sample = SYNTHETIC_EXAMPLES[document.getElementById("syntheticCase").value];
+      document.querySelector('#contextFields [data-field="Age"]').value = "67";
+      document.querySelector('#contextFields [data-field="Gender"]').value = "1";
+      recordList.innerHTML = "";
+      sample.forEach(row => addRecord(row));
+      showError("");
+    });
+
+    function parseDelimited(text, delimiter) {
+      const rows = [];
+      let row = [], cell = "", quoted = false;
+      for (let i = 0; i < text.length; i++) {
+        const ch = text[i];
+        if (ch === '"' && quoted && text[i + 1] === '"') { cell += '"'; i++; }
+        else if (ch === '"') quoted = !quoted;
+        else if (ch === delimiter && !quoted) { row.push(cell); cell = ""; }
+        else if ((ch === "\n" || ch === "\r") && !quoted) {
+          if (ch === "\r" && text[i + 1] === "\n") i++;
+          row.push(cell); if (row.some(value => value.trim() !== "")) rows.push(row);
+          row = []; cell = "";
+        } else cell += ch;
+      }
+      row.push(cell); if (row.some(value => value.trim() !== "")) rows.push(row);
+      if (rows.length < 2) throw new Error("The file needs a header row and at least one hourly record.");
+      const headers = rows[0].map(value => value.trim());
+      return rows.slice(1).map(values => Object.fromEntries(headers.map((header, index) => {
+        const value = (values[index] ?? "").trim();
+        return [header, /^(nan|null|na)$/i.test(value) ? "" : value];
+      })));
+    }
+
+    document.getElementById("fileInput").addEventListener("change", async event => {
+      const file = event.target.files[0]; if (!file) return;
+      try {
+        const content = await file.text();
+        const delimiter = content.split(/\r?\n/, 1)[0].includes("|") ? "|" : ",";
+        const imported = parseDelimited(content, delimiter).slice(0, 168);
+        const first = imported[0];
+        CONTEXT.forEach(([key]) => { document.querySelector(`#contextFields [data-field="${key}"]`).value = ""; });
+        CONTEXT.forEach(([key]) => {
+          const input = document.querySelector(`#contextFields [data-field="${key}"]`);
+          if (input && first[key] !== undefined && !/^nan$/i.test(first[key])) input.value = first[key];
+        });
+        recordList.innerHTML = "";
+        imported.forEach(row => addRecord(row));
+        showError("");
+      } catch (error) { showError(error.message || "Could not read that file."); }
+      event.target.value = "";
+    });
+
+    function showError(message) {
+      const error = document.getElementById("formError");
+      error.textContent = message;
+      error.classList.toggle("show", Boolean(message));
+    }
+
+    document.getElementById("predictButton").addEventListener("click", async () => {
+      const button = document.getElementById("predictButton");
+      const checks = updateDataChecks();
+      if (checks.outOfRange.length) {
+        showError("Correct the highlighted out-of-range values before scoring. The broad demo bounds are listed above.");
+        const firstInvalid = document.querySelector('[aria-invalid="true"]');
+        const parentDetails = firstInvalid?.closest("details");
+        if (parentDetails) parentDetails.open = true;
+        firstInvalid?.focus();
+        return;
+      }
+      const metadata = {};
+      CONTEXT.forEach(([key]) => metadata[key] = document.querySelector(`#contextFields [data-field="${key}"]`).value);
+      const records = [...recordList.children].map(card => Object.fromEntries([...card.querySelectorAll("[data-field]")].map(input => [input.dataset.field, input.value])));
+      const submittedRevision = inputRevision;
+      showError("");
+      button.classList.add("loading"); button.textContent = "Scoring…";
+      try {
+        const response = await fetch("/api/predict", {
+          method: "POST", headers: {"Content-Type": "application/json"},
+          body: JSON.stringify({metadata, records, model: document.getElementById("modelSelect").value})
+        });
+        const data = await response.json();
+        if (!response.ok) throw new Error(data.error || "Prediction request failed.");
+        if (submittedRevision !== inputRevision) return;
+        lastScored = {metadata, records, model: document.getElementById("modelSelect").value, result: data};
+        renderResults(data);
+        document.getElementById("exportReport").disabled = false;
+      } catch (error) {
+        showError(error.message || "Could not reach the local prediction service.");
+      } finally { button.classList.remove("loading"); button.textContent = "Score records"; }
+    });
+
+    function renderResults(data) {
+      const state = document.getElementById("resultState");
+      const latest = data.latest;
+      state.className = `result-state ${latest.rule_active ? "active" : "ready"}`;
+      state.innerHTML = `<div class="eyebrow">${data.hours_scored} hourly record${data.hours_scored === 1 ? "" : "s"} scored</div>
+        <div class="state-title">${latest.rule_active ? "Model rule active" : "Model rule inactive"}</div>
+        <div class="state-desc">This is a research-model output only. It is not a sepsis diagnosis or care recommendation.</div>`;
+      document.getElementById("results").hidden = false;
+      document.getElementById("resultModelName").textContent = data.model_name;
+      document.getElementById("latestScore").textContent = latest.model_score.toFixed(3);
+      document.getElementById("thresholdValue").textContent = data.threshold.toFixed(3);
+      document.getElementById("policyText").textContent = `${data.policy}. This is a demonstration rule selected on historical data, not a medical action threshold.`;
+      renderScoreChart(data);
+      renderExplanations(data);
+      const body = document.getElementById("resultRows"); body.innerHTML = "";
+      data.hourly.forEach(item => {
+        const tr = document.createElement("tr");
+        const status = item.rule_active ? '<span class="badge badge-active">Active</span>' : '<span class="badge">Inactive</span>';
+        tr.innerHTML = `<td>${item.hour}</td><td>${item.model_score.toFixed(3)}</td><td>${status}</td>`;
+        body.appendChild(tr);
+      });
+    }
+
+    function renderExplanations(data) {
+      const host = document.getElementById("explanationRows");
+      host.replaceChildren();
+      document.getElementById("explanationNote").textContent = data.explanation_note || "The running backend did not return explanation data. Restart the local Python app to load the updated explanation support.";
+      data.hourly.forEach(item => {
+        const row = document.createElement("div");
+        row.className = "explanation-hour";
+        const title = document.createElement("strong");
+        title.textContent = `Hour ${item.hour}`;
+        row.appendChild(title);
+        if (!item.explanation || !item.explanation.length) {
+          const unavailable = document.createElement("span");
+          unavailable.textContent = data.explanation_note
+            ? "Per-score explanation is unavailable for this model or input."
+            : "No explanation data was returned; restart the local Python app, then score again.";
+          row.appendChild(unavailable);
+        } else {
+          const points = document.createElement("div");
+          points.className = "explanation-points";
+          item.explanation.forEach(point => {
+            const chip = document.createElement("span");
+            chip.className = `explanation-point ${point.direction === "raises" ? "up" : point.direction === "lowers" ? "down" : ""}`;
+            chip.textContent = `${FIELD_LABELS.get(point.field) || point.field} ${point.direction} raw model output`;
+            points.appendChild(chip);
+          });
+          row.appendChild(points);
+        }
+        host.appendChild(row);
+      });
+    }
+
+    function renderScoreChart(data) {
+      const host = document.getElementById("scoreChart");
+      const values = data.hourly.map(item => Math.max(0, Math.min(1, item.model_score)));
+      const threshold = Math.max(0, Math.min(1, data.threshold));
+      const width = 520, height = 132, left = 34, right = 10, top = 9, bottom = 28;
+      const plotWidth = width - left - right, plotHeight = height - top - bottom;
+      const xAt = index => left + (values.length === 1 ? plotWidth / 2 : (index / (values.length - 1)) * plotWidth);
+      const yAt = value => top + (1 - value) * plotHeight;
+      const grid = [0, 0.5, 1].map(value => {
+        const y = yAt(value);
+        return `<line x1="${left}" y1="${y}" x2="${width - right}" y2="${y}" stroke="var(--line)" stroke-width="1"/><text x="${left - 8}" y="${y + 3}" text-anchor="end" fill="var(--muted)" font-size="9">${value.toFixed(1)}</text>`;
+      }).join("");
+      const points = values.map((value, index) => `${xAt(index)},${yAt(value)}`).join(" ");
+      const dots = values.map((value, index) => `<circle cx="${xAt(index)}" cy="${yAt(value)}" r="2.6" fill="var(--blue)"/>`).join("");
+      const cutoffY = yAt(threshold);
+      const lastHour = data.hourly.length;
+      host.innerHTML = `<svg class="score-chart" viewBox="0 0 ${width} ${height}" role="img" aria-label="Hourly model score trend for ${lastHour} records. The dashed line marks the selected cutoff.">
+        ${grid}
+        <line x1="${left}" y1="${cutoffY}" x2="${width - right}" y2="${cutoffY}" stroke="#aa7d32" stroke-width="1.4" stroke-dasharray="5 4"/>
+        <polyline points="${points}" fill="none" stroke="var(--blue)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+        ${dots}
+        <text x="${left}" y="${height - 5}" text-anchor="start" fill="var(--muted)" font-size="9">Hour 1</text>
+        <text x="${width - right}" y="${height - 5}" text-anchor="end" fill="var(--muted)" font-size="9">Hour ${lastHour}</text>
+      </svg>`;
+    }
+
+    function csvCell(value) {
+      const text = value === null || value === undefined ? "" : String(value);
+      return `"${text.replaceAll('"', '""')}"`;
+    }
+
+    document.getElementById("exportReport").addEventListener("click", () => {
+      if (!lastScored) return;
+      const {metadata, records, result} = lastScored;
+      const headers = ["hour", "model", "model_score", "model_cutoff", "alert_policy", "rule_active", "threshold_crossed_this_hour", ...CONTEXT.map(([key]) => key), ...VITALS.map(([key]) => key), ...LABS.map(([key]) => key), "ICULOS"];
+      const rows = result.hourly.map((score, index) => {
+        const record = records[index] || {};
+        return [score.hour, result.model_name, score.model_score, result.threshold, result.policy,
+          score.rule_active, score.new_threshold_crossing,
+          ...CONTEXT.map(([key]) => metadata[key] ?? ""),
+          ...VITALS.map(([key]) => record[key] ?? ""),
+          ...LABS.map(([key]) => record[key] ?? ""), record.ICULOS ?? ""];
+      });
+      const csv = [headers, ...rows].map(row => row.map(csvCell).join(",")).join("\r\n");
+      const url = URL.createObjectURL(new Blob(["\uFEFF", csv], {type:"text/csv;charset=utf-8"}));
+      const link = document.createElement("a");
+      link.href = url;
+      link.download = `sepsis_demo_report_${new Date().toISOString().replace(/[:.]/g, "-")}.csv`;
+      document.body.appendChild(link);
+      link.click();
+      link.remove();
+      URL.revokeObjectURL(url);
+    });
+  </script>
+</body>
+</html>
