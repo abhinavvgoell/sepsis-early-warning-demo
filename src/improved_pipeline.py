@@ -41,12 +41,24 @@ def log(message: str) -> None:
 
 
 # --------------------------------------------------------------------------- features
-def make_features_v2(raw: pd.DataFrame) -> pd.DataFrame:
-    """Causal features: LOCF values, time-since-measured, windows, deltas, composites."""
+def make_features_v2(raw: pd.DataFrame, include_v3_features: bool = False) -> pd.DataFrame:
+    """Causal features: LOCF values, time-since-measured, windows, deltas, composites.
+    
+    If include_v3_features=False (default), generates the exact 200 features expected by the trained LightGBM model.
+    If include_v3_features=True, adds 14 clinical features: SF ratio, SOFA biomarkers, hypoperfusion/infection interaction terms, and vital accelerations.
+    """
+    raw = raw.copy()
+    if ID_COLUMN not in raw.columns:
+        raw[ID_COLUMN] = "patient_0"
+    if "hour_index" not in raw.columns:
+        raw["hour_index"] = np.arange(len(raw), dtype=np.int32)
+    for col in VITALS + LABS + STATIC:
+        if col not in raw.columns:
+            raw[col] = np.nan
     ids = raw[ID_COLUMN]
     hour = raw["hour_index"].to_numpy(np.float32)
-    meas = [c for c in VITALS + LABS if c in raw]
-    static = [c for c in STATIC if c in raw]
+    meas = [c for c in VITALS + LABS]
+    static = [c for c in STATIC]
     cur = raw[meas].astype("float32")
     parts: dict[str, pd.DataFrame] = {"static": raw[static].astype("float32"), "cur": cur}
 
@@ -93,7 +105,46 @@ def make_features_v2(raw: pd.DataFrame) -> pd.DataFrame:
     labs_present = [c for c in LABS if c in cur]
     comp["n_labs_so_far"] = cur[labs_present].notna().sum(axis=1).groupby(ids, sort=False).cumsum().astype("float32")
     comp["n_vitals_now"] = cur[vit].notna().sum(axis=1).astype("float32")
+
+    if include_v3_features:
+        # -- PaO2/FiO2 Ratio Proxy (SF ratio, respiratory failure marker) --
+        if "O2Sat" in locf and "FiO2" in locf:
+            comp["sf_ratio"] = locf["O2Sat"] / locf["FiO2"].clip(lower=0.21)
+
+        # -- SOFA Sub-Component Numeric Features --
+        if "Platelets" in locf:
+            comp["platelets_lt_150"] = (locf["Platelets"] < 150).astype("float32").where(locf["Platelets"].notna())
+            comp["platelets_lt_100"] = (locf["Platelets"] < 100).astype("float32").where(locf["Platelets"].notna())
+        if "Bilirubin_total" in locf:
+            comp["bilirubin_gt_1_2"] = (locf["Bilirubin_total"] > 1.2).astype("float32").where(locf["Bilirubin_total"].notna())
+        if "Creatinine" in locf:
+            comp["creatinine_gt_1_2"] = (locf["Creatinine"] > 1.2).astype("float32").where(locf["Creatinine"].notna())
+            comp["creatinine_gt_2_0"] = (locf["Creatinine"] > 2.0).astype("float32").where(locf["Creatinine"].notna())
+
+        # -- Cross-Feature Interaction Terms --
+        if "MAP" in locf and "Lactate" in locf:
+            comp["map_lactate_product"] = locf["MAP"] * locf["Lactate"]
+        if "Temp" in locf and "WBC" in locf:
+            comp["temp_wbc_product"] = locf["Temp"] * locf["WBC"]
+
+        # -- Missingness Burst Detection --
+        lab_cols_present = [c for c in LABS if c in cur]
+        if lab_cols_present:
+            any_lab = cur[lab_cols_present].notna().any(axis=1)
+            any_lab_hour = pd.Series(np.where(any_lab.to_numpy(), hour, np.nan), index=cur.index, dtype="float32")
+            last_lab_hour = any_lab_hour.groupby(ids, sort=False).ffill()
+            comp["hours_since_any_lab"] = (hour - last_lab_hour).astype("float32")
+
     parts["comp"] = comp.astype("float32")
+
+    if include_v3_features:
+        # -- Rate-of-Change Acceleration (2nd derivative) --
+        accel_cols = ["HR", "Resp", "SBP", "MAP", "O2Sat"]
+        accel_available = [c for c in accel_cols if c in locf]
+        if accel_available:
+            delta1 = locf[accel_available] - lg[accel_available].shift(1)
+            prev_delta1 = delta1.groupby(ids, sort=False).shift(1)
+            parts["accel"] = (delta1 - prev_delta1).add_suffix("_accel").astype("float32")
 
     features = pd.concat(parts.values(), axis=1)
     features = features.replace([np.inf, -np.inf], np.nan).astype("float32")

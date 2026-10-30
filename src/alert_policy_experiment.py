@@ -138,6 +138,8 @@ def main() -> None:
     valid_ids, test_ids = train_test_split(remainder_ids, test_size=0.50, random_state=SEED, stratify=remainder_target.to_numpy())
     bundle = joblib.load(args.bundle)
     model_name = "hist_gradient_boosting"
+    if "models" not in bundle or model_name not in bundle["models"]:
+        raise ValueError(f"Bundle {args.bundle} must be a trained classical bundle containing {model_name}.")
     model = bundle["models"][model_name]
     feature_columns = bundle["feature_names"]
     validation_mask = patient_ids.isin(valid_ids).to_numpy()

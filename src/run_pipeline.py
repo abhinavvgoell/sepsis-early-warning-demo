@@ -63,7 +63,12 @@ def make_features(
     include_last_observation: bool = False,
 ) -> tuple[pd.DataFrame, pd.Series, pd.Series]:
     """Create causal per-hour features; optional history features never use future data."""
-    frame = data.sort_values([ID_COLUMN, "hour_index"]).copy()
+    frame = data.copy()
+    if ID_COLUMN not in frame:
+        frame[ID_COLUMN] = "patient_0"
+    if "hour_index" not in frame:
+        frame["hour_index"] = np.arange(len(frame), dtype=np.int32)
+    frame = frame.sort_values([ID_COLUMN, "hour_index"])
     excluded = {TARGET, ID_COLUMN}
     measurements = [
         column for column in frame.select_dtypes(include="number").columns
@@ -99,7 +104,7 @@ def make_features(
     for column in measurements:
         derived_features[f"{column}_missing"] = frame[column].isna().astype("int8")
     features = pd.concat([features, pd.DataFrame(derived_features, index=frame.index)], axis=1)
-    labels = frame[TARGET].astype("int8")
+    labels = frame[TARGET].astype("int8") if TARGET in frame else pd.Series(0, index=frame.index, dtype="int8")
     patients = frame[ID_COLUMN]
     return features.replace([np.inf, -np.inf], np.nan), labels, patients
 

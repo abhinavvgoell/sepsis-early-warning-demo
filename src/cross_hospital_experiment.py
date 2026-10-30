@@ -76,12 +76,12 @@ def main() -> None:
         p_threshold = model.predict_proba(src_x.loc[threshold_mask, columns])[:, 1]
         threshold_frame = pd.DataFrame({ID_COLUMN: src_ids[threshold_mask], TARGET: src_labels[threshold_mask]})
         starts, ends = group_bounds(threshold_frame[ID_COLUMN].to_numpy())
-        _, reward, miss, septic, _, best, inactive = utility_components(threshold_frame, starts, ends)
+        _, reward, miss, septic, window, best, inactive = utility_components(threshold_frame, starts, ends)
         best_choice = None
         for threshold in np.arange(0.05, 0.951, 0.025):
             risk = k_of_n_risk(p_threshold.astype(np.float32), starts, ends, 5, 1)
             metrics = evaluate_test(threshold_frame, risk, float(threshold), starts, ends, septic,
-                                    np.zeros(len(threshold_frame), dtype=bool), reward, miss, best - inactive)
+                                    window, reward, miss, best - inactive)
             choice = (metrics["normalized_challenge_utility"], -metrics["nonsepsis_patient_false_alert_rate"], float(threshold))
             if best_choice is None or choice > best_choice[0]:
                 best_choice = (choice, float(threshold), metrics)

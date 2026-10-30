@@ -68,35 +68,47 @@ def main() -> None:
     args = parser.parse_args()
     metrics_path = args.output_dir / "metrics.json"
     predictions_path = args.output_dir / "test_predictions.csv"
+    if not predictions_path.exists() and (args.output_dir / "test_predictions.csv.gz").exists():
+        predictions_path = args.output_dir / "test_predictions.csv.gz"
+    if not metrics_path.exists() or not predictions_path.exists():
+        raise FileNotFoundError(f"Missing required evaluation files in {args.output_dir}. Run run_pipeline.py first.")
     metrics = json.loads(metrics_path.read_text(encoding="utf-8"))
     predictions = pd.read_csv(predictions_path)
     models = [
         "logistic_regression", "hist_gradient_boosting",
         "logistic_regression_accuracy", "hist_gradient_boosting_accuracy",
     ]
-    table = patient_alert_table(predictions, models)
-    summary = summarize(table, models)
+    available_models = [
+        m for m in models if f"{m}_prediction" in predictions.columns
+    ]
+    if not available_models:
+        available_models = [c[:-11] for c in predictions.columns if c.endswith("_prediction")]
+    if not available_models:
+        raise ValueError(f"No prediction columns found in {predictions_path}")
+    table = patient_alert_table(predictions, available_models)
+    summary = summarize(table, available_models)
     table.to_csv(args.output_dir / "patient_alert_analysis.csv", index=False)
     (args.output_dir / "patient_alert_summary.json").write_text(json.dumps(summary, indent=2), encoding="utf-8")
 
-    result_by_model = {row["model"]: row for row in metrics["results"]}
+    result_by_model = {row["model"]: row for row in metrics.get("results", [])}
     lines = [
         "# Initial Held-Out Results",
         "",
         "This is a research prototype on the PhysioNet/CinC Challenge 2019 training data. It is not validated for clinical use.",
         "",
-        f"The patient-level split contains {metrics['patient_counts']['train']:,} training, {metrics['patient_counts']['validation']:,} validation, and {metrics['patient_counts']['test']:,} test patients. Thresholds were selected on validation patients, not on test labels. The held-out test split has been examined across multiple exploratory comparisons, so these figures should not be treated as a final untouched test estimate.",
+        f"The patient-level split contains {metrics.get('patient_counts', {}).get('train', 0):,} training, {metrics.get('patient_counts', {}).get('validation', 0):,} validation, and {metrics.get('patient_counts', {}).get('test', 0):,} test patients. Thresholds were selected on validation patients, not on test labels. The held-out test split has been examined across multiple exploratory comparisons, so these figures should not be treated as a final untouched test estimate.",
         "",
         "## Held-out model comparison",
         "",
         "| Model | Threshold | Accuracy | PR-AUC | ROC-AUC | Sensitivity | Precision | Normalized utility |",
         "| --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: |",
     ]
-    for name in ["train_prevalence_baseline", *models]:
-        row = result_by_model[name]
-        lines.append(f"| {name} | {row['threshold']:.2f} | {row['accuracy']:.3f} | {row['average_precision']:.3f} | {row['roc_auc']:.3f} | {row['recall_sensitivity']:.3f} | {row['precision']:.3f} | {row['normalized_challenge_utility']:.3f} |")
+    for name in ["train_prevalence_baseline", *available_models]:
+        if name in result_by_model:
+            row = result_by_model[name]
+            lines.append(f"| {name} | {row['threshold']:.2f} | {row['accuracy']:.3f} | {row['average_precision']:.3f} | {row['roc_auc']:.3f} | {row['recall_sensitivity']:.3f} | {row['precision']:.3f} | {row['normalized_challenge_utility']:.3f} |")
     lines += ["", "Accuracy-named variants were trained without class weighting and selected a threshold to maximize validation accuracy. The other classifiers use class weighting and a threshold selected for normalized challenge utility.", "", "The accuracy-focused variants reach roughly the majority-class baseline accuracy but have zero sensitivity on the test split: their selected cutoffs generate essentially no positive alerts. They do not improve sepsis detection. The baseline's high accuracy comes from the rarity of positive hourly labels.", "", "## Patient-level alert review", "", "| Model | Sepsis patients alerted in utility window | Window coverage | Non-sepsis patients with any alert | False-alert rate among non-sepsis patients | Median lead (hours, timely alerts) |", "| --- | ---: | ---: | ---: | ---: | ---: |"]
-    for name in models:
+    for name in available_models:
         row = summary["models"][name]
         lead = "n/a" if row["median_lead_hours_for_in_window_alerts"] is None else f"{row['median_lead_hours_for_in_window_alerts']:.1f}"
         lines.append(f"| {name} | {row['sepsis_alerts_in_utility_window']:,} | {row['sepsis_alert_window_coverage']:.3f} | {row['nonsepsis_patients_with_any_alert']:,} | {row['nonsepsis_patient_false_alert_rate']:.3f} | {lead} |")

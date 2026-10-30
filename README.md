@@ -33,7 +33,12 @@ The pipeline creates patient-level train/validation/test partitions and causal r
 To generate hourly risk scores for one patient file using the saved model:
 
 ```bash
+# Default: headline LightGBM model with 1-of-5 alert persistence rule
+python -m src.predict --input data/raw/training_setA/p000002.psv --model lightgbm
+
+# Classical models
 python -m src.predict --input data/raw/training_setA/p000002.psv --model hist_gradient_boosting
+python -m src.predict --input data/raw/training_setA/p000002.psv --model logistic_regression
 ```
 
 This produces `outputs/patient_risk_predictions.csv`. The included example is for demonstrating the pipeline only; predictions are not for clinical use.
@@ -70,7 +75,7 @@ python3 -m venv .venv
 
 Keep that terminal open, then visit [http://127.0.0.1:8766](http://127.0.0.1:8766). Stop the local server with `Ctrl+C` in the terminal.
 
-The demo includes synthetic example profiles, per-hour model explanations where supported (LightGBM TreeSHAP contributions and Logistic Regression additive contributions), a reset button, input checks, and a downloadable CSV report. The Histogram Gradient Boosting model does not currently provide a per-record explanation in this interface. Explanation directions describe model contributions, not clinical causes. Blank measurements are allowed; out-of-range values are checked against broad software sanity bounds, not medical limits. The CSV report is generated in the browser only when the user downloads it.
+The demo includes synthetic example profiles, real-time bedside ICU clinical markers (SIRS criteria count & triggers, qSOFA organ failure score, Shock Index, and MAP < 65 flag), per-hour model explanations across all three models (LightGBM TreeSHAP contributions, Logistic Regression additive weights, and Histogram Gradient Boosting marginal attributions), selectable alert persistence policies (1-of-5 matched FAR, 1-of-2 utility-optimal, and 1-of-1 immediate), a reset button, input validation checks, and a downloadable CSV report. Blank measurements are allowed; out-of-range values are checked against broad software sanity bounds, not medical limits. The CSV report is generated in the browser only when the user downloads it.
 
 To retrain and reproduce the LightGBM experiment, first download the PhysioNet data, then run (this includes grouped CV and can take a while):
 
