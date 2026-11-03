@@ -4,6 +4,7 @@ from __future__ import annotations
 
 import argparse
 import concurrent.futures
+import json
 import urllib.error
 import urllib.parse
 import urllib.request
@@ -16,7 +17,15 @@ NAMESPACE = "{http://s3.amazonaws.com/doc/2006-03-01/}"
 
 
 def list_patient_files() -> list[str]:
-    """List all PSV keys using the anonymous S3 ListObjectsV2 API."""
+    """List all PSV keys using the anonymous S3 ListObjectsV2 API, with local caching."""
+    keys_cache = Path("data/keys.json")
+    if keys_cache.exists():
+        try:
+            cached_keys = json.loads(keys_cache.read_text(encoding="utf-8"))
+            if isinstance(cached_keys, list) and len(cached_keys) > 0:
+                return cached_keys
+        except Exception:
+            pass
     keys: list[str] = []
     token: str | None = None
     while True:
@@ -33,6 +42,8 @@ def list_patient_files() -> list[str]:
         )
         truncated = root.findtext(f"{NAMESPACE}IsTruncated") == "true"
         if not truncated:
+            keys_cache.parent.mkdir(parents=True, exist_ok=True)
+            keys_cache.write_text(json.dumps(keys), encoding="utf-8")
             return keys
         token = root.findtext(f"{NAMESPACE}NextContinuationToken")
         if not token:

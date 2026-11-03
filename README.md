@@ -116,6 +116,10 @@ When sharing the project, include the source, reports, requirements, and chosen 
 
 ## Results and reports
 
+See [final_evaluation_results.md](outputs/final_evaluation/final_evaluation_results.md) for the clean, fair evaluation of the frozen LightGBM candidate against the HGB baseline on matched training partitions with separate calibration, bootstrap 95% confidence intervals, and paired comparison. Results are marked exploratory because no untouched external patient cohort is available in the public challenge release.
+
+See [alert_policy_v2_results.md](outputs/alert_policy_v2/alert_policy_v2_results.md) for the noise-reduction study comparing the baseline 1-of-5 rule against rising-score (3h mean), EWMA, and refractory cooldown rules tuned under strict non-sepsis false-alert rate caps (10%, 15%, 20%).
+
 See [final_project_report.md](outputs/final_project_report.md) for the project summary, current candidate, metric comparison, evaluation caveats, limitations, and reproduction details. The LightGBM candidate is supported by internal grouped cross-validation, but its test comparison is exploratory and not a final unbiased estimate.
 
 See [initial_results.md](outputs/initial_results.md) for the current patient-held-out comparison and patient-level alert review. These are initial project results, not clinical performance claims.

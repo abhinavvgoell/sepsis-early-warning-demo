@@ -1,4 +1,6 @@
 # Local Python environments and caches
+.venv
+.venv/
 .venv*/
 .pip-temp-lightgbm/
 __pycache__/
@@ -12,6 +14,10 @@ data/
 debug.log
 outputs/.Rhistory
 outputs/**/feature_cache.joblib
+outputs/cache/
+outputs/**/cache/
+outputs/**/cache/**
+
 
 # Keep only the two model bundles required by the local demo.
 outputs/*.joblib
