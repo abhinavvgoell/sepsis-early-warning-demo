@@ -6,6 +6,7 @@
 __pycache__/
 *.py[cod]
 .ipynb_checkpoints/
+.pptx_build/
 
 # Source patient records are downloadable with src.download_data; do not publish them
 data/
