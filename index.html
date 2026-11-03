@@ -3,57 +3,57 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="theme-color" content="#E8EAEB">
+  <meta name="theme-color" content="#E4E8E6">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
-  <title>Sepsis Early Warning · Clinical Surveillance Workstation</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+  <title>Sepsis Early Warning · Dynamic Bio-Mechanical Surveillance Workstation</title>
   <style>
     /* =========================================================================
-       BIO-MECHANICAL CIRCUITRY DESIGN TOKENS (LIGHT / NEUTRAL THEME)
-       Aesthetic: Clinical, architectural, highly polished. "Apple UI meets high-end data visualization."
+       DYNAMIC BIO-MECHANICAL WORKSTATION TOKENS (LIGHT / NEUTRAL THEME)
+       Aesthetic: "Apple UI meets High-End Bio-Mechanical Telemetry"
        ========================================================================= */
     :root {
       color-scheme: light;
-      --bg: #E8EAEB;                         /* Soft, cool, foggy light grey */
-      --bg-fog: #DFE2E4;                     /* Atmospheric mist layer */
-      --panel-bg: #FFFFFF;                   /* Pure white card surface */
-      --panel-subtle: #F4F5F6;               /* Subtle secondary panel shading */
-      --panel-elevated: #FAFAFB;             /* Highest contrast clean surface */
-      --border-subtle: #E0E3E6;              /* Hairline crisp 1px borders */
-      --border-medium: #D0D5DA;              /* Standard structural outline */
-      --border-strong: #1A1C1E;              /* Deep charcoal architectural border */
-      --text-primary: #1A1C1E;               /* Deep charcoal / almost black */
-      --text-secondary: #525960;             /* Muted charcoal body */
-      --text-muted: #8C959D;                 /* Muted steel blue/grey */
-      --accent-orange: #D9661D;              /* Burnt Orange / Amber active accent */
-      --accent-orange-glow: rgba(217, 102, 29, 0.22);
-      --accent-orange-subtle: rgba(217, 102, 29, 0.05);
-      --accent-orange-border: rgba(217, 102, 29, 0.35);
-      --danger: #CF3A34;                     /* Clinical critical alert */
-      --danger-bg: rgba(207, 58, 52, 0.06);
-      --danger-border: rgba(207, 58, 52, 0.3);
-      --warning: #D97706;                    /* Clinical elevated risk */
-      --warning-bg: rgba(217, 119, 6, 0.06);
-      --warning-border: rgba(217, 119, 6, 0.28);
-      --success: #15803D;                    /* Normal / stable state */
-      --success-bg: rgba(21, 128, 61, 0.06);
-      --success-border: rgba(21, 128, 61, 0.25);
-      --shadow-panel: 0 4px 20px rgba(0, 0, 0, 0.03), 0 1px 3px rgba(0, 0, 0, 0.02);
-      --shadow-float: 0 12px 36px -8px rgba(26, 28, 30, 0.06), 0 2px 8px rgba(0, 0, 0, 0.02);
-      --shadow-active: 0 0 0 3px rgba(217, 102, 29, 0.15);
-      --radius-sm: 3px;
-      --radius-md: 4px;
+      --bg-canvas: #E2E7E4;
+      --bg-fog: rgba(226, 231, 228, 0.75);
+      --panel-surface: rgba(255, 255, 255, 0.90);
+      --panel-elevated: #FFFFFF;
+      --panel-subtle: rgba(243, 246, 244, 0.90);
+      --border-subtle: rgba(140, 150, 157, 0.22);
+      --border-crisp: #CFD6D3;
+      --border-strong: #161A1D;
+      --text-primary: #161A1D;
+      --text-secondary: #475056;
+      --text-muted: #7E888F;
+      --accent-amber: #D9661D;
+      --accent-amber-glow: rgba(217, 102, 29, 0.30);
+      --accent-amber-subtle: rgba(217, 102, 29, 0.06);
+      --accent-amber-border: rgba(217, 102, 29, 0.35);
+      --danger: #CF332B;
+      --danger-subtle: rgba(207, 51, 43, 0.08);
+      --danger-border: rgba(207, 51, 43, 0.32);
+      --warning: #D97706;
+      --warning-subtle: rgba(217, 119, 6, 0.08);
+      --warning-border: rgba(217, 119, 6, 0.3);
+      --success: #15803D;
+      --success-subtle: rgba(21, 128, 61, 0.08);
+      --success-border: rgba(21, 128, 61, 0.3);
+      --shadow-ambient: 0 4px 24px -2px rgba(22, 26, 29, 0.04), 0 1px 3px rgba(22, 26, 29, 0.02);
+      --shadow-hover: 0 12px 36px -6px rgba(22, 26, 29, 0.08), 0 2px 8px rgba(22, 26, 29, 0.03);
+      --shadow-focus: 0 0 0 3px rgba(217, 102, 29, 0.16);
       --font-heading: 'Space Grotesk', 'Inter', -apple-system, sans-serif;
       --font-body: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-      --font-mono: 'JetBrains Mono', 'IBM Plex Mono', 'SF Mono', monospace;
+      --font-mono: 'JetBrains Mono', 'SF Mono', ui-monospace, monospace;
+      --radius-sm: 4px;
+      --radius-md: 6px;
+      --radius-lg: 8px;
     }
 
-    /* Reset & Base Typography */
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
     html { -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; text-rendering: optimizeLegibility; }
     body {
-      background: var(--bg);
+      background-color: var(--bg-canvas);
       color: var(--text-primary);
       font-family: var(--font-body);
       font-size: 13px;
@@ -62,76 +62,116 @@
       overflow-x: hidden;
       position: relative;
     }
-    button, input, select { font: inherit; }
-    ::selection { background: var(--accent-orange); color: #FFFFFF; }
-    ::-webkit-scrollbar { width: 7px; height: 7px; }
-    ::-webkit-scrollbar-track { background: var(--panel-subtle); }
-    ::-webkit-scrollbar-thumb { background: var(--border-medium); border-radius: 4px; }
-    ::-webkit-scrollbar-thumb:hover { background: var(--text-muted); }
 
-    /* Canvas Stage: Foggy Atmosphere, Orthogonal Circuitry Tree, and Reflective Floor */
-    #bioCircuitCanvas {
+    button, input, select { font: inherit; }
+    ::selection { background: var(--accent-amber); color: #FFFFFF; }
+    ::-webkit-scrollbar { width: 6px; height: 6px; }
+    ::-webkit-scrollbar-track { background: transparent; }
+    ::-webkit-scrollbar-thumb { background: rgba(140, 150, 157, 0.3); border-radius: 3px; }
+    ::-webkit-scrollbar-thumb:hover { background: rgba(140, 150, 157, 0.5); }
+
+    /* =========================================================================
+       ATMOSPHERIC ARTWORK BACKDROP (Bio-Mechanical Tree + Fog + Glass Floor)
+       ========================================================================= */
+    .artwork-stage {
       position: fixed;
       inset: 0;
+      z-index: -3;
+      pointer-events: none;
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .artwork-stage img {
       width: 100vw;
       height: 100vh;
+      object-fit: cover;
+      object-position: center 36%;
+      opacity: 0.20;
+      filter: contrast(1.06) brightness(1.02);
+      transform: scale(1.02);
+      transition: opacity 0.6s ease;
+    }
+    .artwork-mist-layer {
+      position: fixed;
+      inset: 0;
       z-index: -2;
       pointer-events: none;
+      background:
+        radial-gradient(ellipse 95% 70% at 50% 32%, rgba(226, 231, 228, 0.45) 0%, rgba(226, 231, 228, 0.88) 75%, #E2E7E4 100%),
+        linear-gradient(to bottom, rgba(226, 231, 228, 0.3) 0%, rgba(226, 231, 228, 0.7) 65%, rgba(208, 214, 211, 0.95) 90%, #BAC2BE 100%);
     }
-
-    /* Subtle Blueprint Overlay Grid */
-    .blueprint-grid-overlay {
+    .blueprint-grid-watermark {
       position: fixed;
       inset: 0;
       z-index: -1;
       pointer-events: none;
-      background-size: 40px 40px, 40px 40px, 200px 200px, 200px 200px;
+      background-size: 32px 32px;
       background-image:
-        linear-gradient(to right, rgba(26, 28, 30, 0.02) 1px, transparent 1px),
-        linear-gradient(to bottom, rgba(26, 28, 30, 0.02) 1px, transparent 1px),
-        linear-gradient(to right, rgba(26, 28, 30, 0.035) 1px, transparent 1px),
-        linear-gradient(to bottom, rgba(26, 28, 30, 0.035) 1px, transparent 1px);
-      mask-image: radial-gradient(ellipse 90% 70% at 50% 40%, black 40%, transparent 95%);
-      -webkit-mask-image: radial-gradient(ellipse 90% 70% at 50% 40%, black 40%, transparent 95%);
+        linear-gradient(to right, rgba(22, 26, 29, 0.022) 1px, transparent 1px),
+        linear-gradient(to bottom, rgba(22, 26, 29, 0.022) 1px, transparent 1px);
+      mask-image: radial-gradient(ellipse 90% 75% at 50% 40%, black 40%, transparent 95%);
+      -webkit-mask-image: radial-gradient(ellipse 90% 75% at 50% 40%, black 40%, transparent 95%);
+    }
+    .floor-reflection-horizon {
+      position: fixed;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      height: 110px;
+      z-index: -1;
+      pointer-events: none;
+      background: linear-gradient(to bottom, transparent 0%, rgba(217, 102, 29, 0.04) 50%, rgba(217, 102, 29, 0.12) 95%, rgba(217, 102, 29, 0.22) 100%);
+      border-top: 1px solid rgba(22, 26, 29, 0.08);
+    }
+    .floor-reflection-horizon::after {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 90px;
+      height: 100%;
+      background: radial-gradient(ellipse at 50% 0%, rgba(217, 102, 29, 0.45) 0%, rgba(217, 102, 29, 0.1) 60%, transparent 100%);
+      filter: blur(8px);
     }
 
-    /* Main Container Shell */
     .app-shell {
-      max-width: 1560px;
+      max-width: 1540px;
       margin: 0 auto;
-      padding: 24px 28px 70px;
+      padding: 22px 28px 75px;
       position: relative;
       z-index: 1;
     }
 
     /* =========================================================================
-       COMPONENT: TOP HEADER (Architectural Medical Workstation)
+       DYNAMIC HEADER + BIOSIGNAL TELEMETRY ECG WAVEFORM
        ========================================================================= */
     header.workstation-header {
       display: flex;
       justify-content: space-between;
       align-items: center;
       gap: 20px;
-      padding: 16px 24px;
-      background: var(--panel-bg);
-      border: 1px solid var(--border-subtle);
+      padding: 14px 22px;
+      background: var(--panel-surface);
+      backdrop-filter: blur(20px) saturate(180%);
+      -webkit-backdrop-filter: blur(20px) saturate(180%);
+      border: 1px solid rgba(255, 255, 255, 0.85);
       border-radius: var(--radius-md);
-      box-shadow: var(--shadow-panel);
-      margin-bottom: 18px;
+      box-shadow: var(--shadow-ambient);
+      margin-bottom: 16px;
       position: relative;
-      backdrop-filter: blur(8px);
-      -webkit-backdrop-filter: blur(8px);
     }
-    /* Architectural registration mark on top-left of header */
     header.workstation-header::before {
       content: "";
       position: absolute;
       top: -1px;
       left: -1px;
-      width: 12px;
-      height: 12px;
-      border-top: 2px solid var(--accent-orange);
-      border-left: 2px solid var(--accent-orange);
+      width: 10px;
+      height: 10px;
+      border-top: 2px solid var(--accent-amber);
+      border-left: 2px solid var(--accent-amber);
       pointer-events: none;
     }
     header.workstation-header::after {
@@ -139,43 +179,45 @@
       position: absolute;
       bottom: -1px;
       right: -1px;
-      width: 12px;
-      height: 12px;
+      width: 10px;
+      height: 10px;
       border-bottom: 2px solid var(--text-primary);
       border-right: 2px solid var(--text-primary);
       pointer-events: none;
     }
+
     .brand-group {
       display: flex;
       align-items: center;
-      gap: 16px;
+      gap: 14px;
     }
-    .brand-circuit-symbol {
-      width: 42px;
-      height: 42px;
-      background: var(--panel-subtle);
-      border: 1px solid var(--border-medium);
+    .brand-icon-box {
+      width: 38px;
+      height: 38px;
       border-radius: var(--radius-sm);
+      background: #FFFFFF;
+      border: 1px solid var(--border-crisp);
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
       display: flex;
       align-items: center;
       justify-content: center;
       position: relative;
       flex-shrink: 0;
     }
-    .brand-circuit-symbol svg {
-      width: 24px;
-      height: 24px;
+    .brand-icon-box svg {
+      width: 20px;
+      height: 20px;
       stroke: var(--text-primary);
     }
-    .brand-circuit-symbol .node-dot {
+    .brand-icon-box .pulse-pip {
       position: absolute;
+      top: 7px;
+      right: 7px;
       width: 5px;
       height: 5px;
       border-radius: 50%;
-      background: var(--accent-orange);
-      box-shadow: 0 0 6px var(--accent-orange);
-      top: 9px;
-      right: 9px;
+      background: var(--accent-amber);
+      box-shadow: 0 0 6px var(--accent-amber);
     }
     .brand-meta {
       display: flex;
@@ -183,7 +225,7 @@
     }
     .brand-title {
       font-family: var(--font-heading);
-      font-size: 17px;
+      font-size: 16px;
       font-weight: 700;
       letter-spacing: -0.02em;
       color: var(--text-primary);
@@ -192,167 +234,212 @@
       align-items: center;
       gap: 8px;
     }
-    .brand-badge {
+    .brand-pill {
       font-family: var(--font-mono);
       font-size: 10px;
       font-weight: 600;
-      color: var(--accent-orange);
-      background: var(--accent-orange-subtle);
-      border: 1px solid var(--accent-orange-border);
+      color: var(--accent-amber);
+      background: var(--accent-amber-subtle);
+      border: 1px solid var(--accent-amber-border);
       padding: 1px 7px;
       border-radius: 3px;
       text-transform: uppercase;
       letter-spacing: 0.04em;
     }
     .brand-subtitle {
-      font-size: 12px;
+      font-size: 11px;
       color: var(--text-muted);
-      margin-top: 2px;
+      margin-top: 1px;
       letter-spacing: 0.01em;
     }
+
+    /* Dynamic Real-Time ECG Biosignal Waveform */
+    .telemetry-ecg-monitor {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 4px 14px;
+      background: rgba(243, 246, 244, 0.7);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-sm);
+    }
+    .ecg-canvas-wrap {
+      width: 140px;
+      height: 26px;
+      position: relative;
+      overflow: hidden;
+    }
+    #ecgCanvas {
+      width: 100%;
+      height: 100%;
+      display: block;
+    }
+    .ecg-stat {
+      display: flex;
+      flex-direction: column;
+      font-family: var(--font-mono);
+      font-size: 10px;
+      line-height: 1.2;
+    }
+    .ecg-stat-label { color: var(--text-muted); font-size: 9px; text-transform: uppercase; }
+    .ecg-stat-val { color: var(--accent-amber); font-weight: 700; font-size: 12px; }
+
     .header-status-group {
       display: flex;
       align-items: center;
       gap: 12px;
     }
-    .connection-pill {
+    .status-pill {
       display: inline-flex;
       align-items: center;
-      gap: 9px;
-      padding: 6px 14px;
+      gap: 8px;
+      padding: 5px 12px;
       background: var(--panel-subtle);
       border: 1px solid var(--border-subtle);
       border-radius: 20px;
       font-size: 11px;
       font-weight: 600;
       color: var(--text-secondary);
-      letter-spacing: 0.02em;
+      letter-spacing: 0.01em;
     }
-    .connection-pulse-dot {
-      width: 8px;
-      height: 8px;
+    .status-pulse-dot {
+      width: 7px;
+      height: 7px;
       border-radius: 50%;
       background: #10B981;
       position: relative;
     }
-    .connection-pulse-dot::after {
+    .status-pulse-dot::after {
       content: "";
       position: absolute;
       inset: -3px;
       border-radius: 50%;
-      background: rgba(16, 185, 129, 0.35);
-      animation: connection-glow 2.4s ease-in-out infinite;
+      background: rgba(16, 185, 129, 0.4);
+      animation: pulse-ring 2.5s ease-out infinite;
     }
-    @keyframes connection-glow {
-      0%, 100% { transform: scale(1); opacity: 0.4; }
-      50% { transform: scale(1.6); opacity: 0; }
+    @keyframes pulse-ring {
+      0% { transform: scale(0.9); opacity: 0.8; }
+      70% { transform: scale(2.2); opacity: 0; }
+      100% { transform: scale(2.2); opacity: 0; }
     }
-    .circuit-spec-pill {
-      font-family: var(--font-mono);
+
+    /* Modal trigger for Research Calibration Chart */
+    .btn-research-evidence {
+      padding: 5px 11px;
+      background: #FFFFFF;
+      border: 1px solid var(--border-crisp);
+      border-radius: var(--radius-sm);
       font-size: 11px;
-      color: var(--text-muted);
-      border-left: 1px solid var(--border-subtle);
-      padding-left: 12px;
+      font-weight: 600;
+      color: var(--text-primary);
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      transition: all 150ms ease;
+    }
+    .btn-research-evidence:hover {
+      border-color: var(--accent-amber);
+      color: var(--accent-amber);
+      box-shadow: 0 2px 8px var(--accent-amber-subtle);
+    }
+
+    /* Reset Workstation Buttons */
+    .btn-reset-header {
+      padding: 5px 12px;
+      background: #FFFFFF;
+      border: 1px solid var(--border-crisp);
+      border-radius: var(--radius-sm);
+      font-size: 11px;
+      font-weight: 600;
+      color: var(--text-secondary);
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      transition: all 160ms cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .btn-reset-header:hover {
+      border-color: var(--accent-amber);
+      color: var(--text-primary);
+      box-shadow: 0 2px 8px var(--accent-amber-subtle);
+    }
+    .btn-reset-header svg,
+    .btn-reset svg {
+      transition: transform 300ms cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .btn-reset-header:hover svg,
+    .btn-reset:hover svg {
+      transform: rotate(-45deg);
+    }
+    .btn-reset-header:active svg,
+    .btn-reset:active svg {
+      transform: rotate(-180deg);
     }
 
     /* =========================================================================
-       COMPONENT: WARNING BANNER (Clinical Soft Orange Translucent)
+       DISCLAIMER BANNER
        ========================================================================= */
     .disclaimer-banner {
       display: flex;
       align-items: center;
       gap: 14px;
-      padding: 13px 20px;
-      background: rgba(217, 102, 29, 0.05);
-      border: 1px solid rgba(217, 102, 29, 0.15);
-      border-left: 3px solid var(--accent-orange);
+      padding: 11px 18px;
+      background: rgba(217, 102, 29, 0.04);
+      border: 1px solid rgba(217, 102, 29, 0.16);
+      border-left: 3px solid var(--accent-amber);
       border-radius: var(--radius-sm);
       font-size: 12px;
       color: var(--text-primary);
-      margin-bottom: 22px;
+      margin-bottom: 20px;
       line-height: 1.5;
-      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.02);
+      box-shadow: 0 1px 4px rgba(0, 0, 0, 0.02);
     }
     .disclaimer-icon {
-      width: 22px;
-      height: 22px;
-      flex-shrink: 0;
-      color: var(--accent-orange);
+      color: var(--accent-amber);
       display: flex;
       align-items: center;
       justify-content: center;
+      flex-shrink: 0;
     }
-    .disclaimer-text {
-      flex: 1;
-    }
+    .disclaimer-text { flex: 1; }
     .disclaimer-text strong {
-      color: var(--accent-orange);
+      color: var(--accent-amber);
       font-weight: 700;
       margin-right: 6px;
     }
 
     /* =========================================================================
-       LAYOUT: THE TRUNK (Input Left) & THE BRANCHES (Output Right)
+       GRID LAYOUT: THE TRUNK (Input) & THE BRANCHES (Analytics)
        ========================================================================= */
     .dashboard-grid {
       display: grid;
-      grid-template-columns: minmax(0, 1.42fr) minmax(430px, 1fr);
-      gap: 24px;
+      grid-template-columns: minmax(0, 1.38fr) minmax(440px, 1fr);
+      gap: 22px;
       align-items: start;
       position: relative;
     }
 
-    /* Connecting PCB Traces Bus (SVG Overlay between Columns) */
-    .pcb-trace-bus {
-      position: absolute;
-      top: 15px;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      pointer-events: none;
-      z-index: 0;
-    }
-    .pcb-trace-line {
-      fill: none;
-      stroke: var(--border-subtle);
-      stroke-width: 1.5;
-      stroke-linecap: square;
-      transition: stroke 0.4s ease;
-    }
-    .pcb-trace-line.active {
-      stroke: var(--text-primary);
-      stroke-width: 2;
-    }
-    .pcb-trace-line.glow {
-      stroke: var(--accent-orange);
-      stroke-width: 2;
-      filter: drop-shadow(0 0 6px var(--accent-orange));
-    }
-
-    /* =========================================================================
-       COMPONENT: PANELS / CARDS (Architectural Blueprint Modules)
-       ========================================================================= */
     .card {
-      background: var(--panel-bg);
-      border: 1px solid var(--border-subtle);
+      background: var(--panel-surface);
+      backdrop-filter: blur(20px) saturate(180%);
+      -webkit-backdrop-filter: blur(20px) saturate(180%);
+      border: 1px solid rgba(255, 255, 255, 0.85);
       border-radius: var(--radius-md);
-      box-shadow: var(--shadow-panel);
+      box-shadow: var(--shadow-ambient);
       position: relative;
-      transition: box-shadow 0.25s ease, border-color 0.25s ease;
+      transition: box-shadow 200ms ease, border-color 200ms ease;
     }
-    .card:hover {
-      box-shadow: var(--shadow-float);
-    }
-    /* Architectural Crop Marks (Top-Left & Bottom-Right) */
+    .card:hover { box-shadow: var(--shadow-hover); }
     .card::before {
       content: "";
       position: absolute;
       top: -1px;
       left: -1px;
-      width: 10px;
-      height: 10px;
-      border-top: 2px solid var(--accent-orange);
-      border-left: 2px solid var(--accent-orange);
+      width: 8px;
+      height: 8px;
+      border-top: 2px solid var(--accent-amber);
+      border-left: 2px solid var(--accent-amber);
       pointer-events: none;
       z-index: 2;
     }
@@ -361,15 +448,15 @@
       position: absolute;
       bottom: -1px;
       right: -1px;
-      width: 10px;
-      height: 10px;
+      width: 8px;
+      height: 8px;
       border-bottom: 2px solid var(--text-primary);
       border-right: 2px solid var(--text-primary);
       pointer-events: none;
       z-index: 2;
     }
     .card-body {
-      padding: 24px;
+      padding: 22px 24px;
       position: relative;
       z-index: 1;
     }
@@ -378,8 +465,8 @@
       justify-content: space-between;
       align-items: center;
       gap: 14px;
-      margin-bottom: 20px;
-      padding-bottom: 14px;
+      margin-bottom: 18px;
+      padding-bottom: 12px;
       border-bottom: 1px solid var(--border-subtle);
     }
     .card-title {
@@ -388,36 +475,31 @@
       font-weight: 700;
       color: var(--text-primary);
       letter-spacing: -0.01em;
-      display: flex;
-      align-items: center;
-      gap: 8px;
     }
     .card-description {
       font-size: 12px;
       color: var(--text-muted);
-      margin-top: 3px;
+      margin-top: 2px;
     }
-    .record-count-badge {
+    .badge-record-count {
       font-family: var(--font-mono);
       font-size: 10px;
       font-weight: 600;
-      padding: 4px 10px;
+      padding: 3px 9px;
       background: var(--panel-subtle);
       border: 1px solid var(--border-subtle);
       border-radius: var(--radius-sm);
       color: var(--text-secondary);
-      letter-spacing: 0.04em;
+      letter-spacing: 0.03em;
     }
 
-    /* =========================================================================
-       COMPONENT: CONTROLS & ARCHITECTURE STRIPS
-       ========================================================================= */
+    /* Controls Strip */
     .controls-strip {
       display: grid;
       grid-template-columns: 1.35fr 1.25fr;
       gap: 14px;
-      margin-bottom: 20px;
-      padding: 14px 16px;
+      margin-bottom: 18px;
+      padding: 13px 16px;
       background: var(--panel-subtle);
       border: 1px solid var(--border-subtle);
       border-radius: var(--radius-sm);
@@ -429,25 +511,25 @@
       color: var(--text-primary);
       text-transform: uppercase;
       letter-spacing: 0.06em;
-      margin-bottom: 6px;
+      margin-bottom: 5px;
     }
     .control-item select {
       width: 100%;
-      height: 38px;
+      height: 36px;
       padding: 6px 12px;
       background: #FFFFFF;
-      border: 1px solid var(--border-subtle);
+      border: 1px solid var(--border-crisp);
       border-radius: var(--radius-sm);
       color: var(--text-primary);
       font-size: 12px;
       font-weight: 500;
       outline: none;
-      transition: all 0.2s ease;
       cursor: pointer;
+      transition: border-color 160ms ease, box-shadow 160ms ease;
     }
     .control-item select:focus {
-      border-color: var(--accent-orange);
-      box-shadow: var(--shadow-active);
+      border-color: var(--accent-amber);
+      box-shadow: var(--shadow-focus);
     }
 
     /* Preset Toolbar */
@@ -456,8 +538,8 @@
       align-items: center;
       justify-content: space-between;
       gap: 12px;
-      margin-bottom: 18px;
-      padding: 12px 16px;
+      margin-bottom: 16px;
+      padding: 11px 16px;
       background: var(--panel-subtle);
       border: 1px solid var(--border-subtle);
       border-radius: var(--radius-sm);
@@ -478,31 +560,29 @@
     }
     .preset-select {
       flex: 1;
-      height: 36px;
+      height: 35px;
       padding: 4px 12px;
       background: #FFFFFF;
-      border: 1px solid var(--border-subtle);
+      border: 1px solid var(--border-crisp);
       border-radius: var(--radius-sm);
       color: var(--text-primary);
       font-size: 12px;
       font-weight: 500;
       outline: none;
-      transition: all 0.2s ease;
       cursor: pointer;
+      transition: border-color 160ms ease, box-shadow 160ms ease;
     }
     .preset-select:focus {
-      border-color: var(--accent-orange);
-      box-shadow: var(--shadow-active);
+      border-color: var(--accent-amber);
+      box-shadow: var(--shadow-focus);
     }
 
-    /* Specific "Load Scenario" Button per prompt instructions:
-       Solid charcoal button (#1A1C1E) with white text. On hover, transitions to burnt orange (#D9661D). */
     #loadPresetBtn {
-      height: 36px;
+      height: 35px;
       padding: 0 16px;
-      background: #1A1C1E;
+      background: var(--text-primary);
       color: #FFFFFF;
-      border: 1px solid #1A1C1E;
+      border: 1px solid var(--text-primary);
       border-radius: var(--radius-sm);
       font-size: 11px;
       font-weight: 600;
@@ -512,44 +592,36 @@
       align-items: center;
       justify-content: center;
       gap: 6px;
-      transition: all 0.22s cubic-bezier(0.16, 1, 0.3, 1);
-      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.06);
+      transition: transform 150ms cubic-bezier(0.16, 1, 0.3, 1), background-color 150ms ease, border-color 150ms ease, box-shadow 150ms ease;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
     }
     #loadPresetBtn:hover {
-      background: var(--accent-orange);
-      border-color: var(--accent-orange);
-      box-shadow: 0 4px 14px var(--accent-orange-glow);
-      transform: translateY(-1px);
+      background: var(--accent-amber);
+      border-color: var(--accent-amber);
+      box-shadow: 0 3px 12px var(--accent-amber-glow);
     }
-    #loadPresetBtn:active {
-      transform: translateY(0);
-    }
+    #loadPresetBtn:active { transform: scale(0.97); }
 
-    /* Section Eyebrow (Architectural Subsection Dividers) */
     .section-eyebrow {
       font-family: var(--font-heading);
       font-size: 11px;
       font-weight: 700;
       color: var(--text-primary);
       text-transform: uppercase;
-      letter-spacing: 0.08em;
-      margin: 24px 0 12px;
+      letter-spacing: 0.07em;
+      margin: 22px 0 10px;
       display: flex;
       align-items: center;
       gap: 8px;
     }
     .section-eyebrow::before {
       content: "";
-      width: 8px;
+      width: 7px;
       height: 2px;
-      background: var(--accent-orange);
+      background: var(--accent-amber);
     }
 
-    /* Form Fields Grid */
-    .fields-grid {
-      display: grid;
-      gap: 10px;
-    }
+    .fields-grid { display: grid; gap: 10px; }
     .context-cols { grid-template-columns: repeat(5, minmax(0, 1fr)); }
     .vitals-cols { grid-template-columns: repeat(4, minmax(0, 1fr)); }
     .labs-cols { grid-template-columns: repeat(4, minmax(0, 1fr)); }
@@ -557,7 +629,7 @@
     .field-wrapper {
       display: flex;
       flex-direction: column;
-      gap: 5px;
+      gap: 4px;
     }
     .field-label-line {
       display: flex;
@@ -574,57 +646,44 @@
       font-weight: 400;
     }
 
-    /* Sleek Data Slots (Inputs) */
     .field-input {
       width: 100%;
-      height: 36px;
+      height: 35px;
       padding: 6px 10px;
       background: #FFFFFF;
-      border: 1px solid var(--border-subtle);
+      border: 1px solid var(--border-crisp);
       border-radius: var(--radius-sm);
       color: var(--text-primary);
       font-family: var(--font-mono);
       font-size: 13px;
       font-weight: 500;
       outline: none;
-      transition: all 0.2s ease;
+      box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.02);
+      transition: border-color 150ms ease, box-shadow 150ms ease, background-color 150ms ease;
     }
-    .field-input::placeholder {
-      color: #B2B8BE;
-    }
+    .field-input::placeholder { color: #A4ACB2; }
     .field-input:focus {
-      border-color: var(--accent-orange);
-      box-shadow: var(--shadow-active);
+      border-color: var(--accent-amber);
+      box-shadow: var(--shadow-focus), inset 0 1px 2px rgba(0, 0, 0, 0.01);
     }
     .field-input.abnormal {
-      border-color: var(--accent-orange);
+      border-color: var(--accent-amber);
       background: rgba(217, 102, 29, 0.04);
       font-weight: 700;
-      color: var(--accent-orange);
+      color: var(--accent-amber);
     }
 
-    /* =========================================================================
-       COMPONENT: HOURLY OBSERVATION CARDS & FLOOR REFLECTION
-       ========================================================================= */
-    #hourlyCardsList {
-      position: relative;
-    }
-    /* The "Floor Reflection" (Bottom Area):
-       Add a highly subtle, soft linear gradient fading from white to transparent at the bottom
-       to mimic the foggy, reflective floor from the reference image. */
-    .floor-reflection-zone {
-      position: relative;
-    }
-    .floor-reflection-zone::after {
+    .vitals-floor-container { position: relative; }
+    .vitals-floor-container::after {
       content: "";
       position: sticky;
       bottom: 0;
       left: 0;
       right: 0;
-      height: 38px;
-      background: linear-gradient(to top, rgba(232, 234, 235, 0.85) 0%, rgba(232, 234, 235, 0.3) 65%, transparent 100%);
+      height: 34px;
+      background: linear-gradient(to top, rgba(226, 231, 228, 0.85) 0%, rgba(226, 231, 228, 0.25) 60%, transparent 100%);
       pointer-events: none;
-      border-bottom: 1px solid rgba(217, 102, 29, 0.2);
+      border-bottom: 1px solid rgba(217, 102, 29, 0.25);
       box-shadow: 0 4px 12px -2px rgba(217, 102, 29, 0.08);
       z-index: 10;
     }
@@ -634,22 +693,22 @@
       border-left: 3px solid var(--border-strong);
       border-radius: var(--radius-sm);
       background: #FFFFFF;
-      padding: 16px 18px;
-      margin-bottom: 14px;
-      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.02);
-      transition: all 0.2s ease;
+      padding: 15px 18px;
+      margin-bottom: 12px;
+      box-shadow: 0 1px 4px rgba(0, 0, 0, 0.02);
+      transition: border-color 160ms ease, box-shadow 160ms ease;
       position: relative;
     }
     .hour-card:hover {
-      border-color: var(--border-medium);
-      border-left-color: var(--accent-orange);
-      box-shadow: 0 4px 16px rgba(0, 0, 0, 0.04);
+      border-color: var(--border-crisp);
+      border-left-color: var(--accent-amber);
+      box-shadow: 0 3px 12px rgba(0, 0, 0, 0.03);
     }
     .hour-card-head {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      margin-bottom: 14px;
+      margin-bottom: 12px;
     }
     .hour-badge-title {
       display: flex;
@@ -660,12 +719,12 @@
       color: var(--text-primary);
     }
     .hour-pill {
-      width: 26px;
-      height: 26px;
+      width: 24px;
+      height: 24px;
       border-radius: 50%;
       background: var(--panel-subtle);
       color: var(--text-primary);
-      border: 1px solid var(--border-medium);
+      border: 1px solid var(--border-crisp);
       display: flex;
       align-items: center;
       justify-content: center;
@@ -687,15 +746,16 @@
       background: var(--panel-subtle);
       color: var(--text-secondary);
       cursor: pointer;
-      transition: all 0.15s ease;
+      transition: transform 120ms ease, background-color 120ms ease, color 120ms ease;
     }
     .icon-btn:hover {
-      background: var(--border-subtle);
+      background: var(--border-crisp);
       color: var(--text-primary);
     }
+    .icon-btn:active { transform: scale(0.96); }
     .icon-btn.danger {
       color: var(--danger);
-      background: var(--danger-bg);
+      background: var(--danger-subtle);
       border-color: var(--danger-border);
     }
     .icon-btn.danger:hover {
@@ -704,9 +764,8 @@
       border-color: var(--danger);
     }
 
-    /* Collapsible Laboratory Biomarkers */
     details.labs-toggle {
-      margin-top: 14px;
+      margin-top: 12px;
       border-top: 1px solid var(--border-subtle);
       padding-top: 10px;
     }
@@ -719,20 +778,17 @@
       display: flex;
       align-items: center;
       gap: 8px;
-      transition: color 0.15s ease;
+      transition: color 150ms ease;
     }
-    summary.labs-summary:hover {
-      color: var(--accent-orange);
-    }
+    summary.labs-summary:hover { color: var(--accent-amber); }
 
-    /* Action Buttons Bar */
     .actions-bar {
       display: flex;
       flex-wrap: wrap;
       align-items: center;
       gap: 10px;
-      margin-top: 22px;
-      padding-top: 18px;
+      margin-top: 20px;
+      padding-top: 16px;
       border-top: 1px solid var(--border-subtle);
     }
     .btn {
@@ -747,43 +803,36 @@
       gap: 8px;
       cursor: pointer;
       border: 1px solid transparent;
-      transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+      transition: transform 150ms cubic-bezier(0.16, 1, 0.3, 1), background-color 150ms ease, border-color 150ms ease, box-shadow 150ms ease;
     }
-    .btn:disabled {
-      opacity: 0.45;
-      cursor: not-allowed;
-    }
-    /* Primary Action: "Score Time-Series" (High-end Medical Action) */
+    .btn:disabled { opacity: 0.45; cursor: not-allowed; }
+    .btn:active:not(:disabled) { transform: scale(0.98); }
+
     .btn-primary {
-      background: var(--accent-orange);
+      background: var(--accent-amber);
       color: #FFFFFF;
-      border-color: var(--accent-orange);
-      box-shadow: 0 2px 8px var(--accent-orange-glow);
+      border-color: var(--accent-amber);
+      box-shadow: 0 2px 8px var(--accent-amber-glow);
     }
     .btn-primary:hover:not(:disabled) {
-      background: #C45512;
-      border-color: #C45512;
-      box-shadow: 0 4px 16px var(--accent-orange-glow);
-      transform: translateY(-1px);
-    }
-    .btn-primary:active:not(:disabled) {
-      transform: translateY(0);
+      background: #C25612;
+      border-color: #C25612;
+      box-shadow: 0 4px 16px var(--accent-amber-glow);
     }
     .btn-secondary {
       background: #FFFFFF;
-      border-color: var(--border-subtle);
+      border-color: var(--border-crisp);
       color: var(--text-primary);
     }
     .btn-secondary:hover:not(:disabled) {
       background: var(--panel-subtle);
-      border-color: var(--border-medium);
-      color: var(--text-primary);
+      border-color: var(--text-muted);
     }
     .upload-label {
       min-height: 38px;
       padding: 0 14px;
       background: transparent;
-      border: 1px dashed var(--border-medium);
+      border: 1px dashed var(--border-crisp);
       border-radius: var(--radius-sm);
       color: var(--text-secondary);
       font-size: 11px;
@@ -792,122 +841,236 @@
       align-items: center;
       gap: 6px;
       cursor: pointer;
-      transition: all 0.2s ease;
+      transition: border-color 150ms ease, color 150ms ease, background-color 150ms ease;
     }
     .upload-label:hover {
-      border-color: var(--accent-orange);
-      color: var(--accent-orange);
-      background: var(--accent-orange-subtle);
+      border-color: var(--accent-amber);
+      color: var(--accent-amber);
+      background: var(--accent-amber-subtle);
     }
     .upload-label input { display: none; }
 
     /* =========================================================================
-       THE BRANCHES: RIGHT COLUMN SURVEILLANCE & ATTRIBUTIONS
+       SURVEILLANCE & VISUAL INTELLIGENCE (Right Column)
        ========================================================================= */
     .sticky-pane {
       position: sticky;
-      top: 24px;
+      top: 22px;
       display: grid;
-      gap: 20px;
+      gap: 18px;
     }
 
-    /* Executive Sepsis Summary Card */
-    .summary-hero {
-      padding: 20px;
+    /* Interactive Cybernetic Visualizer Card */
+    .cyber-core-card {
       background: #FFFFFF;
-      border-radius: var(--radius-sm);
-      display: grid;
-      gap: 16px;
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-md);
+      overflow: hidden;
       position: relative;
+      box-shadow: var(--shadow-ambient);
     }
-    .summary-hero-head {
+    .cyber-core-media {
+      position: relative;
+      width: 100%;
+      height: 120px;
+      overflow: hidden;
+      background: #E2E7E4;
       display: flex;
-      justify-content: space-between;
       align-items: center;
+      justify-content: center;
+      cursor: pointer;
     }
-    .risk-badge {
-      display: inline-flex;
-      align-items: center;
-      gap: 7px;
-      padding: 5px 12px;
-      border-radius: 20px;
+    .cyber-core-media img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center 30%;
+      opacity: 0.85;
+      transition: transform 400ms ease, opacity 400ms ease;
+    }
+    .cyber-core-media:hover img {
+      transform: scale(1.04);
+      opacity: 0.95;
+    }
+    /* Radar Scanning Sweep */
+    .radar-scan-line {
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      width: 2px;
+      background: linear-gradient(to bottom, transparent, var(--accent-amber), transparent);
+      box-shadow: 0 0 12px var(--accent-amber);
+      animation: radar-sweep 4s linear infinite;
+      pointer-events: none;
+    }
+    @keyframes radar-sweep {
+      0% { left: 0%; opacity: 0; }
+      10% { opacity: 1; }
+      90% { opacity: 1; }
+      100% { left: 100%; opacity: 0; }
+    }
+    .core-telemetry-badge {
+      position: absolute;
+      bottom: 8px;
+      left: 10px;
+      background: rgba(22, 26, 29, 0.75);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+      padding: 3px 8px;
+      border-radius: 3px;
       font-family: var(--font-mono);
-      font-size: 10px;
-      font-weight: 700;
-      text-transform: uppercase;
-      letter-spacing: 0.04em;
-    }
-    .risk-badge.green {
-      background: var(--success-bg);
-      color: var(--success);
-      border: 1px solid var(--success-border);
-    }
-    .risk-badge.amber, .risk-badge.warning {
-      background: var(--warning-bg);
-      color: var(--warning);
-      border: 1px solid var(--warning-border);
-    }
-    .risk-badge.red {
-      background: var(--danger-bg);
-      color: var(--danger);
-      border: 1px solid var(--danger-border);
-      box-shadow: 0 0 12px rgba(207, 58, 52, 0.2);
+      font-size: 9px;
+      color: #FFFFFF;
+      letter-spacing: 0.05em;
+      border: 1px solid rgba(255, 255, 255, 0.15);
     }
 
-    .score-metric-row {
+    /* Dynamic Probability Conduit Arc Gauge */
+    .score-conduit-container {
       display: flex;
+      align-items: center;
       justify-content: space-between;
-      align-items: flex-end;
-      padding: 10px 0 4px;
+      gap: 16px;
+      padding: 14px 0 6px;
     }
-    /* Sepsis Probability Active Number: Slow pulse animation (opacity/glow) using burnt orange */
+    .gauge-wrapper {
+      position: relative;
+      width: 90px;
+      height: 90px;
+      flex-shrink: 0;
+    }
+    .gauge-svg {
+      width: 100%;
+      height: 100%;
+      transform: rotate(-90deg);
+    }
+    .gauge-bg {
+      fill: none;
+      stroke: rgba(140, 150, 157, 0.18);
+      stroke-width: 7;
+    }
+    .gauge-fill {
+      fill: none;
+      stroke: var(--accent-amber);
+      stroke-width: 7;
+      stroke-linecap: round;
+      stroke-dasharray: 251.2;
+      stroke-dashoffset: 251.2;
+      transition: stroke-dashoffset 800ms cubic-bezier(0.16, 1, 0.3, 1), stroke 300ms ease;
+      filter: drop-shadow(0 0 6px var(--accent-amber-glow));
+    }
+    .gauge-text-center {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      font-family: var(--font-mono);
+      line-height: 1;
+    }
+    .gauge-pct {
+      font-size: 14px;
+      font-weight: 700;
+      color: var(--text-primary);
+    }
+    .gauge-unit {
+      font-size: 8px;
+      color: var(--text-muted);
+      margin-top: 2px;
+      text-transform: uppercase;
+    }
+
+    .score-readout-col { flex: 1; }
     .big-score {
       font-family: var(--font-mono);
-      font-size: 38px;
+      font-size: 36px;
       font-weight: 700;
       line-height: 1;
       color: var(--text-primary);
       letter-spacing: -0.03em;
-      transition: color 0.3s ease;
+      transition: color 300ms ease;
       display: inline-block;
     }
     .big-score.active-pulse {
-      animation: probability-pulse 2.8s ease-in-out infinite;
+      animation: probability-glow 3s ease-in-out infinite;
     }
-    @keyframes probability-pulse {
-      0%, 100% {
-        color: var(--accent-orange);
-        text-shadow: 0 0 12px rgba(217, 102, 29, 0.25);
-      }
-      50% {
-        color: #B54D0E;
-        text-shadow: 0 0 24px rgba(217, 102, 29, 0.55), 0 0 6px rgba(217, 102, 29, 0.4);
-      }
+    @keyframes probability-glow {
+      0%, 100% { color: var(--accent-amber); text-shadow: 0 0 10px rgba(217, 102, 29, 0.2); }
+      50% { color: #B54D0E; text-shadow: 0 0 24px rgba(217, 102, 29, 0.55), 0 0 4px rgba(217, 102, 29, 0.4); }
     }
     .score-sublabel {
       font-size: 11px;
       color: var(--text-muted);
-      margin-top: 8px;
+      margin-top: 6px;
       font-weight: 500;
     }
-    .cutoff-stat {
-      text-align: right;
-      font-size: 11px;
-      color: var(--text-muted);
-    }
-    .cutoff-stat strong {
-      font-family: var(--font-mono);
-      font-size: 15px;
-      color: var(--text-primary);
-      display: block;
-      margin-top: 2px;
-    }
 
-    /* =========================================================================
-       COMPONENT: BIOMARKER NODES (Precision Modules)
-       Background: #F4F5F6. Border: None.
-       When triggered: glowing top-border or small circuit-trace icon in burnt orange (#D9661D).
-       ========================================================================= */
+    /* Organ Dysfunction Telemetry Schematic Panel */
+    .organ-telemetry-box {
+      margin-top: 14px;
+      padding: 12px 14px;
+      background: var(--panel-subtle);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-sm);
+      display: grid;
+      grid-template-columns: 88px 1fr;
+      gap: 14px;
+      align-items: center;
+    }
+    .organ-thumb-container {
+      width: 88px;
+      height: 110px;
+      border-radius: var(--radius-sm);
+      overflow: hidden;
+      border: 1px solid var(--border-crisp);
+      background: #FFFFFF;
+      position: relative;
+      cursor: pointer;
+    }
+    .organ-thumb-container img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center 20%;
+      transition: transform 300ms ease;
+    }
+    .organ-thumb-container:hover img {
+      transform: scale(1.08);
+    }
+    .organ-status-list {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+    .organ-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 10px;
+      font-weight: 600;
+    }
+    .organ-name {
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      color: var(--text-secondary);
+    }
+    .organ-pip {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: #C4CCC7;
+      transition: all 200ms ease;
+    }
+    .organ-pip.active-alert {
+      background: var(--accent-amber);
+      box-shadow: 0 0 6px var(--accent-amber);
+    }
+    .organ-val { font-family: var(--font-mono); color: var(--text-primary); }
+
+    /* Biomarkers Grid */
     .biomarkers-grid {
       display: grid;
       grid-template-columns: repeat(3, minmax(0, 1fr));
@@ -916,15 +1079,14 @@
     }
     .marker-box {
       padding: 11px 10px;
-      background: var(--panel-subtle);    /* #F4F5F6 */
-      border: none;
+      background: var(--panel-subtle);
+      border: 1px solid transparent;
       border-top: 2px solid transparent;
       border-radius: var(--radius-sm);
       text-align: center;
       position: relative;
-      transition: all 0.25s ease;
+      transition: background-color 180ms ease, border-color 180ms ease, box-shadow 180ms ease;
     }
-    /* Small circuit-trace node in top-right */
     .marker-box::before {
       content: "";
       position: absolute;
@@ -933,15 +1095,15 @@
       width: 5px;
       height: 5px;
       border-radius: 50%;
-      background: var(--border-medium);
-      transition: all 0.25s ease;
+      background: #CCD3D0;
+      transition: background-color 180ms ease, box-shadow 180ms ease;
     }
     .marker-value {
       font-family: var(--font-mono);
       font-size: 15px;
       font-weight: 700;
       color: var(--text-primary);
-      margin: 6px 0 4px;
+      margin: 5px 0 3px;
     }
     .marker-label {
       font-size: 10px;
@@ -954,31 +1116,20 @@
       font-size: 10px;
       color: var(--text-muted);
     }
-    /* Active / Triggered State: glowing top-border and burnt orange icon */
     .marker-box.alert {
-      border-top: 2px solid var(--accent-orange);
+      border-top: 2px solid var(--accent-amber);
       background: #FFFFFF;
       box-shadow: 0 4px 14px rgba(217, 102, 29, 0.12);
     }
     .marker-box.alert::before {
-      background: var(--accent-orange);
-      box-shadow: 0 0 6px var(--accent-orange);
+      background: var(--accent-amber);
+      box-shadow: 0 0 7px var(--accent-amber);
     }
-    .marker-box.alert .marker-value {
-      color: var(--accent-orange);
-    }
-    .marker-box.warning {
-      border-top: 2px solid #E07A2B;
-      background: #FFFFFF;
-    }
-    .marker-box.warning::before {
-      background: #E07A2B;
-    }
-    .marker-box.warning .marker-value {
-      color: #E07A2B;
-    }
+    .marker-box.alert .marker-value { color: var(--accent-amber); }
+    .marker-box.warning { border-top: 2px solid #E07A2B; background: #FFFFFF; }
+    .marker-box.warning::before { background: #E07A2B; }
+    .marker-box.warning .marker-value { color: #E07A2B; }
 
-    /* Clinical Trigger Pills */
     .trigger-pills {
       display: flex;
       flex-wrap: wrap;
@@ -988,7 +1139,7 @@
     .trigger-pill {
       font-size: 10px;
       font-weight: 600;
-      padding: 4px 9px;
+      padding: 3px 9px;
       border-radius: 3px;
       background: var(--panel-subtle);
       color: var(--text-secondary);
@@ -996,19 +1147,11 @@
     }
     .trigger-pill.danger {
       background: rgba(217, 102, 29, 0.08);
-      color: var(--accent-orange);
-      border: 1px solid var(--accent-orange-border);
+      color: var(--accent-amber);
+      border: 1px solid var(--accent-amber-border);
     }
 
-    /* =========================================================================
-       COMPONENT: LONGITUDINAL SCORE TRAJECTORY CHART (Precision Vector)
-       ========================================================================= */
-    .chart-box {
-      background: #FFFFFF;
-      border: 1px solid var(--border-subtle);
-      border-radius: var(--radius-sm);
-      padding: 16px;
-    }
+    /* Trajectory Chart */
     .chart-head {
       display: flex;
       justify-content: space-between;
@@ -1023,11 +1166,11 @@
     }
     .chart-svg {
       width: 100%;
-      height: 160px;
+      height: 155px;
       display: block;
       overflow: visible;
-      background: var(--panel-subtle);
-      border: 1px solid var(--border-subtle);
+      background: #FFFFFF;
+      border: 1px solid var(--border-crisp);
       border-radius: var(--radius-sm);
       padding: 4px;
     }
@@ -1035,46 +1178,18 @@
       display: flex;
       flex-wrap: wrap;
       gap: 16px;
-      margin-top: 12px;
+      margin-top: 10px;
       font-size: 11px;
       color: var(--text-muted);
     }
-    .legend-item {
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-    }
-    .legend-color {
-      width: 12px;
-      height: 3px;
-      border-radius: 1px;
-    }
-    .chart-interactive-dot {
-      cursor: pointer;
-      transition: transform 0.15s ease;
-    }
-    .chart-interactive-dot:hover {
-      transform: scale(1.6);
-    }
-    .hour-scrub-indicator {
-      font-size: 11px;
-      font-weight: 700;
-      color: var(--accent-orange);
-      margin-left: 8px;
-    }
+    .legend-item { display: inline-flex; align-items: center; gap: 6px; }
+    .legend-color { width: 12px; height: 3px; border-radius: 1px; }
+    .chart-interactive-dot { cursor: pointer; transition: transform 140ms ease; }
+    .chart-interactive-dot:hover { transform: scale(1.6); }
+    .hour-scrub-indicator { font-size: 11px; font-weight: 700; color: var(--accent-amber); margin-left: 8px; }
 
-    /* =========================================================================
-       COMPONENT: ATTRIBUTION WATERFALL (TreeSHAP Drivers)
-       ========================================================================= */
-    .explanations-box {
-      background: #FFFFFF;
-      border-radius: var(--radius-sm);
-    }
-    .contrib-list {
-      display: grid;
-      gap: 9px;
-      margin-top: 12px;
-    }
+    /* Attribution Waterfall */
+    .contrib-list { display: grid; gap: 9px; margin-top: 12px; }
     .contrib-row {
       display: grid;
       grid-template-columns: 120px 1fr 70px;
@@ -1083,12 +1198,7 @@
       font-size: 11px;
       font-weight: 500;
     }
-    .contrib-name {
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
-      color: var(--text-primary);
-    }
+    .contrib-name { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; color: var(--text-primary); }
     .contrib-bar-track {
       width: 100%;
       height: 8px;
@@ -1100,38 +1210,23 @@
     .contrib-bar-fill {
       height: 100%;
       border-radius: 2px;
-      transition: width 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+      transition: width 500ms cubic-bezier(0.16, 1, 0.3, 1);
     }
-    .contrib-bar-fill.pos {
-      background: var(--accent-orange);
-    }
-    .contrib-bar-fill.neg {
-      background: var(--text-muted);
-    }
-    .contrib-val {
-      text-align: right;
-      font-family: var(--font-mono);
-      font-weight: 700;
-      font-size: 11px;
-    }
-    .contrib-val.pos { color: var(--accent-orange); }
+    .contrib-bar-fill.pos { background: var(--accent-amber); }
+    .contrib-bar-fill.neg { background: var(--text-muted); }
+    .contrib-val { text-align: right; font-family: var(--font-mono); font-weight: 700; font-size: 11px; }
+    .contrib-val.pos { color: var(--accent-amber); }
     .contrib-val.neg { color: var(--text-muted); }
 
-    /* =========================================================================
-       COMPONENT: HOURLY BREAKDOWN TABLE
-       ========================================================================= */
+    /* Breakdown Table */
     .table-container {
-      max-height: 250px;
+      max-height: 240px;
       overflow-y: auto;
-      border: 1px solid var(--border-subtle);
+      border: 1px solid var(--border-crisp);
       border-radius: var(--radius-sm);
       background: #FFFFFF;
     }
-    table.scores-table {
-      width: 100%;
-      border-collapse: collapse;
-      font-size: 12px;
-    }
+    table.scores-table { width: 100%; border-collapse: collapse; font-size: 12px; }
     table.scores-table th {
       position: sticky;
       top: 0;
@@ -1139,30 +1234,27 @@
       color: var(--text-primary);
       font-weight: 700;
       text-align: left;
-      padding: 10px 12px;
-      border-bottom: 1px solid var(--border-subtle);
+      padding: 9px 12px;
+      border-bottom: 1px solid var(--border-crisp);
       font-size: 10px;
       text-transform: uppercase;
       letter-spacing: 0.05em;
       z-index: 2;
     }
     table.scores-table td {
-      padding: 9px 12px;
+      padding: 8px 12px;
       border-bottom: 1px solid var(--border-subtle);
       font-family: var(--font-mono);
       font-size: 11px;
     }
-    table.scores-table tr:hover {
-      background: #F9FAFB;
-    }
+    table.scores-table tr:hover { background: #F8FAF9; cursor: pointer; }
     table.scores-table tr.alert-row {
       background: rgba(217, 102, 29, 0.06);
-      border-left: 3px solid var(--accent-orange);
+      border-left: 3px solid var(--accent-amber);
     }
 
-    /* Validation & System Alert Panels */
     .alert-panel {
-      padding: 13px 16px;
+      padding: 12px 16px;
       border-radius: var(--radius-sm);
       font-size: 12px;
       margin-top: 14px;
@@ -1171,44 +1263,112 @@
     }
     .alert-panel.show { display: block; }
     .alert-panel.error {
-      background: var(--danger-bg);
+      background: var(--danger-subtle);
       border: 1px solid var(--danger-border);
       border-left: 3px solid var(--danger);
       color: var(--danger);
       font-weight: 500;
     }
     .alert-panel.warning {
-      background: var(--warning-bg);
+      background: var(--warning-subtle);
       border: 1px solid var(--warning-border);
       border-left: 3px solid var(--warning);
       color: var(--warning);
     }
 
     /* =========================================================================
-       PRINT STYLES FOR CLINICAL HANDOVER
+       RESEARCH EVIDENCE LIGHTBOX MODAL
        ========================================================================= */
+    .modal-backdrop {
+      position: fixed;
+      inset: 0;
+      background: rgba(22, 26, 29, 0.65);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      z-index: 1000;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 24px;
+      opacity: 0;
+      transition: opacity 200ms ease;
+    }
+    .modal-backdrop.open {
+      display: flex;
+      opacity: 1;
+    }
+    .modal-card {
+      background: #FFFFFF;
+      border: 1px solid var(--border-crisp);
+      border-radius: var(--radius-lg);
+      max-width: 900px;
+      width: 100%;
+      max-height: 90vh;
+      overflow-y: auto;
+      box-shadow: 0 24px 64px -12px rgba(0, 0, 0, 0.25);
+      padding: 24px;
+      position: relative;
+      animation: modal-pop 240ms cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    @keyframes modal-pop {
+      from { transform: scale(0.96); opacity: 0; }
+      to { transform: scale(1); opacity: 1; }
+    }
+    .modal-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      margin-bottom: 16px;
+      padding-bottom: 12px;
+      border-bottom: 1px solid var(--border-subtle);
+    }
+    .modal-close-btn {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      border: 1px solid var(--border-subtle);
+      background: var(--panel-subtle);
+      color: var(--text-primary);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 16px;
+      transition: all 150ms ease;
+    }
+    .modal-close-btn:hover { background: var(--border-crisp); }
+    .modal-image-wrap {
+      width: 100%;
+      border-radius: var(--radius-sm);
+      overflow: hidden;
+      border: 1px solid var(--border-crisp);
+      margin-bottom: 16px;
+      background: #F9FAFB;
+    }
+    .modal-image-wrap img {
+      width: 100%;
+      height: auto;
+      display: block;
+    }
+
     @media print {
       body { background: white !important; color: black !important; font-size: 10pt; }
-      #bioCircuitCanvas, .blueprint-grid-overlay, header, .actions-bar, .preset-toolbar,
-      .controls-strip, #hourlyCardsList, .upload-label, button, input { display: none !important; }
+      .artwork-stage, .artwork-mist-layer, .blueprint-grid-watermark, .floor-reflection-horizon,
+      .telemetry-ecg-monitor, .btn-research-evidence, .modal-backdrop, .radar-scan-line,
+      header, .actions-bar, .preset-toolbar, .controls-strip, #hourlyCardsList, .upload-label, button, input { display: none !important; }
       .app-shell { max-width: 100% !important; margin: 0 !important; padding: 0 !important; }
       .dashboard-grid { display: block !important; }
       .sticky-pane { position: static !important; }
-      .card { border: 1px solid #ccc !important; box-shadow: none !important; margin-bottom: 15px !important; page-break-inside: avoid; background: white !important; }
+      .card { border: 1px solid #ccc !important; box-shadow: none !important; margin-bottom: 15px !important; background: white !important; }
       .card::before, .card::after { display: none !important; }
-      .card *, .chart-svg { color: black !important; text-shadow: none !important; }
-      .chart-box, .summary-hero { background: white !important; border: 1px solid #ccc !important; }
-      .biomarkers-grid { grid-template-columns: repeat(6, 1fr) !important; }
       .table-container { max-height: none !important; overflow: visible !important; }
-      .print-header { display: block !important; margin-bottom: 20px; border-bottom: 2px solid #000; padding-bottom: 10px; }
     }
-    .print-header { display: none; }
 
-    /* Responsive Adjustments */
     @media (max-width: 1100px) {
       .dashboard-grid { grid-template-columns: 1fr; }
       .sticky-pane { position: static; }
       .context-cols { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+      .telemetry-ecg-monitor { display: none; }
     }
     @media (max-width: 680px) {
       .vitals-cols, .labs-cols, .context-cols { grid-template-columns: repeat(2, minmax(0, 1fr)); }
@@ -1218,41 +1378,78 @@
   </style>
 </head>
 <body>
-  <!-- Atmospheric Bio-Mechanical Canvas Background -->
-  <canvas id="bioCircuitCanvas" aria-hidden="true"></canvas>
-  <div class="blueprint-grid-overlay" aria-hidden="true"></div>
+  <!-- Atmospheric Bio-Mechanical Artwork Backdrop -->
+  <div class="artwork-stage" aria-hidden="true">
+    <img src="/assets/biomech_tree.png" alt="" onerror="this.style.display='none'">
+  </div>
+  <div class="artwork-mist-layer" aria-hidden="true"></div>
+  <div class="blueprint-grid-watermark" aria-hidden="true"></div>
+  <div class="floor-reflection-horizon" aria-hidden="true"></div>
 
   <div class="app-shell">
-    <!-- Top Header: Architectural Medical Workstation -->
+    <!-- Top Header: Architectural Medical Workstation + Dynamic Telemetry Waveform -->
     <header class="workstation-header">
       <div class="brand-group">
-        <div class="brand-circuit-symbol" aria-hidden="true">
+        <div class="brand-icon-box" aria-hidden="true">
           <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83"/>
+            <line x1="12" y1="2" x2="12" y2="6"/>
+            <line x1="12" y1="18" x2="12" y2="22"/>
+            <line x1="4.93" y1="4.93" x2="7.76" y2="7.76"/>
+            <line x1="16.24" y1="16.24" x2="19.07" y2="19.07"/>
+            <line x1="2" y1="12" x2="6" y2="12"/>
+            <line x1="18" y1="12" x2="22" y2="12"/>
+            <line x1="4.93" y1="19.07" x2="7.76" y2="16.24"/>
+            <line x1="16.24" y1="7.76" x2="19.07" y2="4.93"/>
           </svg>
-          <span class="node-dot"></span>
+          <span class="pulse-pip"></span>
         </div>
         <div class="brand-meta">
           <h1 class="brand-title">
             Sepsis Early Warning System
-            <span class="brand-badge">Surveillance WS</span>
+            <span class="brand-pill">Surveillance WS</span>
           </h1>
-          <div class="brand-subtitle">PhysioNet ICU Longitudinal Surveillance · Bio-Mechanical Intelligence Workstation</div>
+          <div class="brand-subtitle">PhysioNet ICU Surveillance · Bio-Mechanical Intelligence Workstation</div>
         </div>
       </div>
-      <div class="header-status-group">
-        <div class="connection-pill">
-          <span class="connection-pulse-dot"></span>
-          <span>Local Engine Active</span>
+
+      <!-- Real-Time Dynamic ECG Rhythm Monitor -->
+      <div class="telemetry-ecg-monitor">
+        <div class="ecg-canvas-wrap">
+          <canvas id="ecgCanvas" width="140" height="26"></canvas>
         </div>
-        <div class="circuit-spec-pill">PORT: 8766 · 200 CAUSAL TRACES</div>
+        <div class="ecg-stat">
+          <span class="ecg-stat-label">PULSE RATE</span>
+          <span class="ecg-stat-val" id="ecgRateVal">80 BPM</span>
+        </div>
+      </div>
+
+      <div class="header-status-group">
+        <button type="button" class="btn-reset-header" id="headerResetBtn" title="Reset all patient inputs and surveillance predictions">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/>
+            <path d="M3 3v5h5"/>
+          </svg>
+          <span>Reset Workstation</span>
+        </button>
+        <button type="button" class="btn-research-evidence" id="openEvidenceModalBtn">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <line x1="18" y1="20" x2="18" y2="10"/>
+            <line x1="12" y1="20" x2="12" y2="4"/>
+            <line x1="6" y1="20" x2="6" y2="14"/>
+          </svg>
+          <span>Research Benchmarks</span>
+        </button>
+        <div class="status-pill">
+          <span class="status-pulse-dot"></span>
+          <span>Engine Active</span>
+        </div>
       </div>
     </header>
 
-    <!-- Translucent Soft Orange Disclaimer Banner -->
+    <!-- Translucent Amber Disclaimer Banner -->
     <div class="disclaimer-banner">
       <div class="disclaimer-icon">
-        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
           <path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/>
           <line x1="12" y1="9" x2="12" y2="13"/>
           <line x1="12" y1="17" x2="12.01" y2="17"/>
@@ -1266,20 +1463,18 @@
 
     <!-- Main Workspace Layout: The Trunk (Left) & The Branches (Right) -->
     <div class="dashboard-grid">
-      <!-- Left Column: The Trunk (Input & Patient ICU Records) -->
+      <!-- The Trunk: Patient Observations Entry -->
       <section class="card" aria-labelledby="patient-entry-heading">
-        <div class="card-body floor-reflection-zone">
+        <div class="card-body vitals-floor-container">
           <div class="card-header">
             <div>
-              <h2 class="card-title" id="patient-entry-heading">
-                Patient Longitudinal ICU Observations
-              </h2>
+              <h2 class="card-title" id="patient-entry-heading">Patient Longitudinal ICU Observations</h2>
               <p class="card-description">Sequential hourly vital signs and laboratory measurements.</p>
             </div>
-            <span class="record-count-badge" id="recordCountBadge">1 HOUR RECORDED</span>
+            <span class="badge-record-count" id="recordCountBadge">1 HOUR RECORDED</span>
           </div>
 
-          <!-- Controls Strip: Architecture & Policy -->
+          <!-- Controls Strip -->
           <div class="controls-strip">
             <div class="control-item">
               <label for="modelSelect">Predictive ML Architecture</label>
@@ -1300,7 +1495,7 @@
             </div>
           </div>
 
-          <!-- Preset Scenario Toolbar -->
+          <!-- Scenario Toolbar -->
           <div class="preset-toolbar">
             <div class="preset-group">
               <label for="presetSelect">Load Clinical Scenario:</label>
@@ -1320,15 +1515,21 @@
           <div class="section-eyebrow">Patient Baseline &amp; Unit Context (Static)</div>
           <div class="fields-grid context-cols" id="contextGrid"></div>
 
-          <!-- Sequential Hourly Records List (Sitting on the Glass Floor) -->
-          <div class="section-eyebrow" style="margin-top: 24px;">Sequential Hourly Vitals &amp; Labs</div>
+          <!-- Sequential Hourly Observations -->
+          <div class="section-eyebrow" style="margin-top: 22px;">Sequential Hourly Vitals &amp; Labs</div>
           <div id="hourlyCardsList"></div>
 
-          <!-- Form Actions -->
+          <!-- Form Actions Bar -->
           <div class="actions-bar">
             <button class="btn btn-secondary" type="button" id="addHourBtn">+ Add Next Hour</button>
             <button class="btn btn-secondary" type="button" id="duplicateHourBtn">Duplicate Last Hour</button>
-            <button class="btn btn-secondary" type="button" id="clearAllBtn">Clear Form</button>
+            <button class="btn btn-secondary btn-reset" type="button" id="resetWorkstationBtn" title="Reset patient observations and early warning state">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align: -2px; margin-right: 4px;">
+                <path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/>
+                <path d="M3 3v5h5"/>
+              </svg>
+              <span>Reset Workstation</span>
+            </button>
             <label class="upload-label">
               <span>Import PSV / CSV File</span>
               <input type="file" id="fileUploadInput" accept=".csv,.psv,text/plain,text/csv">
@@ -1338,18 +1539,24 @@
             <button class="btn btn-secondary" type="button" id="printReportBtn" disabled title="Generate formatted ICU clinical handover printout">Print Shift Handover</button>
           </div>
 
-          <!-- Validation / Notification Messages -->
+          <!-- Messages -->
           <div class="alert-panel error" id="errorBox"></div>
           <div class="alert-panel warning" id="qualityBox"></div>
         </div>
       </section>
 
-      <!-- Right Column: The Branches (Real-Time Surveillance & Attribution Output) -->
+      <!-- The Branches: Surveillance, Visual Intelligence & Analytics -->
       <aside class="sticky-pane">
-        <!-- Executive Risk Summary Card -->
-        <div class="card">
-          <div class="card-body">
-            <div class="card-header" style="margin-bottom: 14px;">
+        <!-- Interactive Bio-Mechanical Cybernetic Core Viewport -->
+        <div class="cyber-core-card">
+          <div class="cyber-core-media" id="coreMediaTrigger" title="Click to trigger bio-mechanical diagnostic pulse">
+            <img src="/assets/biomech_tree.png" alt="Bio-Mechanical Surveillance Core">
+            <div class="radar-scan-line"></div>
+            <div class="core-telemetry-badge">SURVEILLANCE CORE · BIO-CIRCUIT ACTIVE</div>
+          </div>
+
+          <div class="card-body" style="padding-top: 16px;">
+            <div class="card-header" style="margin-bottom: 8px;">
               <div>
                 <h3 class="card-title">Early Warning Surveillance Output</h3>
                 <p class="card-description" id="activeModelLabel">LightGBM (200 Causal Features)</p>
@@ -1357,21 +1564,56 @@
               <span class="risk-badge green" id="riskLevelBadge">No Scores Yet</span>
             </div>
 
-            <!-- Score Metric & Cutoff -->
-            <div class="score-metric-row">
-              <div>
-                <div class="big-score" id="latestScoreDisplay">—</div>
-                <div class="score-sublabel">Latest Hourly Sepsis Probability (0–1)</div>
+            <!-- Dynamic Sepsis Conduit Arc & Score Gauge -->
+            <div class="score-conduit-container">
+              <div class="gauge-wrapper">
+                <svg class="gauge-svg" viewBox="0 0 90 90">
+                  <circle class="gauge-bg" cx="45" cy="45" r="38"/>
+                  <circle class="gauge-fill" id="gaugeArc" cx="45" cy="45" r="38"/>
+                </svg>
+                <div class="gauge-text-center">
+                  <span class="gauge-pct" id="gaugePercentText">0%</span>
+                  <span class="gauge-unit">PROB</span>
+                </div>
               </div>
-              <div class="cutoff-stat">
-                Alert Cutoff
-                <strong id="cutoffDisplay">—</strong>
-                <span id="alertPolicyPill" style="font-size: 11px; color: var(--text-muted); display: block; margin-top: 3px;">1-of-5 Rule</span>
+
+              <div class="score-readout-col">
+                <div class="big-score" id="latestScoreDisplay">—</div>
+                <div class="score-sublabel">Latest Calibrated Likelihood (0–1)</div>
+                <div class="cutoff-stat" style="text-align: left; margin-top: 6px;">
+                  Cutoff: <strong id="cutoffDisplay" style="display:inline; margin-left: 4px;">—</strong>
+                  <span id="alertPolicyPill" style="font-size: 10px; color: var(--text-muted); margin-left: 6px;">1-of-5 Rule</span>
+                </div>
               </div>
             </div>
 
-            <!-- Bedside Biomarker Precision Modules (Light Grey, Glowing Amber Top on Alert) -->
-            <div class="section-eyebrow" style="margin-top: 18px;">Bedside ICU Biomarkers (Latest Hour)</div>
+            <!-- Systemic Organ Stress Telemetry Schematic (Generated Image Component) -->
+            <div class="organ-telemetry-box">
+              <div class="organ-thumb-container" id="organThumbTrigger" title="View Organ System Telemetry Schematic">
+                <img src="/assets/organ_telemetry.jpg" alt="Organ Telemetry Schematic" onerror="this.src='/assets/biomech_tree.png'">
+              </div>
+              <div class="organ-status-list">
+                <div class="organ-row">
+                  <span class="organ-name"><span class="organ-pip" id="pipCardio"></span>Cardiovascular</span>
+                  <span class="organ-val" id="valCardio">MAP: —</span>
+                </div>
+                <div class="organ-row">
+                  <span class="organ-name"><span class="organ-pip" id="pipPulmonary"></span>Pulmonary</span>
+                  <span class="organ-val" id="valPulmonary">Resp: —</span>
+                </div>
+                <div class="organ-row">
+                  <span class="organ-name"><span class="organ-pip" id="pipRenal"></span>Renal / Organ</span>
+                  <span class="organ-val" id="valRenal">SOFA: —</span>
+                </div>
+                <div class="organ-row">
+                  <span class="organ-name"><span class="organ-pip" id="pipTissue"></span>Metabolic</span>
+                  <span class="organ-val" id="valTissue">Lactate: —</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Precision Biomarker Modules -->
+            <div class="section-eyebrow" style="margin-top: 16px;">Bedside ICU Biomarkers (Latest Hour)</div>
             <div class="biomarkers-grid">
               <div class="marker-box" id="sirsBox">
                 <div class="marker-label">SIRS</div>
@@ -1408,7 +1650,7 @@
           </div>
         </div>
 
-        <!-- Longitudinal Score Trajectory Chart -->
+        <!-- Trajectory Chart -->
         <div class="card">
           <div class="card-body">
             <div class="chart-head">
@@ -1416,18 +1658,18 @@
                 <span class="chart-title">Longitudinal Score Trajectory</span>
                 <span id="scrubBadge" class="hour-scrub-indicator"></span>
               </div>
-              <span id="trendSummaryBadge" style="font-size: 11px; font-weight: 700; color: var(--accent-orange);">Waiting for input</span>
+              <span id="trendSummaryBadge" style="font-size: 11px; font-weight: 700; color: var(--accent-amber);">Waiting for input</span>
             </div>
             <div id="chartContainer">
               <svg class="chart-svg" viewBox="0 0 460 140" id="trendSvg">
-                <text x="230" y="75" text-anchor="middle" fill="#8C959D" font-size="12" font-family="'JetBrains Mono', monospace">Score records to plot trajectory</text>
+                <text x="230" y="75" text-anchor="middle" fill="#7E888F" font-size="12" font-family="'JetBrains Mono', monospace">Score records to plot trajectory</text>
               </svg>
             </div>
             <div class="chart-legend">
               <div class="legend-item"><span class="legend-color" style="background: var(--text-primary);"></span> Active Model</div>
               <div class="legend-item" id="overlayLegendItem" style="display:none;"><span class="legend-color" style="background: #7C3AED;"></span> Other Models</div>
-              <div class="legend-item"><span class="legend-color" style="background: var(--accent-orange); border-top: 2px dashed var(--accent-orange);"></span> Cutoff Threshold</div>
-              <div class="legend-item"><span class="legend-color" style="background: var(--accent-orange); opacity: 0.25;"></span> Alert Active Window</div>
+              <div class="legend-item"><span class="legend-color" style="background: var(--accent-amber); border-top: 2px dashed var(--accent-amber);"></span> Cutoff Threshold</div>
+              <div class="legend-item"><span class="legend-color" style="background: var(--accent-amber); opacity: 0.25;"></span> Alert Active Window</div>
               <div style="margin-left:auto;">
                 <label style="font-size:11px; cursor:pointer; color:var(--text-muted); display:inline-flex; align-items:center; gap:5px;">
                   <input type="checkbox" id="toggleModelOverlay"> Overlay All Models
@@ -1437,22 +1679,22 @@
           </div>
         </div>
 
-        <!-- Explainability Waterfall Drivers -->
+        <!-- Attribution Drivers -->
         <div class="card">
           <div class="card-body">
             <div class="card-header" style="margin-bottom: 8px;">
               <div>
-                <h3 class="card-title">Model Attribution &amp; Drivers <span id="attributionHourLabel" style="font-size:12px; font-weight:700; color:var(--accent-orange);"></span></h3>
+                <h3 class="card-title">Model Attribution &amp; Drivers <span id="attributionHourLabel" style="font-size:12px; font-weight:700; color:var(--accent-amber);"></span></h3>
                 <p class="card-description" id="explanationNoteText">TreeSHAP / additive impact on raw model logit margin.</p>
               </div>
             </div>
             <div class="contrib-list" id="attributionList">
-              <div style="font-size: 12px; color: var(--text-muted); padding: 8px 0;">Attribution drivers will appear after scoring.</div>
+              <div style="font-size: 12px; color: var(--text-muted); padding: 6px 0;">Attribution drivers will appear after scoring.</div>
             </div>
           </div>
         </div>
 
-        <!-- Hourly Scores Breakdown Table -->
+        <!-- Hourly Breakdown Table -->
         <div class="card">
           <div class="card-body">
             <h3 class="card-title" style="margin-bottom: 12px;">Hourly History &amp; Model Comparison</h3>
@@ -1470,7 +1712,7 @@
                   </tr>
                 </thead>
                 <tbody id="scoresTableBody">
-                  <tr><td colspan="7" style="text-align:center; color:var(--text-muted); padding: 16px;">No hours scored yet.</td></tr>
+                  <tr><td colspan="7" style="text-align:center; color:var(--text-muted); padding: 14px;">No hours scored yet.</td></tr>
                 </tbody>
               </table>
             </div>
@@ -1480,10 +1722,116 @@
     </div>
   </div>
 
+  <!-- RESEARCH EVIDENCE LIGHTBOX MODAL -->
+  <div class="modal-backdrop" id="evidenceModal">
+    <div class="modal-card">
+      <div class="modal-header">
+        <div>
+          <h2 style="font-family: var(--font-heading); font-size: 18px; font-weight: 700; color: var(--text-primary);">
+            Clinical Model Benchmarking &amp; Calibration Evidence
+          </h2>
+          <p style="font-size: 12px; color: var(--text-muted); margin-top: 3px;">
+            Head-to-head performance comparison on patient-held-out PhysioNet 2019 cohorts.
+          </p>
+        </div>
+        <button type="button" class="modal-close-btn" id="closeEvidenceModalBtn">&times;</button>
+      </div>
+
+      <div class="modal-image-wrap">
+        <img src="/assets/model_accuracies_comparison.png" alt="Clinical Model Accuracy and Calibration Curves">
+      </div>
+
+      <div style="font-size: 12px; line-height: 1.6; color: var(--text-secondary);">
+        <p>
+          <strong>Methodological Safeguards:</strong> Models are trained with strictly grouped patient-level partitions to prevent clinical temporal leakage. The headline <strong>LightGBM</strong> architecture leverages 200 causal rolling features combined with out-of-fold isotonic calibration to align model score margin with true non-sepsis false alarm rate (FAR) caps.
+        </p>
+      </div>
+    </div>
+  </div>
+
   <script>
     // =========================================================================
-    // CLINICAL MEASUREMENT SCHEMAS
+    // REAL-TIME DYNAMIC BIOSIGNAL ECG MONITOR CANVAS
     // =========================================================================
+    (function initEcgMonitor() {
+      const cvs = document.getElementById("ecgCanvas");
+      const ctx = cvs.getContext("2d");
+      let W = cvs.width, H = cvs.height;
+      let phase = 0;
+      let hr = 80;
+
+      function getEcgY(t) {
+        const cycle = t % 1;
+        const mid = H * 0.55;
+        // P wave
+        if (cycle > 0.15 && cycle < 0.25) return mid - Math.sin((cycle - 0.15) * Math.PI * 10) * 3;
+        // Q dip
+        if (cycle >= 0.32 && cycle < 0.35) return mid + 3;
+        // R spike
+        if (cycle >= 0.35 && cycle < 0.39) return mid - 11;
+        // S dip
+        if (cycle >= 0.39 && cycle < 0.43) return mid + 4;
+        // T wave
+        if (cycle > 0.55 && cycle < 0.70) return mid - Math.sin((cycle - 0.55) * Math.PI * 6.66) * 4;
+        return mid;
+      }
+
+      function draw() {
+        ctx.clearRect(0, 0, W, H);
+        ctx.beginPath();
+        const speed = (hr / 60) * 0.007;
+        phase += speed;
+
+        for (let x = 0; x < W; x++) {
+          const t = phase + (x / W);
+          const y = getEcgY(t);
+          if (x === 0) ctx.moveTo(x, y);
+          else ctx.lineTo(x, y);
+        }
+
+        ctx.strokeStyle = hr > 100 ? "#D9661D" : "#10B981";
+        ctx.lineWidth = 1.5;
+        ctx.stroke();
+
+        // Scan pip
+        const pipX = (phase * W * 1.5) % W;
+        const pipY = getEcgY(phase + (pipX / W));
+        ctx.beginPath();
+        ctx.arc(pipX, pipY, 2.5, 0, Math.PI * 2);
+        ctx.fillStyle = hr > 100 ? "#D9661D" : "#10B981";
+        ctx.shadowColor = ctx.fillStyle;
+        ctx.shadowBlur = 6;
+        ctx.fill();
+        ctx.shadowBlur = 0;
+
+        requestAnimationFrame(draw);
+      }
+      requestAnimationFrame(draw);
+
+      window.updateEcgRate = function(newHr) {
+        if (!newHr || isNaN(newHr)) return;
+        hr = Math.max(40, Math.min(200, Number(newHr)));
+        const valEl = document.getElementById("ecgRateVal");
+        valEl.textContent = `${Math.round(hr)} BPM`;
+        valEl.style.color = hr > 100 ? "var(--accent-amber)" : "var(--success)";
+      };
+    })();
+
+    // =========================================================================
+    // RESEARCH EVIDENCE MODAL
+    // =========================================================================
+    const modal = document.getElementById("evidenceModal");
+    const openBtn = document.getElementById("openEvidenceModalBtn");
+    const closeBtn = document.getElementById("closeEvidenceModalBtn");
+
+    openBtn.addEventListener("click", () => modal.classList.add("open"));
+    closeBtn.addEventListener("click", () => modal.classList.remove("open"));
+    modal.addEventListener("click", e => { if (e.target === modal) modal.classList.remove("open"); });
+
+    // Click on Organ Thumb opens modal
+    document.getElementById("organThumbTrigger").addEventListener("click", () => modal.classList.add("open"));
+
+    // Clinical Schema Definitions
     const VITALS = [
       ["HR", "Heart Rate", "bpm"],
       ["O2Sat", "O₂ Saturation", "%"],
@@ -1535,20 +1883,9 @@
 
     const FIELD_LABELS = new Map([...CONTEXT, ...VITALS, ...LABS].map(([k, label]) => [k, label]));
 
-    const DEMO_RANGES = {
-      Age:[0,120], Gender:[0,1], Unit1:[0,1], Unit2:[0,1], HospAdmTime:[-10000,10000], ICULOS:[1,10000],
-      HR:[20,250], O2Sat:[50,100], Temp:[25,45], SBP:[30,300], MAP:[20,250], DBP:[10,200], Resp:[2,80], EtCO2:[5,100],
-      BaseExcess:[-40,40], HCO3:[1,60], FiO2:[0.2,1], pH:[6.5,8], PaCO2:[5,150], SaO2:[50,100], AST:[0,10000], BUN:[0,300],
-      Alkalinephos:[0,5000], Calcium:[1,20], Chloride:[50,150], Creatinine:[0,30], Bilirubin_direct:[0,100], Glucose:[0,1000],
-      Lactate:[0,30], Magnesium:[0,10], Phosphate:[0,30], Potassium:[1,12], Bilirubin_total:[0,100], TroponinI:[0,1000],
-      Hct:[5,80], Hgb:[1,30], PTT:[0,300], WBC:[0,500], Fibrinogen:[0,2000], Platelets:[0,2000]
-    };
-
     let lastPredictionResult = null;
 
-    // =========================================================================
-    // POPULATE STATIC DEMOGRAPHIC CONTEXT
-    // =========================================================================
+    // Static Context
     const contextGrid = document.getElementById("contextGrid");
     CONTEXT.forEach(([key, label, unit]) => {
       const wrap = document.createElement("div");
@@ -1563,9 +1900,7 @@
       contextGrid.appendChild(wrap);
     });
 
-    // =========================================================================
-    // DYNAMIC HOURLY RECORDS MANAGER
-    // =========================================================================
+    // Hourly Cards Manager
     const hourlyCardsList = document.getElementById("hourlyCardsList");
     function createHourlyCard(values = {}) {
       const card = document.createElement("div");
@@ -1602,7 +1937,7 @@
         vitalsGrid.appendChild(fWrap);
       });
 
-      // Optional Laboratory Biomarkers Dropdown
+      // Labs
       const labsDetails = document.createElement("details");
       labsDetails.className = "labs-toggle";
       const hasLabValues = LABS.some(([k]) => values[k] !== undefined && values[k] !== "");
@@ -1637,7 +1972,6 @@
       labsDetails.append(summary, labsGrid);
       card.append(head, vitalsGrid, labsDetails);
 
-      // Event handlers
       head.querySelector(".remove-btn").addEventListener("click", () => {
         if (hourlyCardsList.children.length > 1) {
           card.remove();
@@ -1663,6 +1997,14 @@
       hourlyCardsList.appendChild(card);
       reindexCards();
       resetScoreDisplay();
+
+      // Hook up dynamic ECG pulse to HR changes
+      card.querySelectorAll("input[data-field='HR']").forEach(inp => {
+        inp.addEventListener("input", () => {
+          if (inp.value) window.updateEcgRate(inp.value);
+        });
+      });
+      if (values.HR) window.updateEcgRate(values.HR);
     }
 
     function reindexCards() {
@@ -1694,13 +2036,7 @@
 
     document.getElementById("addHourBtn").addEventListener("click", () => createHourlyCard());
 
-    document.getElementById("clearAllBtn").addEventListener("click", () => {
-      hourlyCardsList.replaceChildren();
-      contextGrid.querySelectorAll("input").forEach(i => i.value = "");
-      createHourlyCard();
-      resetScoreDisplay();
-    });
-
+    // Comprehensive reset functions
     function resetScoreDisplay() {
       lastPredictionResult = null;
       document.getElementById("exportCsvBtn").disabled = true;
@@ -1708,20 +2044,123 @@
       document.getElementById("scrubBadge").textContent = "";
       document.getElementById("attributionHourLabel").textContent = "";
       document.getElementById("errorBox").classList.remove("show");
-      document.getElementById("latestScoreDisplay").classList.remove("active-pulse");
+      document.getElementById("qualityBox").classList.remove("show");
+
+      // Reset Risk Badge & Score
+      const badge = document.getElementById("riskLevelBadge");
+      badge.className = "risk-badge green";
+      badge.textContent = "No Scores Yet";
+
+      const scoreDisplay = document.getElementById("latestScoreDisplay");
+      scoreDisplay.textContent = "—";
+      scoreDisplay.classList.remove("active-pulse");
+
+      document.getElementById("cutoffDisplay").textContent = "—";
+      document.getElementById("alertPolicyPill").textContent = "1-of-5 Rule";
+
+      // Reset Conduit Arc Gauge
+      updateConduitGauge(0);
+
+      // Reset Organ Telemetry Schematic
+      const pips = ["pipCardio", "pipPulmonary", "pipRenal", "pipTissue"];
+      pips.forEach(id => {
+        const el = document.getElementById(id);
+        if (el) el.className = "organ-pip";
+      });
+      if (document.getElementById("valCardio")) document.getElementById("valCardio").textContent = "MAP: —";
+      if (document.getElementById("valPulmonary")) document.getElementById("valPulmonary").textContent = "Resp: —";
+      if (document.getElementById("valRenal")) document.getElementById("valRenal").textContent = "SOFA: —";
+      if (document.getElementById("valTissue")) document.getElementById("valTissue").textContent = "Lactate: —";
+
+      // Reset Bedside Biomarkers
+      const markers = [
+        { id: "sirs", val: "—", cls: "marker-box", status: "Cutoff: ≥2" },
+        { id: "qsofa", val: "—", cls: "marker-box", status: "Cutoff: ≥2" },
+        { id: "news2", val: "—", cls: "marker-box", status: "UK Royal Coll" },
+        { id: "mews", val: "—", cls: "marker-box", status: "Mod Early Warn" },
+        { id: "sofa", val: "—", cls: "marker-box", status: "Dysfunction" },
+        { id: "shock", val: "—", cls: "marker-box", status: "Normal ≤0.7" }
+      ];
+      markers.forEach(m => {
+        const box = document.getElementById(`${m.id}Box`);
+        const val = document.getElementById(`${m.id}Val`);
+        const stat = document.getElementById(`${m.id}Status`);
+        if (box) box.className = m.cls;
+        if (val) val.textContent = m.val;
+        if (stat) stat.textContent = m.status;
+      });
+
+      // Clear Trigger Pills
+      const triggersHost = document.getElementById("clinicalTriggerPills");
+      if (triggersHost) triggersHost.replaceChildren();
+
+      // Reset Trajectory Chart
+      const trendBadge = document.getElementById("trendSummaryBadge");
+      if (trendBadge) trendBadge.textContent = "Waiting for input";
+      const chartContainer = document.getElementById("chartContainer");
+      if (chartContainer) {
+        chartContainer.innerHTML = `
+          <svg class="chart-svg" viewBox="0 0 460 140" id="trendSvg">
+            <text x="230" y="75" text-anchor="middle" fill="#7E888F" font-size="12" font-family="'JetBrains Mono', monospace">Score records to plot trajectory</text>
+          </svg>`;
+      }
+      const overlayLegend = document.getElementById("overlayLegendItem");
+      if (overlayLegend) overlayLegend.style.display = "none";
+      const overlayCheck = document.getElementById("toggleModelOverlay");
+      if (overlayCheck) overlayCheck.checked = false;
+
+      // Reset Attribution Drivers
+      const attrList = document.getElementById("attributionList");
+      if (attrList) {
+        attrList.innerHTML = '<div style="font-size: 12px; color: var(--text-muted); padding: 6px 0;">Attribution drivers will appear after scoring.</div>';
+      }
+
+      // Reset Scores Table
+      const tbody = document.getElementById("scoresTableBody");
+      if (tbody) {
+        tbody.innerHTML = '<tr><td colspan="7" style="text-align:center; color:var(--text-muted); padding: 14px;">No hours scored yet.</td></tr>';
+      }
     }
+
+    function resetWorkstation() {
+      // 1. Clear hourly cards
+      hourlyCardsList.replaceChildren();
+
+      // 2. Clear static demographics
+      contextGrid.querySelectorAll("input").forEach(i => i.value = "");
+
+      // 3. Clear file upload
+      const fileInput = document.getElementById("fileUploadInput");
+      if (fileInput) fileInput.value = "";
+
+      // 4. Reset scenario selector
+      const presetSelect = document.getElementById("presetSelect");
+      if (presetSelect) presetSelect.selectedIndex = 0;
+
+      // 5. Spawn single clean initial hour card
+      createHourlyCard();
+
+      // 6. Reset dynamic ECG rhythm monitor to resting 80 BPM
+      if (window.updateEcgRate) window.updateEcgRate(80);
+
+      // 7. Reset all surveillance outputs, charts, badges, and tables
+      resetScoreDisplay();
+    }
+
+    const resetBtn = document.getElementById("resetWorkstationBtn");
+    if (resetBtn) resetBtn.addEventListener("click", resetWorkstation);
+
+    const headerResetBtn = document.getElementById("headerResetBtn");
+    if (headerResetBtn) headerResetBtn.addEventListener("click", resetWorkstation);
 
     hourlyCardsList.addEventListener("input", resetScoreDisplay);
     contextGrid.addEventListener("input", resetScoreDisplay);
     document.getElementById("modelSelect").addEventListener("change", resetScoreDisplay);
     document.getElementById("policySelect").addEventListener("change", resetScoreDisplay);
 
-    // Initial Hour
     createHourlyCard();
 
-    // =========================================================================
-    // PRESET CLINICAL SCENARIOS
-    // =========================================================================
+    // Preset Scenarios
     const PRESETS = {
       gradual: [
         {HR:84, O2Sat:98, Temp:36.8, SBP:122, MAP:82, DBP:66, Resp:18, EtCO2:34, Lactate:1.0, WBC:8.2},
@@ -1767,12 +2206,12 @@
       document.querySelector('input[data-field="Gender"]').value = "1";
       data.forEach(item => createHourlyCard(item));
       resetScoreDisplay();
-      if (window.circuitAnim) window.circuitAnim.pulse();
+      if (data.length > 0 && data[data.length - 1].HR) {
+        window.updateEcgRate(data[data.length - 1].HR);
+      }
     });
 
-    // =========================================================================
-    // IMPORT PSV / CSV FILES
-    // =========================================================================
+    // File Upload
     document.getElementById("fileUploadInput").addEventListener("change", async event => {
       const file = event.target.files[0];
       if (!file) return;
@@ -1812,17 +2251,31 @@
       el.classList.toggle("show", Boolean(msg));
     }
 
-    // =========================================================================
-    // PREDICTION CALL & DATA FLOW ANIMATION
-    // =========================================================================
+    // Dynamic Circular Conduit Gauge Animation
+    function updateConduitGauge(score) {
+      const arc = document.getElementById("gaugeArc");
+      const text = document.getElementById("gaugePercentText");
+      const circum = 2 * Math.PI * 38; // ~238.76
+      const pct = Math.max(0, Math.min(1, score));
+      const offset = circum * (1 - pct);
+      arc.style.strokeDashoffset = offset;
+      text.textContent = `${Math.round(pct * 100)}%`;
+
+      if (pct > 0.4) {
+        arc.style.stroke = "var(--danger)";
+      } else if (pct > 0.15) {
+        arc.style.stroke = "var(--warning)";
+      } else {
+        arc.style.stroke = "var(--accent-amber)";
+      }
+    }
+
+    // Predict
     document.getElementById("scoreRecordsBtn").addEventListener("click", async () => {
       showError("");
       const scoreBtn = document.getElementById("scoreRecordsBtn");
       scoreBtn.disabled = true;
       scoreBtn.textContent = "Computing Attribution…";
-
-      // Trigger circuit draw animation between Trunk and Branches
-      if (window.circuitAnim) window.circuitAnim.draw();
 
       const metadata = {};
       contextGrid.querySelectorAll("input[data-field]").forEach(i => metadata[i.dataset.field] = i.value.trim());
@@ -1862,7 +2315,6 @@
       }
     });
 
-    // Print Shift Handover Report
     document.getElementById("printReportBtn").addEventListener("click", () => {
       if (!lastPredictionResult) return;
       window.print();
@@ -1872,32 +2324,53 @@
       if (lastPredictionResult) renderTrajectoryChart(lastPredictionResult);
     });
 
-    // =========================================================================
-    // RENDER DASHBOARD RESULTS
-    // =========================================================================
+    // Render Dashboard
     function renderDashboardResults(data) {
       const latest = data.latest;
       const summary = data.summary;
 
-      // Executive Risk Badge
       const badge = document.getElementById("riskLevelBadge");
       badge.className = `risk-badge ${summary.risk_color}`;
       badge.textContent = summary.risk_level;
 
-      // Active Model & Score
       document.getElementById("activeModelLabel").textContent = `${data.model_name}`;
       const scoreDisplay = document.getElementById("latestScoreDisplay");
       animateScore(scoreDisplay, latest.model_score);
-
-      // Add slow burnt-orange pulse animation to score when active
       scoreDisplay.classList.add("active-pulse");
+
+      // Update circular conduit gauge
+      updateConduitGauge(latest.model_score);
 
       document.getElementById("cutoffDisplay").textContent = data.threshold.toFixed(4);
       document.getElementById("alertPolicyPill").textContent = data.policy;
 
-      // Bedside Biomarkers (Precision Modules with Glowing Amber Top on Alert)
       const cf = latest.clinical_flags;
 
+      // Update Organ Telemetry Schematic Status Nodes
+      const pipCardio = document.getElementById("pipCardio");
+      const valCardio = document.getElementById("valCardio");
+      const isCardioStressed = cf.hypotension || cf.shock_index_elevated;
+      pipCardio.className = `organ-pip ${isCardioStressed ? "active-alert" : ""}`;
+      valCardio.textContent = `MAP: ${cf.shock_index !== null ? Math.round(cf.shock_index * 100)/100 : 'Norm'}`;
+
+      const pipPulmonary = document.getElementById("pipPulmonary");
+      const valPulmonary = document.getElementById("valPulmonary");
+      const isPulmStressed = cf.news2_score >= 3 || (cf.sirs_triggers && cf.sirs_triggers.some(t => t.includes("Resp")));
+      pipPulmonary.className = `organ-pip ${isPulmStressed ? "active-alert" : ""}`;
+      valPulmonary.textContent = `NEWS2: ${cf.news2_score ?? '0'}`;
+
+      const pipRenal = document.getElementById("pipRenal");
+      const valRenal = document.getElementById("valRenal");
+      const isRenalStressed = cf.sofa_total >= 2;
+      pipRenal.className = `organ-pip ${isRenalStressed ? "active-alert" : ""}`;
+      valRenal.textContent = `SOFA: ${cf.sofa_total ?? '0'}`;
+
+      const pipTissue = document.getElementById("pipTissue");
+      const valTissue = document.getElementById("valTissue");
+      pipTissue.className = `organ-pip ${cf.hyperlactatemia ? "active-alert" : ""}`;
+      valTissue.textContent = cf.hyperlactatemia ? "Lactate > 2.0" : "Normal";
+
+      // Bedside Biomarkers
       const sirsBox = document.getElementById("sirsBox");
       document.getElementById("sirsVal").textContent = `${cf.sirs_score}/4`;
       sirsBox.className = `marker-box ${cf.sirs_positive ? "alert" : cf.sirs_score === 1 ? "warning" : ""}`;
@@ -1933,7 +2406,6 @@
       shockBox.className = `marker-box ${cf.shock_index_elevated ? "alert" : (cf.shock_index > 0.7 ? "warning" : "")}`;
       document.getElementById("shockStatus").textContent = cf.shock_index_elevated ? "Occult Shock (>0.9)" : "Normal <=0.7";
 
-      // Trigger Pills
       const triggersHost = document.getElementById("clinicalTriggerPills");
       triggersHost.replaceChildren();
       if (cf.sirs_triggers && cf.sirs_triggers.length) {
@@ -1967,15 +2439,12 @@
 
       document.getElementById("trendSummaryBadge").textContent = summary.trend;
 
-      // Render Trajectory, Waterfall, and Table
       renderTrajectoryChart(data);
       renderAttributionWaterfall(data);
       renderScoresTable(data);
     }
 
-    // =========================================================================
-    // SVG TRAJECTORY CHART (Clean Minimal Architectural Vector)
-    // =========================================================================
+    // Trajectory Chart
     function renderTrajectoryChart(data) {
       const container = document.getElementById("chartContainer");
       const hourly = data.hourly;
@@ -1992,34 +2461,29 @@
 
       let svg = `<svg class="chart-svg" viewBox="0 0 ${W} ${H}">`;
 
-      // Hairline Grid Lines
       [0, maxVal / 2, maxVal].forEach(v => {
         const y = yCoord(v);
-        svg += `<line x1="${pL}" y1="${y}" x2="${W - pR}" y2="${y}" stroke="#E0E3E6" stroke-width="1"/>`;
-        svg += `<text x="${pL - 6}" y="${y + 3}" text-anchor="end" fill="#8C959D" font-size="9" font-family="'JetBrains Mono', monospace">${v.toFixed(2)}</text>`;
+        svg += `<line x1="${pL}" y1="${y}" x2="${W - pR}" y2="${y}" stroke="rgba(140, 150, 157, 0.2)" stroke-width="1"/>`;
+        svg += `<text x="${pL - 6}" y="${y + 3}" text-anchor="end" fill="#7E888F" font-size="9" font-family="'JetBrains Mono', monospace">${v.toFixed(2)}</text>`;
       });
 
-      // Alert Active Shading (Translucent Burnt Orange)
       hourly.forEach((h, i) => {
         if (h.rule_active) {
           const x1 = Math.max(pL, xCoord(i) - (scores.length > 1 ? plotW / (scores.length - 1) / 2 : 15));
           const x2 = Math.min(W - pR, xCoord(i) + (scores.length > 1 ? plotW / (scores.length - 1) / 2 : 15));
-          svg += `<rect x="${x1}" y="${pT}" width="${x2 - x1}" height="${plotH}" fill="#D9661D" fill-opacity="0.12"/>`;
+          svg += `<rect x="${x1}" y="${pT}" width="${x2 - x1}" height="${plotH}" fill="#D9661D" fill-opacity="0.14"/>`;
         }
       });
 
-      // Cutoff Threshold Line (Burnt Orange Dashed)
       svg += `<line x1="${pL}" y1="${thrY}" x2="${W - pR}" y2="${thrY}" stroke="#D9661D" stroke-width="1.5" stroke-dasharray="4 3"/>`;
 
-      // Polyline for Active Model
       const pts = scores.map((s, i) => `${xCoord(i)},${yCoord(s)}`);
       if (scores.length > 1) {
         const areaPts = `${xCoord(0)},${pT + plotH} ` + pts.join(" ") + ` ${xCoord(scores.length - 1)},${pT + plotH}`;
-        svg += `<polygon points="${areaPts}" fill="#1A1C1E" fill-opacity="0.04"/>`;
-        svg += `<polyline points="${pts.join(' ')}" fill="none" stroke="#1A1C1E" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>`;
+        svg += `<polygon points="${areaPts}" fill="#161A1D" fill-opacity="0.04"/>`;
+        svg += `<polyline points="${pts.join(' ')}" fill="none" stroke="#161A1D" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>`;
       }
 
-      // Model Overlays
       const overlayCheck = document.getElementById("toggleModelOverlay");
       const showOverlay = overlayCheck && overlayCheck.checked;
       const overlayLegend = document.getElementById("overlayLegendItem");
@@ -2030,7 +2494,7 @@
           ensemble: "#7C3AED",
           logistic_regression: "#2563EB",
           hist_gradient_boosting: "#059669",
-          lightgbm: "#1A1C1E"
+          lightgbm: "#161A1D"
         };
         const currentModel = data.model_key;
         ["lightgbm", "ensemble", "hist_gradient_boosting", "logistic_regression"].forEach(mKey => {
@@ -2044,25 +2508,22 @@
         });
       }
 
-      // Interactive Data Nodes (Dots)
       scores.forEach((s, i) => {
         const isActive = hourly[i].rule_active;
         const hr = hourly[i].hour;
-        svg += `<circle cx="${xCoord(i)}" cy="${yCoord(s)}" r="${isActive ? 5.5 : 4}" fill="${isActive ? '#D9661D' : '#1A1C1E'}" stroke="#FFFFFF" stroke-width="2" class="chart-interactive-dot" data-hour-index="${i}" title="Hour ${hr}: Score ${s.toFixed(3)}${isActive ? ' (ALERT ACTIVE)' : ''}"/>`;
+        svg += `<circle cx="${xCoord(i)}" cy="${yCoord(s)}" r="${isActive ? 5.5 : 4}" fill="${isActive ? '#D9661D' : '#161A1D'}" stroke="#FFFFFF" stroke-width="2" class="chart-interactive-dot" data-hour-index="${i}" title="Hour ${hr}: Score ${s.toFixed(3)}${isActive ? ' (ALERT ACTIVE)' : ''}"/>`;
       });
 
-      // Axis Labels
       if (scores.length === 1) {
-        svg += `<text x="${W / 2}" y="${H - 6}" text-anchor="middle" fill="#8C959D" font-size="9" font-family="'JetBrains Mono', monospace">Hour 1 (Single Observation)</text>`;
+        svg += `<text x="${W / 2}" y="${H - 6}" text-anchor="middle" fill="#7E888F" font-size="9" font-family="'JetBrains Mono', monospace">Hour 1 (Single Observation)</text>`;
       } else {
-        svg += `<text x="${pL}" y="${H - 6}" fill="#8C959D" font-size="9" font-family="'JetBrains Mono', monospace">Hr 1</text>`;
-        svg += `<text x="${W - pR}" y="${H - 6}" text-anchor="end" fill="#8C959D" font-size="9" font-family="'JetBrains Mono', monospace">Hr ${scores.length}</text>`;
+        svg += `<text x="${pL}" y="${H - 6}" fill="#7E888F" font-size="9" font-family="'JetBrains Mono', monospace">Hr 1</text>`;
+        svg += `<text x="${W - pR}" y="${H - 6}" text-anchor="end" fill="#7E888F" font-size="9" font-family="'JetBrains Mono', monospace">Hr ${scores.length}</text>`;
       }
       svg += `</svg>`;
 
       container.innerHTML = svg;
 
-      // Attach Scrub Events
       container.querySelectorAll(".chart-interactive-dot").forEach(dot => {
         dot.addEventListener("click", () => {
           const idx = parseInt(dot.dataset.hourIndex, 10);
@@ -2071,7 +2532,6 @@
       });
     }
 
-    // Scrub inspection to a specific hour
     function scrubToHour(data, hourIdx) {
       if (!data || !data.hourly || !data.hourly[hourIdx]) return;
       const target = data.hourly[hourIdx];
@@ -2079,6 +2539,7 @@
       document.getElementById("attributionHourLabel").textContent = `[Hr ${target.hour}]`;
 
       document.getElementById("latestScoreDisplay").textContent = target.model_score.toFixed(3);
+      updateConduitGauge(target.model_score);
 
       const cf = target.clinical_flags;
       const sirsBox = document.getElementById("sirsBox");
@@ -2120,13 +2581,10 @@
 
       const rows = document.querySelectorAll("#scoresTableBody tr");
       rows.forEach((r, i) => {
-        r.style.outline = (i === hourIdx) ? "2px solid var(--accent-orange)" : "none";
+        r.style.outline = (i === hourIdx) ? "2px solid var(--accent-amber)" : "none";
       });
     }
 
-    // =========================================================================
-    // MODEL ATTRIBUTIONS WATERFALL
-    // =========================================================================
     function renderAttributionWaterfallForRecord(target) {
       const host = document.getElementById("attributionList");
       host.replaceChildren();
@@ -2159,13 +2617,10 @@
       renderAttributionWaterfallForRecord(data.latest);
     }
 
-    // =========================================================================
-    // SCORES BREAKDOWN TABLE
-    // =========================================================================
     function renderScoresTable(data) {
       const tbody = document.getElementById("scoresTableBody");
       tbody.replaceChildren();
-      data.hourly.forEach(item => {
+      data.hourly.forEach((item, idx) => {
         const tr = document.createElement("tr");
         if (item.rule_active) tr.className = "alert-row";
         const cf = item.clinical_flags;
@@ -2174,19 +2629,17 @@
         tr.innerHTML = `
           <td><strong>Hour ${item.hour}</strong></td>
           <td>${item.model_score.toFixed(3)}</td>
-          <td><span style="font-weight:700; color:${item.rule_active ? 'var(--accent-orange)' : 'var(--text-muted)'};">${item.rule_active ? 'ALERT ACTIVE' : 'Inactive'}</span></td>
+          <td><span style="font-weight:700; color:${item.rule_active ? 'var(--accent-amber)' : 'var(--text-muted)'};">${item.rule_active ? 'ALERT ACTIVE' : 'Inactive'}</span></td>
           <td>${news2Display}</td>
           <td>${sofaDisplay}</td>
           <td>${cf.sirs_score}/4</td>
           <td>${cf.shock_index !== null ? cf.shock_index.toFixed(2) : '—'}</td>
         `;
+        tr.addEventListener("click", () => scrubToHour(data, idx));
         tbody.appendChild(tr);
       });
     }
 
-    // =========================================================================
-    // EXPORT REPORT CSV
-    // =========================================================================
     document.getElementById("exportCsvBtn").addEventListener("click", () => {
       if (!lastPredictionResult) return;
       const res = lastPredictionResult;
@@ -2223,7 +2676,6 @@
       URL.revokeObjectURL(url);
     });
 
-    // Synchronize available models and policies with backend server
     fetch("/api/models")
       .then(res => res.ok ? res.json() : null)
       .then(cfg => {
@@ -2264,147 +2716,6 @@
       }
       requestAnimationFrame(step);
     }
-
-    // =========================================================================
-    // BIO-MECHANICAL CIRCUITRY CANVAS (Light Theme Architectural Background)
-    // Inspired by the reference artwork: Orthogonal Tree Trunks, Orange Bus Conduits,
-    // and Wet Glass Floor Reflection in a Foggy Neutral Atmosphere (#E8EAEB).
-    // =========================================================================
-    (function initBioCircuitCanvas() {
-      const canvas = document.getElementById("bioCircuitCanvas");
-      const ctx = canvas.getContext("2d");
-      let W = 0, H = 0, dpr = 1;
-
-      function resize() {
-        W = window.innerWidth;
-        H = window.innerHeight;
-        dpr = Math.min(window.devicePixelRatio || 1, 2);
-        canvas.width = W * dpr;
-        canvas.height = H * dpr;
-        ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
-        render();
-      }
-      window.addEventListener("resize", resize);
-
-      // Procedural Orthogonal Circuit Tree Nodes
-      const treeBuses = [];
-      function generateTreeGeometry() {
-        treeBuses.length = 0;
-        const centerX = W * 0.5;
-        const groundY = H * 0.90;
-        const trunkTopY = H * 0.28;
-
-        // Core Trunk vertical conduits (with glowing burnt orange central bus)
-        treeBuses.push({ x1: centerX - 3, y1: trunkTopY - 40, x2: centerX - 3, y2: groundY, color: "#1A1C1E", width: 2.5 });
-        treeBuses.push({ x1: centerX, y1: trunkTopY - 80, x2: centerX, y2: groundY, color: "#D9661D", width: 2.5, isGlow: true });
-        treeBuses.push({ x1: centerX + 3, y1: trunkTopY - 40, x2: centerX + 3, y2: groundY, color: "#1A1C1E", width: 2.5 });
-
-        // Orthogonal branches generator
-        const branchLevels = [0.82, 0.72, 0.62, 0.52, 0.44, 0.36, 0.30];
-        branchLevels.forEach((level, idx) => {
-          const y = groundY - (groundY - trunkTopY) * (1 - level);
-          const spread = 80 + idx * 45;
-
-          // Left Branch
-          treeBuses.push({ x1: centerX - 3, y1: y, x2: centerX - spread, y2: y, color: "#1A1C1E", width: 1.5 });
-          treeBuses.push({ x1: centerX - spread, y1: y, x2: centerX - spread, y2: y - (30 + (idx % 3) * 20), color: "#525960", width: 1.2 });
-          if (idx % 2 === 0) {
-            treeBuses.push({ x1: centerX - spread, y1: y - (30 + (idx % 3) * 20), x2: centerX - spread - 40, y2: y - (30 + (idx % 3) * 20), color: "#8C959D", width: 1 });
-          }
-
-          // Right Branch
-          treeBuses.push({ x1: centerX + 3, y1: y + 8, x2: centerX + spread * 1.1, y2: y + 8, color: "#1A1C1E", width: 1.5 });
-          treeBuses.push({ x1: centerX + spread * 1.1, y1: y + 8, x2: centerX + spread * 1.1, y2: y - (25 + (idx % 4) * 18), color: "#525960", width: 1.2 });
-          if (idx % 3 === 0) {
-            treeBuses.push({ x1: centerX + spread * 1.1, y1: y - (25 + (idx % 4) * 18), x2: centerX + spread * 1.1 + 35, y2: y - (25 + (idx % 4) * 18), color: "#D9661D", width: 1.2, isGlow: true });
-          }
-        });
-      }
-
-      let animPhase = 0;
-      function render() {
-        if (!W || !H) return;
-        ctx.clearRect(0, 0, W, H);
-
-        // 1. Foggy Atmospheric Neutral Background Gradient (#E8EAEB to #DFE2E4)
-        const bgGrad = ctx.createLinearGradient(0, 0, 0, H);
-        bgGrad.addColorStop(0, "#E8EAEB");
-        bgGrad.addColorStop(0.65, "#DFE2E4");
-        bgGrad.addColorStop(0.90, "#D6DADC");
-        bgGrad.addColorStop(1, "#CED2D5");
-        ctx.fillStyle = bgGrad;
-        ctx.fillRect(0, 0, W, H);
-
-        const groundY = H * 0.90;
-        const centerX = W * 0.5;
-
-        // 2. Render Orthogonal Circuit Tree
-        treeBuses.forEach(b => {
-          ctx.beginPath();
-          ctx.moveTo(b.x1, b.y1);
-          ctx.lineTo(b.x2, b.y2);
-          ctx.strokeStyle = b.color;
-          ctx.lineWidth = b.width;
-          ctx.stroke();
-
-          // Burnt Orange Conduit Glow Effect
-          if (b.isGlow) {
-            ctx.strokeStyle = "rgba(217, 102, 29, 0.35)";
-            ctx.lineWidth = b.width + 4;
-            ctx.stroke();
-          }
-        });
-
-        // 3. Fog & Reflective Floor Horizon
-        const floorGrad = ctx.createLinearGradient(0, groundY - 10, 0, H);
-        floorGrad.addColorStop(0, "rgba(223, 226, 228, 0.6)");
-        floorGrad.addColorStop(0.08, "rgba(206, 210, 213, 0.85)");
-        floorGrad.addColorStop(1, "rgba(190, 195, 198, 0.95)");
-        ctx.fillStyle = floorGrad;
-        ctx.fillRect(0, groundY, W, H - groundY);
-
-        // Horizon Hairline Trace
-        ctx.beginPath();
-        ctx.moveTo(0, groundY);
-        ctx.lineTo(W, groundY);
-        ctx.strokeStyle = "rgba(26, 28, 30, 0.18)";
-        ctx.lineWidth = 1;
-        ctx.stroke();
-
-        // 4. Mirror Reflection of the Glowing Central Conduit onto the Wet Floor
-        const pulseGlow = 0.5 + 0.3 * Math.sin(animPhase * 0.03);
-        const reflGrad = ctx.createLinearGradient(centerX, groundY, centerX, H);
-        reflGrad.addColorStop(0, `rgba(217, 102, 29, ${0.45 * pulseGlow})`);
-        reflGrad.addColorStop(0.35, `rgba(217, 102, 29, ${0.2 * pulseGlow})`);
-        reflGrad.addColorStop(1, "rgba(217, 102, 29, 0)");
-
-        ctx.fillStyle = reflGrad;
-        ctx.fillRect(centerX - 18, groundY, 36, H - groundY);
-
-        // Core reflection sharp line
-        ctx.beginPath();
-        ctx.moveTo(centerX, groundY);
-        ctx.lineTo(centerX, groundY + (H - groundY) * 0.7);
-        ctx.strokeStyle = `rgba(217, 102, 29, ${0.65 * pulseGlow})`;
-        ctx.lineWidth = 2;
-        ctx.stroke();
-      }
-
-      function loop() {
-        animPhase++;
-        render();
-        requestAnimationFrame(loop);
-      }
-
-      resize();
-      generateTreeGeometry();
-      requestAnimationFrame(loop);
-
-      window.circuitAnim = {
-        pulse: () => { animPhase += 20; },
-        draw: () => { animPhase += 35; }
-      };
-    })();
   </script>
 </body>
 </html>
