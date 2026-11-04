@@ -2,6 +2,8 @@
 
 A reproducible research prototype and clinical surveillance workstation built on the PhysioNet/Computing in Cardiology Challenge 2019 ICU cohort. The system estimates whether a patient's current hourly observation falls into an early sepsis deterioration window using causal historical and current measurements.
 
+> **Live Interactive Workstation**: [https://abhinavvgoell.github.io/sepsis-early-warning-demo/](https://abhinavvgoell.github.io/sepsis-early-warning-demo/)
+>
 > **Research prototype only — not for clinical use.** This project has not been clinically validated. Its scores are model outputs, not medical probabilities. Do not use it to diagnose, treat, triage, or make care decisions. Use synthetic data for the demo; never enter identifiable patient information.
 
 ---
