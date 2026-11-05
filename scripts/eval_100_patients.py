@@ -1,7 +1,12 @@
 import json
 import random
+import sys
 import time
 from pathlib import Path
+PROJECT_ROOT = Path(__file__).resolve().parents[1]
+if str(PROJECT_ROOT) not in sys.path:
+    sys.path.insert(0, str(PROJECT_ROOT))
+
 import numpy as np
 import pandas as pd
 from sklearn.metrics import average_precision_score, roc_auc_score
@@ -18,7 +23,7 @@ def evaluate_100_patients():
     cls_bundle = bundle['classical_bundle']
 
     # Read held-out test patient registry (6,051 patients never seen during training)
-    test_meta = pd.read_csv('outputs/patient_alert_analysis.csv')
+    test_meta = pd.read_csv(PROJECT_ROOT / 'outputs' / 'patient_alert_analysis.csv')
     septic_ids = test_meta[test_meta['has_sepsis'] == True]['patient_id'].tolist()
     nonseptic_ids = test_meta[test_meta['has_sepsis'] == False]['patient_id'].tolist()
 
@@ -30,7 +35,7 @@ def evaluate_100_patients():
     rng.shuffle(sample_ids)
 
     # Locate and read the 100 patient PSV files
-    raw_dir = Path('data/raw')
+    raw_dir = PROJECT_ROOT / 'data' / 'raw'
     file_map = {p.stem: p for p in raw_dir.rglob('*.psv')}
     records = []
     patient_lengths = []

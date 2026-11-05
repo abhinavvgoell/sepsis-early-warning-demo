@@ -3,8 +3,13 @@
 from __future__ import annotations
 
 import argparse
+import sys
 from pathlib import Path
 from typing import Any
+
+PROJECT_ROOT = Path(__file__).resolve().parents[1]
+if str(PROJECT_ROOT) not in sys.path:
+    sys.path.insert(0, str(PROJECT_ROOT))
 
 import joblib
 import numpy as np
@@ -14,8 +19,8 @@ from src.alert_policy_grid import k_of_n_risk
 from src.run_pipeline import ID_COLUMN, TARGET, make_features
 
 
-DEFAULT_IMPROVED_BUNDLE = Path("outputs/improved/improved_model.joblib")
-DEFAULT_CLASSICAL_BUNDLE = Path("outputs/trained_models.joblib")
+DEFAULT_IMPROVED_BUNDLE = PROJECT_ROOT / "outputs" / "improved" / "improved_model.joblib"
+DEFAULT_CLASSICAL_BUNDLE = PROJECT_ROOT / "outputs" / "trained_models.joblib"
 
 
 def compute_clinical_markers(df: pd.DataFrame) -> pd.DataFrame:
